@@ -1,0 +1,37 @@
+<div class="form-container">
+    <div class="success-message" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+    <form>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" [(ngModel)]="firstName" [ngModelOptions]="{standalone:true}" class="form-control" id="firstName" placeholder="Enter name">
+      </div>
+      <div class="form-group">
+        <label>Last name</label>
+        <input type="text" [(ngModel)]="lastName" [ngModelOptions]="{standalone:true}" id="lastName" class="form-control" placeholder="Enter lastname">
+      </div>
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" [(ngModel)]="email" [ngModelOptions]="{standalone:true}" id="email" class="form-control" placeholder="Enter email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone:true}" id="password" class="form-control" placeholder="Enter password">
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input type="password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone:true}" id="confirmPassword" class="form-control" placeholder="Confirm password">
+      </div>
+      <div *ngIf="errorMessage" class="error-message">
+        Error: {{ errorMessage }}
+      </div>
+  
+      <div *ngIf="password !== confirmPassword && confirmPassword !== ''" class="error-message">
+        Error: Passwords do not match.
+      </div>
+  
+      <button type="submit" class="btn btn-primary" (click)="save()">Register</button>
+    </form>
+  </div>
+  

@@ -1,6 +1,8 @@
 // home.component.ts
 import { Component } from '@angular/core';
 import { UserService } from '../register/user.service';
+import { Route } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +10,7 @@ import { UserService } from '../register/user.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   redirectToLogin() {
     // Get the redirect URL from the service
@@ -16,5 +18,9 @@ export class HomeComponent {
 
     // Redirect to the external URL
     window.location.href = redirectUrl;
+  }
+
+  redirectToCompanyProfile(){
+    this.router.navigate(['/company-profile/1']);
   }
 }

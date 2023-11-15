@@ -3,6 +3,7 @@ import { OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Company } from '../model/company.model';
 import { CompanyService } from './company.service';
+import { Equipment } from '../model/equipment.model';
 
 @Component({
   selector: 'app-company-profile',
@@ -13,6 +14,7 @@ export class CompanyProfileComponent implements OnInit {
   companyId?: number;
   company?: Company;
   companies: Company[] = [];
+  equipments: Equipment[] = [];
 
   constructor(private route: ActivatedRoute, private service: CompanyService) {}
 
@@ -25,6 +27,11 @@ export class CompanyProfileComponent implements OnInit {
           this.company = company;
           console.log("Kompanija:");
           console.log(this.company);
+          this.service.getEquipmentForCompany(this.companyId || 0).subscribe((equipments: Equipment[]) =>{
+            this.equipments = equipments;
+            console.log("Opreme:");
+            console.log(this.equipments);
+          })
         },
         (error) => {
           console.error('Greška prilikom dobavljanja kompanije', error);

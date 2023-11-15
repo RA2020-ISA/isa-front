@@ -2,7 +2,16 @@
     <div class="card">
         <div class="heading"><p>{{ company.name }}</p></div>
         <div class="address"><p>{{ company.address }}</p></div>
-        <div class="averageRating"><p>Prosecna cena: {{ company.averageGrade }}</p></div>
+        <div class="averageRating"><p>Average grade: {{ company.averageGrade }}</p></div>
+        <div *ngFor="let equipment of equipments">
+            <div class="equipment-card">
+                <div class="heading"><p>{{ equipment.name }}</p></div>
+                <div class="equipment-description"><p>{{ equipment.description }}</p></div>
+                <div class="equipment-price"><p>Price: {{ equipment.price }}</p></div>
+                <div class="equipment-grade"><p>Grade: {{ equipment.grade }}</p></div>
+                <div class="equipment-type"><p>Type: {{ equipment.type }}</p></div>
+            </div>
+        </div>
     </div>
     <button title="Use this button to make an appointment to pick up the equipment">Schedule pickup</button>
 </div>

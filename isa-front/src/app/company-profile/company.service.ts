@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { environment } from 'src/env/environment';
 import { Company } from '../model/company.model';
+import { Equipment } from '../model/equipment.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,4 +25,7 @@ export class CompanyService {
     return this.http.get<Company[]>('http://localhost:8080/api/companies/all');
   } 
 
+  getEquipmentForCompany(id : number): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>('http://localhost:8080/api/equipment/getEquipmentForCompany/' + id);
+  }
 }

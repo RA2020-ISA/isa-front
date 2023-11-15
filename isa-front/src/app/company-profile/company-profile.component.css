@@ -38,3 +38,12 @@ button:hover {
     font-size: 24px; 
     font-weight: bold; 
 }
+
+.equipment-card{
+    border-radius: 10px; 
+    background-color: #3396FF; 
+    padding: 5px; 
+    color: white; 
+    width: 200px;
+    height: 200px;
+}

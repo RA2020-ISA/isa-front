@@ -1,7 +1,7 @@
 // registration.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { environment } from 'src/env/environment';
 import { Company } from '../model/company.model';
 
@@ -13,8 +13,15 @@ export class CompanyService {
 
   constructor(private http: HttpClient) {}
 
-  getCompany(id: number): Observable<any> {
-    return this.http.get(this.apiUrl + 'companies/' + id);
+  getCompany(id: number): Observable<Company> {
+   // return this.http.get<Company>(this.apiUrl + 'companies/' + id);
+   console.log('Api url:', this.apiUrl);
+   console.log('Http:', this.http);
+   return this.http.get<Company>('http://localhost:8080/api/companies/getById/' + id);
   }
+
+  getAllCompanies(): Observable<Company[]> {
+    return this.http.get<Company[]>('http://localhost:8080/api/companies/all');
+  } 
 
 }

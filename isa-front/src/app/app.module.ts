@@ -10,6 +10,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { CompanyProfileComponent } from './company-profile/company-profile.component';
+import { AllCompaniesComponent } from './all-companies/all-companies.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { CompanyProfileComponent } from './company-profile/company-profile.compo
     LoginComponent,
     HomeComponent,
     HomepageComponent,
-    CompanyProfileComponent
+    CompanyProfileComponent,
+    AllCompaniesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,7 @@
+<div *ngFor="let company of companies">
+    <div class="card">
+      <div class="heading"><p>{{ company.name }}</p></div>
+      <button (click)="navigateToCompanyProfile(company.id || 0)">See profile</button>
+    </div>
+  </div>
+  

@@ -12,12 +12,14 @@ import { CompanyService } from './company.service';
 export class CompanyProfileComponent implements OnInit {
   companyId?: number;
   company?: Company;
+  companies: Company[] = [];
 
   constructor(private route: ActivatedRoute, private service: CompanyService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.companyId = +params['id']; 
+      console.log(this.companyId);
       this.service.getCompany(this.companyId).subscribe(
         (company: Company) => {
           this.company = company;
@@ -25,9 +27,24 @@ export class CompanyProfileComponent implements OnInit {
           console.log(this.company);
         },
         (error) => {
-          console.error('Greška prilikom dobavljanja kompanije');
+          console.error('Greška prilikom dobavljanja kompanije', error);
         }
       );
     });
+
+    this.getAll();
+  }
+
+  getAll(): void{
+    this.service.getAllCompanies().subscribe(
+      (companies: Company[]) => {
+        this.companies = companies;
+        console.log("Kompanije:");
+        console.log(this.companies);
+      },
+      (error) => {
+        console.error('Greška prilikom dobavljanja svih kompanija', error);
+      }
+    );
   }
 }

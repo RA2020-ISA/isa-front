@@ -14,13 +14,13 @@ export class HomeComponent {
 
   redirectToLogin() {
     // Get the redirect URL from the service
-    const redirectUrl = this.userService.getLoginRedirectUrl();
+    //const redirectUrl = this.userService.getLoginRedirectUrl();
 
     // Redirect to the external URL
-    window.location.href = redirectUrl;
+    //window.location.href = redirectUrl;
   }
 
-  redirectToCompanyProfile(){
-    this.router.navigate(['/company-profile/1']);
+  redirectToAllCompanies(){
+    this.router.navigate(['/companies']);
   }
 }

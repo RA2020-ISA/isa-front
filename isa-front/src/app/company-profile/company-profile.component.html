@@ -1,8 +1,8 @@
-<div>
+<div *ngIf="company">
     <div class="card">
-        <div class="heading"><p>Naziv kompanije</p></div>
-        <div class="address"><p>Adresa kompanije</p></div>
-        <div class="averageRating"><p>Prosecna cena: 5.0</p></div>
+        <div class="heading"><p>{{ company.name }}</p></div>
+        <div class="address"><p>{{ company.address }}</p></div>
+        <div class="averageRating"><p>Prosecna cena: {{ company.averageGrade }}</p></div>
     </div>
     <button title="Use this button to make an appointment to pick up the equipment">Schedule pickup</button>
 </div>

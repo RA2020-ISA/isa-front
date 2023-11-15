@@ -23,4 +23,9 @@ export class HomeComponent {
   redirectToAllCompanies(){
     this.router.navigate(['/companies']);
   }
+
+  redirectToCompanyForm() {
+    this.router.navigate(['company-form']);
+  }
+
 }

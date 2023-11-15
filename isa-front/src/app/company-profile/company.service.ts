@@ -28,4 +28,8 @@ export class CompanyService {
   getEquipmentForCompany(id : number): Observable<Equipment[]> {
     return this.http.get<Equipment[]>('http://localhost:8080/api/equipment/getEquipmentForCompany/' + id);
   }
+
+  updateCompany(company : Company): Observable<Company> {
+    return this.http.put<Company>('http://localhost:8080/api/companies/update/' + company.id || '', company);
+  }
 }

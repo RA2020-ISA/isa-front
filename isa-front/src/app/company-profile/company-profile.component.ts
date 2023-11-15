@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Company } from '../model/company.model';
 import { CompanyService } from './company.service';
 import { Equipment } from '../model/equipment.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-company-profile',
@@ -16,7 +17,8 @@ export class CompanyProfileComponent implements OnInit {
   companies: Company[] = [];
   equipments: Equipment[] = [];
 
-  constructor(private route: ActivatedRoute, private service: CompanyService) {}
+  constructor(private route: ActivatedRoute, private service: CompanyService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -53,5 +55,9 @@ export class CompanyProfileComponent implements OnInit {
         console.error('Greška prilikom dobavljanja svih kompanija', error);
       }
     );
+  }
+
+  edit(id: number): void{
+    this.router.navigate(['/edit-company/' + id]);
   }
 }

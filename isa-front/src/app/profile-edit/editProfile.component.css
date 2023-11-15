@@ -6,9 +6,9 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
-}
+  }
 
-.profile-container {
+  .edit-profile-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,36 +17,54 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-}
+  }
 
-.table-container {
+  .table-container {
     display: flex;
-    justify-content: center; /* Izmena: umesto space-between, sada se poravnavaju po sredini */
+    flex-direction: column;
+    align-items: center;
     margin-top: 20px;
-}
+  }
 
-.table {
-    width: 48%;
+  .table {
+    width: 100%;
     border-collapse: collapse;
-}
+    margin-top: 10px;
+  }
 
-.table th,
-.table td {
+  .table th,
+  .table td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-}
+  }
 
-h1 {
+  h1 {
     color: #004080;
-}
+  }
 
-span {
+  label {
     color: #0066cc;
     font-weight: bold;
-}
+    width: 150px; /* Prilagodite širinu prema potrebi */
+    display: inline-block;
+  }
 
-button {
+  input {
+    padding: 8px;
+    margin-top: 6px;
+    width: 300px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+
+  .readonly-input {
+    background-color: #f2f2f2;
+    color: #808080;
+    cursor: not-allowed;
+  }
+
+  button {
     background-color: #004080;
     color: #ffffff;
     padding: 10px 20px;
@@ -55,8 +73,8 @@ button {
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 20px;
-}
+  }
 
-button:hover {
+  button:hover {
     background-color: #005cbf;
-}
+  }

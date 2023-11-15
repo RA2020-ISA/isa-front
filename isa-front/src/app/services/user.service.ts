@@ -31,12 +31,13 @@ export class UserService {
   }
   */
 
-  loginUser(username: string) {
-    return this.http.get<number>('http://localhost:8080/api/users/userIdByUsername/' + username);
-  }
 
   getUserByUsername(username?: string): Observable<User> {
     return this.http.get<User>('http://localhost:8080/api/users/getUserByUsername/' + username);
+  }
+
+  updateUser(username? : string, user? : User): Observable<User> {
+    return this.http.put<User>('http://localhost:8080/api/users/updateUser/' + username, user);
   }
 
 }

@@ -1,3 +1,5 @@
+import { UserRole } from "./user-role-enum";
+
 export interface User{
     id?: number,
     firstName: string,
@@ -6,4 +8,6 @@ export interface User{
     password: string, 
     isLocked: boolean,
     isEnabled: boolean,
+    userRole: UserRole, 
+    penaltyPoints: number
 }

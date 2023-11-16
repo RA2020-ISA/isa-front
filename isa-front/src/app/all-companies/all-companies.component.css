@@ -20,7 +20,18 @@ body {
     display: flex;
     flex-wrap: wrap; /* Omogući da kartice prelaze u novi red ako nema dovoljno prostora */
     justify-content: center;
+    margin-top: 2px;
 }
+
+.card-and-filter {
+  display: flex;
+  flex-direction: row; /* Postavite filter i karticu jedno pored drugog */
+}
+
+.filter {
+  margin-right: 10px; /* Prilagodite ovu vrednost prema potrebi, kako bi se postigao željeni razmak između filtera i kartice */
+}
+
 
 .filter-options {
     display: flex;

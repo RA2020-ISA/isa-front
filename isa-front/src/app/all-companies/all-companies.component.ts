@@ -11,6 +11,14 @@ import { CompanyService } from '../services/company.service';
 })
 export class AllCompaniesComponent implements OnInit{
   companies: Company[] = [];
+  searchName: string = '';
+  searchLocation: string = '';
+  showFilterOptions: boolean = false;
+  sortOrderDirection: 'asc' | 'desc' = 'asc';
+  sortByRating: boolean = false;
+  sortByName: boolean = false;
+  sortOrderDirectionName: string = 'asc';
+  appliedSort: string = '';
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
     private router: Router){}
@@ -30,5 +38,110 @@ export class AllCompaniesComponent implements OnInit{
 
   navigateToCompanyProfile(id : number): void{
     this.router.navigate(['/company-profile/' + id]);
+  }
+
+  search() {
+    this.service.searchCompany(this.searchName, this.searchLocation).subscribe(
+      (companies: Company[]) => {
+        this.companies = companies;
+  
+        this.showFilterOptions = true;
+      },
+      (error) => {
+        console.log('neuspeh prilikom search-a: ', error);
+      }
+    );
+  }
+
+  //for rating
+  sortAscending() {
+    if (this.sortByRating) {
+      this.appliedSort = 'asc';
+      this.companies.sort((a, b) => a.averageGrade - b.averageGrade);
+    }
+  }
+  
+  //for rating
+  sortDescending() {
+    if (this.sortByRating) {
+      this.appliedSort = 'des';
+      this.companies.sort((a, b) => b.averageGrade - a.averageGrade);
+    }
+  }
+
+  showAll(){
+    this.searchName = '';
+    this.searchLocation = '';
+
+    this.showFilterOptions = false;
+
+    this.sortByRating = false;
+    this.appliedSort = '';
+
+    this.service.getAllCompanies().subscribe(
+      (companies: Company[]) => {
+        this.companies = companies;
+        console.log("Kompanije:");
+        console.log(this.companies);
+      },
+      (error) => {
+        console.error('Greška prilikom dobavljanja svih kompanija', error);
+      }
+    );
+  }
+
+  resetSorting() {
+    this.sortByRating = false;
+    this.sortOrderDirection = 'asc';
+    this.appliedSort = '';
+    if (this.sortByName && this.sortOrderDirectionName === 'asc') {
+      this.sortByNameAscending();
+    }
+    else if (this.sortByRating && this.sortOrderDirectionName === 'des') {
+      this.sortByNameDescending();
+    }
+    else {
+      this.search();
+    }  }
+
+  sortByNameAscending() {
+    this.sortOrderDirectionName = 'asc';
+    this.sortByName = true;
+    this.sortCompaniesByName();
+  }
+  
+  sortByNameDescending() {
+    this.sortOrderDirectionName = 'desc';
+    this.sortByName = true;
+    this.sortCompaniesByName();
+  }
+  
+  resetSortingByName() {
+    this.sortByName = false;
+    this.sortOrderDirectionName = 'asc';
+    if (this.sortByRating && this.appliedSort === 'asc') {
+      this.sortAscending();
+    }
+    else if (this.sortByRating && this.appliedSort === 'des') {
+      this.sortDescending();
+    }
+    else {
+      this.search();
+    }
+  }
+  
+  private sortCompaniesByName() {
+    if (this.sortByName) {
+      this.companies.sort((a, b) => {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+  
+        if (this.sortOrderDirectionName === 'asc') {
+          return nameA.localeCompare(nameB);
+        } else {
+          return nameB.localeCompare(nameA);
+        }
+      });
+    }
   }
 }

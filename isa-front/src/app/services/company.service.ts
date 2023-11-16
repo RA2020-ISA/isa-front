@@ -35,4 +35,9 @@ export class CompanyService {
   updateCompany(company : Company): Observable<Company> {
     return this.http.put<Company>('http://localhost:8080/api/companies/update/' + company.id || '', company);
   }
+
+  createCompanyAdmins(userIds: number[], companyId: number): Observable<string> {
+    return this.http.post<string>('http://localhost:8080/api/companyAdmins/createAdmins/' + companyId, userIds);
+  }
+
 }

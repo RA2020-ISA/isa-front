@@ -40,4 +40,8 @@ export class UserService {
     return this.http.put<User>('http://localhost:8080/api/users/updateUser/' + username, user);
   }
 
+  getUsersForCompanyAdmin(): Observable<User[]> {
+    return this.http.get<User[]>('http://localhost:8080/api/companyAdmins/getUsersNotInCompanyAdmin');
+  }
+  
 }

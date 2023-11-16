@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
@@ -14,6 +13,7 @@ import { AllCompaniesComponent } from './all-companies/all-companies.component';
 import { CompanyFormComponent } from './company-form/company-form.component';
 import { CompanyEditFormComponent } from './company-edit-form/company-edit-form.component';
 import { ProfileComponent } from './profile/profile.component';
+import { EditProfileComponent } from './profile-edit/editProfile.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,8 @@ import { ProfileComponent } from './profile/profile.component';
     AllCompaniesComponent,
     CompanyFormComponent,
     CompanyEditFormComponent,
-    ProfileComponent
+    ProfileComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,

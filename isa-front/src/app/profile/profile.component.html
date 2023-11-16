@@ -1,1 +1,44 @@
-<h1>User profile</h1>
+<div class="profile-container">
+    <h1>User Profile</h1>
+    <div class="table-container">
+      <table class="table">
+        <tr>
+        </tr>
+        <tr>
+          <td>Email:</td>
+        </tr>
+        <tr>
+          <td>First Name:</td>
+        </tr>
+        <tr>
+          <td>Last Name:</td>
+        </tr>
+        <tr>
+            <td>User role:</td>
+        </tr>
+        <tr>
+            <td>Penality Points:</td>
+        </tr>
+      </table>
+      <table class="table">
+        <tr>
+        </tr>
+        <tr>
+          <td>{{ username }}</td>
+        </tr>
+        <tr>
+          <td>{{ user?.firstName }}</td>
+        </tr>
+        <tr>
+          <td>{{ user?.lastName }}</td>
+        </tr>
+        <tr>
+            <td>{{ user?.userRole }}</td>
+        </tr>
+          <tr>
+            <td>{{ user?.penaltyPoints }}</td>
+        </tr>
+      </table>
+    </div>
+    <button (click)="editProfile()">Edit Profile</button>
+  </div>

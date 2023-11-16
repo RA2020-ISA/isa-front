@@ -9,6 +9,7 @@ import { AllCompaniesComponent } from './all-companies/all-companies.component';
 import { CompanyFormComponent } from './company-form/company-form.component';
 import { CompanyEditFormComponent } from './company-edit-form/company-edit-form.component';
 import { ProfileComponent } from './profile/profile.component';
+import { EditProfileComponent } from './profile-edit/editProfile.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path: 'company-form', component: CompanyFormComponent},
   {path: 'companies', component: AllCompaniesComponent},
   {path: 'edit-company/:id', component: CompanyEditFormComponent},
-  {path: 'profile/:username', component: ProfileComponent}
+  {path: 'profile/:username', component: ProfileComponent},
+  {path: 'editProfile/:username', component: EditProfileComponent}
 ];
 
 @NgModule({

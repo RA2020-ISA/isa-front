@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Company } from '../model/company.model';
-import { CompanyService } from '../company-profile/company.service';
+import { CompanyService } from '../services/company.service';
 
 @Component({
   selector: 'app-all-companies',

@@ -1,8 +1,8 @@
 // home.component.ts
 import { Component } from '@angular/core';
-import { UserService } from '../register/user.service';
 import { Route } from '@angular/router';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-home',

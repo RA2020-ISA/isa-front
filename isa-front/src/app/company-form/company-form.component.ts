@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CompanyService } from '../company-profile/company.service';
+import { CompanyService } from '../services/company.service';
 import { Company } from '../model/company.model';
 
 @Component({

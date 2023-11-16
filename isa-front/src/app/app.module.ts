@@ -13,7 +13,7 @@ import { CompanyProfileComponent } from './company-profile/company-profile.compo
 import { AllCompaniesComponent } from './all-companies/all-companies.component';
 import { CompanyFormComponent } from './company-form/company-form.component';
 import { CompanyEditFormComponent } from './company-edit-form/company-edit-form.component';
-
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import { CompanyEditFormComponent } from './company-edit-form/company-edit-form.
     CompanyProfileComponent,
     AllCompaniesComponent,
     CompanyFormComponent,
-    CompanyEditFormComponent
+    CompanyEditFormComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

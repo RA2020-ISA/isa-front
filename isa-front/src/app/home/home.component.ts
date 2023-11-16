@@ -18,6 +18,7 @@ export class HomeComponent {
 
     // Redirect to the external URL
     //window.location.href = redirectUrl;
+    this.router.navigate(['/login']);
   }
 
   redirectToAllCompanies(){

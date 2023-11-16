@@ -12,7 +12,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { CompanyProfileComponent } from './company-profile/company-profile.component';
 import { AllCompaniesComponent } from './all-companies/all-companies.component';
 import { CompanyFormComponent } from './company-form/company-form.component';
-
+import { CompanyEditFormComponent } from './company-edit-form/company-edit-form.component';
 
 
 @NgModule({
@@ -24,7 +24,8 @@ import { CompanyFormComponent } from './company-form/company-form.component';
     HomepageComponent,
     CompanyProfileComponent,
     AllCompaniesComponent,
-    CompanyFormComponent
+    CompanyFormComponent,
+    CompanyEditFormComponent
   ],
   imports: [
     BrowserModule,

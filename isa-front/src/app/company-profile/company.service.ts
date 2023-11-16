@@ -32,4 +32,7 @@ export class CompanyService {
   createCompany(company : Company): Observable<Company> {
     return this.http.post<Company>('http://localhost:8080/api/companies/create', company);
   }
+  updateCompany(company : Company): Observable<Company> {
+    return this.http.put<Company>('http://localhost:8080/api/companies/update/' + company.id || '', company);
+  }
 }

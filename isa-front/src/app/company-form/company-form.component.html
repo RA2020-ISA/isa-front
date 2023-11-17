@@ -4,29 +4,31 @@
       <h1>Create company</h1>
       <div class="field" tabindex="1">
         <label>
-          <i class="far fa-user"></i>Name
+          <i class="far fa-user"></i>Name:
         </label>
         <input formControlName="name" type="text" placeholder="Name">
       </div>
       <div class="field" tabindex="2">
         <label>
-          <i class="far fa-envelope"></i>Adress
+          <i class="far fa-envelope"></i>Adress:
         </label>
         <input formControlName="address" type="text" placeholder="Adress" required>
       </div>
       <div class="field" tabindex="3">
         <label>
-          <i class="far fa-edit"></i>Description
+          <i class="far fa-edit"></i>Description:
         </label>
         <input formControlName="description" type="text" placeholder="Type here" required>
       </div>
       <div class="field" tabindex="4">
+        <div class="select-users">
         <label>
-          <i class="far fa-check-square"></i>Select Users
+          <i class="far fa-check-square"></i>Choose company admin:
         </label>
+        </div>
         <div *ngFor="let user of chooseUsers; let i = index" class="user-item">
           <input type="checkbox" [checked]="selectedUsersId.includes(user.id || 0)" (change)="toggleUserSelection(user.id || 0)">
-          <span>{{ user.firstName }} {{ user.lastName }}</span>
+          <p>{{ user.firstName }} {{ user.lastName }}</p>
         </div>
       </div>
       

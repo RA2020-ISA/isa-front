@@ -21,7 +21,11 @@ export class EditProfileComponent implements OnInit{
     userForm = new FormGroup({
         firstName: new FormControl('', [Validators.required]),
         lastName: new FormControl('', [Validators.required]),
-        email: new FormControl('', [Validators.required])
+        email: new FormControl('', [Validators.required]),
+        city: new FormControl('', [Validators.required]),
+        country: new FormControl('', [Validators.required]),
+        phoneNumber: new FormControl('', [Validators.required]),
+        occupation: new FormControl('', [Validators.required])
     })
 
     constructor(private route: ActivatedRoute, private userService : UserService, private router: Router) {}
@@ -50,7 +54,12 @@ export class EditProfileComponent implements OnInit{
             isLocked: false,
             isEnabled: false,
             userRole: UserRole.USER,
-            penaltyPoints: 0.0
+            penaltyPoints: 0.0, 
+            city: this.userForm.value.city || "",
+            country: this.userForm.value.country || "",
+            phoneNumber: this.userForm.value.phoneNumber || "",
+            occupation: this.userForm.value.occupation || "",
+            companyInfo: ''
         };
         if (this.user) {
             updatedUser.id = this.user.id;
@@ -74,7 +83,11 @@ export class EditProfileComponent implements OnInit{
             this.userForm.patchValue({
                 firstName: this.user.firstName,
                 lastName: this.user.lastName,
-                email: this.username
+                email: this.username,
+                city: this.user.city,
+                country: this.user.country,
+                phoneNumber: this.user.phoneNumber,
+                occupation: this.user.occupation
             });
         }
     }

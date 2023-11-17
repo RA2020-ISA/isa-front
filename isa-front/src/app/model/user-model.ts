@@ -9,5 +9,10 @@ export interface User{
     isLocked: boolean,
     isEnabled: boolean,
     userRole: UserRole, 
-    penaltyPoints: number
+    penaltyPoints: number,
+    city: string, 
+    country: string, 
+    phoneNumber: string, 
+    occupation: string, 
+    companyInfo: string
 }

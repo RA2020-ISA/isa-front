@@ -1,7 +1,58 @@
-<div *ngFor="let company of companies">
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+  <div class="search-fields">  <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
+  <input type="text" placeholder="Search by location" [(ngModel)]="searchLocation">
+  <button (click)="search()"> 
+    <mat-icon>search</mat-icon> 
+  </button>
+  <button (click)="showAll()">
+    <mat-icon>clear</mat-icon>
+  </button>
+</div>
+
+<div class="card-and-filter">
+  <div class="filter" *ngIf="showFilterOptions">
+  
+    <label>
+      <input type="checkbox" [(ngModel)]="sortByRating"> Rating
+    </label>
+  
+    <button class="small-button" (click)="sortAscending()">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+    <button class="small-button" (click)="sortDescending()">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+  
+    <button class="small-button" (click)="resetSorting()">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  
+    <div class="separator"></div>
+  
+    <label>
+      <input type="checkbox" [(ngModel)]="sortByName"> Name
+    </label>
+  
+    <button class="small-button" (click)="sortByNameAscending()">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+    <button class="small-button" (click)="sortByNameDescending()">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+  
+    <button class="small-button" (click)="resetSortingByName()">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+
+
+<div class="card-container" style="display: flex; flex-direction: column; align-items: center;">
+  <div *ngFor="let company of companies">
     <div class="card">
       <div class="heading"><p>{{ company.name }}</p></div>
+      <div class="address"><p>Address: {{ company.address }}</p></div>
+      <div class="averageRating"><p>Average Rating: {{ company.averageGrade }}</p></div>
       <button (click)="navigateToCompanyProfile(company.id || 0)">See profile</button>
     </div>
-  </div>
-  
+</div>
+</div>

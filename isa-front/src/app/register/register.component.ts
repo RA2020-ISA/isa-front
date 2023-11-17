@@ -1,4 +1,3 @@
-// register.component.ts
 import { Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../services/user.service';
@@ -15,6 +14,11 @@ export class RegisterComponent {
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
+  city: string = '';
+  country: string = '';
+  phoneNumber: string = '';
+  occupation: string = '';
+  companyInfo: string = '';
 
   errorMessage: string | null = null;
   successMessage: string | null = null;
@@ -31,6 +35,11 @@ export class RegisterComponent {
       lastName: this.lastName,
       email: this.email,
       password: this.password,
+      city: this.city,
+      country: this.country,
+      phoneNumber: this.phoneNumber,
+      occupation: this.occupation,
+      companyInfo: this.companyInfo,
     };
 
     this.userService.registerUser(bodyData).subscribe(
@@ -58,5 +67,11 @@ export class RegisterComponent {
     this.email = '';
     this.password = '';
     this.confirmPassword = '';
+    this.city = '';
+    this.country = '';
+    this.phoneNumber = '';
+    this.occupation = '';
+    this.companyInfo = '';
+    this.errorMessage='';
   }
 }

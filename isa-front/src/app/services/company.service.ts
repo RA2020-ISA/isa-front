@@ -47,4 +47,8 @@ export class CompanyService {
     // Šaljemo GET zahtev sa parametrima u telu
     return this.http.get<Company[]>(apiUrl, { params: searchParams });
   }
+
+  createCompanyAdmins(userIds: number[], companyId: number): Observable<string> {
+    return this.http.post<string>('http://localhost:8080/api/companyAdmins/createAdmins/' + companyId, userIds);
+  }
 }

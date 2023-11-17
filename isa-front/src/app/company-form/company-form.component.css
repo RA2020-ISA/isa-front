@@ -94,3 +94,28 @@ button {
         box-shadow: none;
     }
 }
+
+
+/* Koristi Flexbox za prikaz checkboxa i teksta jedan pored drugog */
+.user-item {
+    display: flex;
+    align-items: center;
+}
+
+/* Stilizacija checkbox-a */
+.user-item input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Stilizacija checkbox-a kada je selektovan */
+.user-item input[type="checkbox"]:checked + span {
+    font-weight: bold;
+    color: #2f4ad0;
+}
+
+/* Stilizacija teksta korisnika */
+.user-item span {
+    font-size: 16px;
+    color: #333;
+}
+

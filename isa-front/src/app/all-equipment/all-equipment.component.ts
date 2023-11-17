@@ -1,0 +1,146 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Equipment } from '../model/equipment.model';
+import { EquipmentService } from '../services/equipment.service';
+
+@Component({
+  selector: 'app-all-equipment',
+  templateUrl: './all-equipment.component.html',
+  styleUrls: ['./all-equipment.component.css']
+})
+export class AllEquipmentComponent implements OnInit{
+  equipments: Equipment[] = [];
+  searchName: string = '';
+  showFilterOptions: boolean = false;
+  sortOrderDirection: 'asc' | 'desc' = 'asc';
+  sortByRating: boolean = false;
+  sortByName: boolean = false;
+  sortOrderDirectionName: string = 'asc';
+  appliedSort: string = '';
+
+  constructor(
+    private route: ActivatedRoute,
+    private service: EquipmentService,
+    private router: Router
+  ){}
+
+  ngOnInit(): void {
+    this.service.getAllEquipments().subscribe(
+      (equipmentsResult: Equipment[]) => {
+        this.equipments = equipmentsResult;
+        console.log("Oprema sva:");
+        console.log(this.equipments);
+        console.log("Kompanije:");
+        console.log(this.equipments[0].companies)
+      },
+      (error) => {
+        console.error('Greška prilikom dobavljanja sve opreme', error);
+      }
+    );
+  }
+
+  search() {
+    this.service.searchEquipmentsByName(this.searchName).subscribe(
+      (searchResult: Equipment[]) => {
+        this.equipments = searchResult;
+  
+        this.showFilterOptions = true;
+      },
+      (error) => {
+        console.log('neuspeh prilikom search-a: ', error);
+      }
+    );
+  }
+
+  //for rating
+  sortAscending() {
+    if (this.sortByRating) {
+      this.appliedSort = 'asc';
+      this.equipments.sort((a, b) => a.grade - b.grade);
+    }
+  }
+  
+  //for rating
+  sortDescending() {
+    if (this.sortByRating) {
+      this.appliedSort = 'des';
+      this.equipments.sort((a, b) => b.grade - a.grade);
+    }
+  }
+
+  
+  showAll(){
+    this.searchName = '';
+    this.showFilterOptions = false;
+
+    this.sortByRating = false;
+    this.appliedSort = '';
+
+    this.service.searchEquipmentsByName(this.searchName).subscribe(
+      (searchResult: Equipment[]) => {
+        this.equipments = searchResult;
+      },
+      (error) => {
+        console.log('neuspeh prilikom search-a: ', error);
+      }
+    );
+  }
+
+
+  resetSorting() {
+    this.sortByRating = false;
+    this.sortOrderDirection = 'asc';
+    this.appliedSort = '';
+    if (this.sortByName && this.sortOrderDirectionName === 'asc') {
+      this.sortByNameAscending();
+    }
+    else if (this.sortByRating && this.sortOrderDirectionName === 'des') {
+      this.sortByNameDescending();
+    }
+    else {
+      this.search();
+    }  
+  }
+
+  sortByNameAscending() {
+    this.sortOrderDirectionName = 'asc';
+    this.sortByName = true;
+    this.sortEquipmentsByName();
+  }
+  
+  sortByNameDescending() {
+    this.sortOrderDirectionName = 'desc';
+    this.sortByName = true;
+    this.sortEquipmentsByName();
+  }
+  
+  resetSortingByName() {
+    this.sortByName = false;
+    this.sortOrderDirectionName = 'asc';
+    if (this.sortByRating && this.appliedSort === 'asc') {
+      this.sortAscending();
+    }
+    else if (this.sortByRating && this.appliedSort === 'des') {
+      this.sortDescending();
+    }
+    else {
+      this.search();
+    }
+  }
+  
+  private sortEquipmentsByName() {
+    if (this.sortByName) {
+      this.equipments.sort((a, b) => {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+  
+        if (this.sortOrderDirectionName === 'asc') {
+          return nameA.localeCompare(nameB);
+        } else {
+          return nameB.localeCompare(nameA);
+        }
+      });
+    }
+  }
+  
+}

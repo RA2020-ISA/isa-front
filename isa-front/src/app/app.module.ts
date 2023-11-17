@@ -15,6 +15,7 @@ import { CompanyEditFormComponent } from './company-edit-form/company-edit-form.
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile-edit/editProfile.component';
 import { MatIconModule } from '@angular/material/icon';
+import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { MatIconModule } from '@angular/material/icon';
     CompanyFormComponent,
     CompanyEditFormComponent,
     ProfileComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    AllEquipmentComponent
   ],
   imports: [
     BrowserModule,

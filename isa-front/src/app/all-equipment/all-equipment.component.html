@@ -1,0 +1,72 @@
+<!-- Search Options -->
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+
+    <div class="search-fields">  <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
+    <button (click)="search()"> 
+      <mat-icon>search</mat-icon> 
+    </button>
+    <button (click)="showAll()">
+      <mat-icon>clear</mat-icon>
+    </button>
+
+</div>
+  
+<!-- Filter Options -->
+<div class="card-and-filter">
+    <div class="filter" *ngIf="showFilterOptions">
+        
+          <label>
+            <input type="checkbox" [(ngModel)]="sortByRating"> Rating
+          </label>
+        
+          <button class="small-button" (click)="sortAscending()">
+            <mat-icon>keyboard_arrow_up</mat-icon>
+          </button>
+          <button class="small-button" (click)="sortDescending()">
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </button>
+        
+          <button class="small-button" (click)="resetSorting()">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        
+          <div class="separator"></div>
+        
+          <label>
+            <input type="checkbox" [(ngModel)]="sortByName"> Name
+          </label>
+        
+          <button class="small-button" (click)="sortByNameAscending()">
+            <mat-icon>keyboard_arrow_up</mat-icon>
+          </button>
+          <button class="small-button" (click)="sortByNameDescending()">
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </button>
+        
+          <button class="small-button" (click)="resetSortingByName()">
+            <mat-icon>refresh</mat-icon>
+          </button>
+    </div>
+
+    <!-- Equipment Details -->
+    <div *ngIf="equipments && equipments.length > 0" >
+      <div *ngFor="let equipment of equipments" class="equipment-detail-card">
+        <div class="heading"><p>{{ equipment.name }}</p></div>
+        <div class="equipment-description"><p>{{ equipment.description }}</p></div>
+        <div class="equipment-price"><p>Price: {{ equipment.price }}</p></div>
+        <div class="equipment-grade"><p>Grade: {{ equipment.grade }}</p></div>
+        <div class="equipment-type"><p>Type: {{ equipment.type }}</p></div>
+        <!-- Existing Code for Company Cards within Equipment -->
+        <div *ngFor="let company of equipment.companies" class="company-card">
+          <div class="company-card">
+            <div class="heading"><p>{{ company.name }}</p></div>
+            <div class="address"><p>{{ company.address }}</p></div>
+            <div class="averageRating"><p>Average grade: {{ company.averageGrade }}</p></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+</div>
+  

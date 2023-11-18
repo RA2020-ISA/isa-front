@@ -46,13 +46,13 @@
   </div>
 
 
-<div class="card-container" style="display: flex; flex-direction: column; align-items: center;">
-  <div *ngFor="let company of companies">
-    <div class="card">
-      <div class="heading"><p>{{ company.name }}</p></div>
-      <div class="address"><p>Address: {{ company.address }}</p></div>
-      <div class="averageRating"><p>Average Rating: {{ company.averageGrade }}</p></div>
-      <button (click)="navigateToCompanyProfile(company.id || 0)">See profile</button>
-    </div>
-</div>
+  <div class="card-container" style="display: flex; flex-direction: column; align-items: center;">
+    <div *ngFor="let company of companies">
+      <div class="card">
+        <div class="heading"><p>{{ company.name }}</p></div>
+        <div class="address"><p>Address: {{ company.address }}</p></div>
+        <div class="averageRating"><p>Average Rating: {{ company.averageGrade }}</p></div>
+        <button (click)="navigateToCompanyProfile(company.id || 0)">See profile</button>
+      </div>
+  </div>
 </div>

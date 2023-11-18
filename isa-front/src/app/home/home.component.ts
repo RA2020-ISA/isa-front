@@ -26,7 +26,11 @@ export class HomeComponent {
   }
 
   redirectToCompanyForm() {
-    this.router.navigate(['company-form']);
+    this.router.navigate(['/company-form']);
+  }
+
+  redirectToAllEquipments(){
+    this.router.navigate(['/all-equipment']);
   }
 
 }

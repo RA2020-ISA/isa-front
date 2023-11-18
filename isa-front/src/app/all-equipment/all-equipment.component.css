@@ -40,7 +40,6 @@ body {
     margin-left: 100px; /* Dodaj margin sa leve strane filter opcijama */
 }
 
-/* Ostatak stila ostaje nepromenjen */
 button {
     background-color: #3498db;
     color: white;
@@ -142,3 +141,22 @@ input[type="text"]:focus {
   .small-button.active {
     background-color: grey; /* Možeš prilagoditi boju po želji */
   }
+
+  .company-card{
+    border-radius: 10px; 
+    background-color: #3396FF; 
+    padding: 5px; 
+    color: white; 
+    width: auto;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.equipment-detail-card {
+  border-radius: 10px; 
+  background-color: lightblue; 
+  padding: 20px; 
+  color: white; 
+  width: 300px;
+  margin-bottom: 10px;
+}

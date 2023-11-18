@@ -2,12 +2,14 @@
 
 *{
   box-sizing: border-box;
-  font-family: 'Saira Semi Condensed', sans-serif;
+  /*font-family: 'Saira Semi Condensed', sans-serif;*/
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   transition: all 0.5s ease;
 }
 
 body {
-    background: #dfdfdf;
+    /*background: #dfdfdf;*/
+    background: #f0f8ff; 
     margin: 0;
     display: flex;
     justify-content: center;
@@ -28,6 +30,7 @@ body {
 h1 {
     font-size: 36px; 
     margin-bottom: 16px;
+    color: #3498db;
 }
 
 form {
@@ -41,6 +44,11 @@ form {
     width: 100%;
     margin-bottom: 16px;
     position: relative;
+    flex-direction: row;
+}
+
+.select-users{
+    margin-right: 2px;
 }
 
 label, input {
@@ -70,6 +78,7 @@ input, textarea {
     &:focus {
         box-shadow: none;
     }
+    border: 1px solid black; /*dodalaaa*/
 }
 
 textarea {
@@ -82,7 +91,7 @@ textarea {
 }
 
 button {
-    background: #2f4ad0;
+    background-color: #3498db;
     padding: 12px 24px;
     margin: 16px 0 50px 0;
     color: #fff;
@@ -94,3 +103,47 @@ button {
         box-shadow: none;
     }
 }
+
+
+/* Koristi Flexbox za prikaz checkboxa i teksta jedan pored drugog */
+.user-item {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Stilizacija checkbox-a */
+.user-item input{
+    margin-right: 1px;
+}
+
+
+/* Stilizacija checkbox-a kada je selektovan */
+.user-item input[type="checkbox"]:checked + span {
+    font-weight: bold;
+    color: #2f4ad0;
+}
+
+
+/* Povećaj veličinu checkbox-a */
+.user-item input {
+    margin-right: 8px; /* Povećaj marginu između checkbox-a i teksta */
+    width: 20px; /* Povećaj širinu checkbox-a */
+    height: 20px; /* Povećaj visinu checkbox-a */
+}
+
+/* Prilagodi stil teksta korisnika (paragrafa) */
+.user-item p {
+    margin: 0; /* Poništi marginu za paragraf */
+    flex: 1; /* Proširi paragraf da popuni dostupan prostor */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Postavi marginu između checkbox-a i teksta korisnika */
+.user-item {
+    margin-bottom: 8px;
+}
+
+
+

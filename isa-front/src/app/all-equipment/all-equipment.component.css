@@ -147,6 +147,16 @@ input[type="text"]:focus {
     background-color: #3396FF; 
     padding: 5px; 
     color: white; 
-    width: 200px;
-    height: 200px;
+    width: auto;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.equipment-detail-card {
+  border-radius: 10px; 
+  background-color: lightblue; 
+  padding: 20px; 
+  color: white; 
+  width: 300px;
+  margin-bottom: 10px;
 }

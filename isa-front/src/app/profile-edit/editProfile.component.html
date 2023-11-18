@@ -21,8 +21,35 @@
               <input id="lastName" formControlName="lastName" placeholder="Last Name" />
             </td>
           </tr>
+          <tr>
+            <td>
+              <label for="city">City:</label>
+              <input id="city" formControlName="city" placeholder="City" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="country">Country:</label>
+              <input id="country" formControlName="country" placeholder="Country" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="phoneNumber">Phone Number:</label>
+              <input id="phoneNumber" formControlName="phoneNumber" placeholder="phoneNumber" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="occupation">Occupation:</label>
+              <input id="occupation" formControlName="occupation" placeholder="occupation" />
+            </td>
+          </tr>
         </table>
       </div>
-      <button mat-raised-button color="primary" (click)="SaveChanges()">Save Changes</button>
+      <button mat-raised-button color="primary" (click)="SaveChanges()">
+        <mat-icon class="icon">done</mat-icon>
+        Save Changes
+      </button>
     </form>
   </div>

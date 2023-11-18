@@ -5,7 +5,10 @@
         <tr>
         </tr>
         <tr>
-          <td>Email:</td>
+          <td class="icon-cell">
+            <mat-icon class="icon">email</mat-icon>
+            Email:
+          </td>
         </tr>
         <tr>
           <td>First Name:</td>
@@ -19,6 +22,18 @@
         <tr>
             <td>Penality Points:</td>
         </tr>
+        <tr>
+          <td>City:</td>
+        </tr>
+        <tr>
+          <td>Country:</td>
+      </tr>
+      <tr>
+          <td>Phone number:</td>
+      </tr>
+      <tr>
+        <td>Occupation:</td>
+      </tr>
       </table>
       <table class="table">
         <tr>
@@ -35,10 +50,26 @@
         <tr>
             <td>{{ user?.userRole }}</td>
         </tr>
-          <tr>
+        <tr>
             <td>{{ user?.penaltyPoints }}</td>
+        </tr>
+        <tr>
+          <td>{{ user?.city }}</td>
+        </tr>
+        <tr>
+          <td>{{ user?.country }}</td>
+        </tr>
+        <tr>
+          <td>{{ user?.phoneNumber }}</td>
+        </tr>
+        <tr>
+          <td>{{ user?.occupation }}</td>
         </tr>
       </table>
     </div>
-    <button (click)="editProfile()">Edit Profile</button>
+    <button (click)="editProfile()">
+      <mat-icon>
+        edit
+      </mat-icon>
+    </button>
   </div>

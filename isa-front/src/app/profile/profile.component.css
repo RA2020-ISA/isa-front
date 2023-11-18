@@ -1,11 +1,13 @@
 body {
-    background-color: #f0f8ff;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 20px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    margin: 0;
 }
 
 .profile-container {
@@ -17,11 +19,12 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    margin-bottom: 20px; /* Dodaj margin ispod profila */
 }
 
 .table-container {
     display: flex;
-    justify-content: center; /* Izmena: umesto space-between, sada se poravnavaju po sredini */
+    justify-content: space-between; /* Poravnavanje sa leve i desne strane */
     margin-top: 20px;
 }
 
@@ -38,7 +41,7 @@ body {
 }
 
 h1 {
-    color: #004080;
+    color: #3498db;
 }
 
 span {
@@ -47,7 +50,7 @@ span {
 }
 
 button {
-    background-color: #004080;
+    background-color: #3498db;
     color: #ffffff;
     padding: 10px 20px;
     border: none;
@@ -58,5 +61,53 @@ button {
 }
 
 button:hover {
-    background-color: #005cbf;
+    background-color: #2980b9;
+}
+
+/* Stilovi za filter i kartice */
+.card-and-filter {
+    display: flex;
+    flex-direction: row;
+}
+
+.filter {
+    margin-right: 10px;
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 10px; /* Prilagodi razmak sa leve strane */
+}
+
+.table-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.table {
+    width: 48%;
+    border-collapse: collapse;
+}
+
+.table th,
+
+.table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.icon-cell {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    font-size: 16px;
+    margin-right: 5px;
+    color: #3498db; /* Dodaj boju ikonici */
+    margin-top: 8px;
 }

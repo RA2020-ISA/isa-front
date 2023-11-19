@@ -43,5 +43,9 @@ export class UserService {
   getUsersForCompanyAdmin(): Observable<User[]> {
     return this.http.get<User[]>('http://localhost:8080/api/companyAdmins/getUsersNotInCompanyAdmin');
   }
+
+  /*validatePassword(newPassword?: string, username?: string): Observable<boolean> {
+    return this.http.get<boolean>('http://localhost:8080/api/users/validatePassword/' + newPassword + '/' + username);
+  }*/
   
 }

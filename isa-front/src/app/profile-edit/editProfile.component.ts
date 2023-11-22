@@ -52,7 +52,7 @@ export class EditProfileComponent implements OnInit{
             email: '',
             password: '',
             isLocked: false,
-            isEnabled: false,
+            enabled: false,
             userRole: UserRole.USER,
             penaltyPoints: 0.0, 
             city: this.userForm.value.city || "",

@@ -1,6 +1,7 @@
 <div *ngIf="company">
     <div class="card">
         <div class="heading"><p>{{ company.name }}</p></div>
+        <div class="averageRating"><p>{{ company.description }}</p></div>
         <div class="address"><p>{{ company.address }}</p></div>
         <div class="averageRating"><p>Average grade: {{ company.averageGrade }}</p></div>
         <div *ngFor="let equipment of equipments">

@@ -47,7 +47,34 @@
           </tr>
         </table>
       </div>
-      <button mat-raised-button color="primary" (click)="SaveChanges()">
+
+      <button mat-raised-button color="accent" (click)="togglePasswordForm()">
+        <mat-icon class="icon">vpn_key</mat-icon>
+        Change Password
+    </button>
+
+    <div *ngIf="showPasswordForm">
+      <form [formGroup]="passwordForm">
+        <div>
+          <label for="currentPassword">Current Password:</label>
+          <input type="password" id="currentPassword" formControlName="currentPassword" placeholder="Current Password" />
+        </div>
+        <div>
+          <label for="newPassword">New Password:</label>
+          <input type="password" id="newPassword" formControlName="newPassword" placeholder="New Password" />
+        </div>
+        <div>
+          <label for="confirmPassword">Confirm Password:</label>
+          <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Confirm Password" />
+        </div>
+      </form>
+
+      <button mat-raised-button color="primary" (click)="ChangePassword()">
+          <mat-icon class="icon">done</mat-icon>
+          Save Password
+      </button>
+    </div>
+    <button mat-raised-button color="primary" (click)="SaveChanges()">
         <mat-icon class="icon">done</mat-icon>
         Save Changes
       </button>

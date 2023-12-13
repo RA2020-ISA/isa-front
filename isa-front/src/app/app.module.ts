@@ -16,6 +16,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile-edit/editProfile.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
     HttpClientModule,
     FormsModule, 
     ReactiveFormsModule,
-    MatIconModule 
+    MatIconModule, 
+    FullCalendarModule // register FullCalendar with your app
   ],
   providers: [],
   bootstrap: [AppComponent]

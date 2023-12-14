@@ -17,6 +17,7 @@ import { EditProfileComponent } from './profile-edit/editProfile.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     CompanyEditFormComponent,
     ProfileComponent,
     EditProfileComponent,
-    AllEquipmentComponent
+    AllEquipmentComponent,
+    WorkCalendarComponent
   ],
   imports: [
     BrowserModule,

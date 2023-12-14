@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
-import dayGridPlugin from '@fullcalendar/daygrid'; //dodala
+import { CalendarOptions } from '@fullcalendar/core'; // dodala kalendar
+import dayGridPlugin from '@fullcalendar/daygrid'; //dodala kalendar
 
 @Component({
   selector: 'app-root',

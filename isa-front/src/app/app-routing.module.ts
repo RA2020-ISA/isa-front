@@ -11,6 +11,7 @@ import { CompanyEditFormComponent } from './company-edit-form/company-edit-form.
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile-edit/editProfile.component';
 import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
+import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path: 'edit-company/:id', component: CompanyEditFormComponent},
   {path: 'profile/:username', component: ProfileComponent},
   {path: 'editProfile/:username', component: EditProfileComponent}, 
-  { path: 'all-equipment', component: AllEquipmentComponent }
+  {path: 'all-equipment', component: AllEquipmentComponent }, 
+  {path: 'work-calendar', component: WorkCalendarComponent}
 ];
 
 @NgModule({

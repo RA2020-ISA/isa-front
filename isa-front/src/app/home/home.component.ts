@@ -33,4 +33,8 @@ export class HomeComponent {
     this.router.navigate(['/all-equipment']);
   }
 
+  redirectToAdminCompany(){
+    this.router.navigate(['/admin-company']);
+  }
+
 }

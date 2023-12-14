@@ -1,0 +1,52 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    font-size: 17px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+  
+button:hover {
+    background-color: #2980b9;
+}
+
+.card {
+    border-radius: 10px; 
+    background-color: lightblue; 
+    padding: 20px; 
+    color: white; 
+    width: 300px;
+}
+
+.heading {
+    font-size: 24px; 
+    font-weight: bold; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.equipment-card{
+    border-radius: 10px; 
+    background-color: #3396FF; 
+    padding: 5px; 
+    color: white; 
+    width: 300px;
+    height: 200px;
+}

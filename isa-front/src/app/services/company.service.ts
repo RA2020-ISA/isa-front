@@ -5,6 +5,7 @@ import { Observable, catchError } from 'rxjs';
 import { Company } from '../model/company.model';
 import { Equipment } from '../model/equipment.model';
 import { environment } from '../../env/environment';
+import { EquipmentAppointment } from '../model/equipment-appointment.model';
 
 @Injectable({
   providedIn: 'root',
@@ -50,5 +51,13 @@ export class CompanyService {
 
   createCompanyAdmins(userIds: number[], companyId: number): Observable<string> {
     return this.http.post<string>('http://localhost:8080/api/companyAdmins/createAdmins/' + companyId, userIds);
+  }
+  
+  getCompanyByAdmin(adminId: number): Observable<Company>{
+    return this.http.get<Company>('http://localhost:8080/api/companies/getForAdmin/' + adminId);
+  }
+  
+  createAppointment(appointment: EquipmentAppointment): Observable<EquipmentAppointment>{
+    return this.http.post<EquipmentAppointment>('http://localhost:8080/api/appointments/create', appointment);
   }
 }

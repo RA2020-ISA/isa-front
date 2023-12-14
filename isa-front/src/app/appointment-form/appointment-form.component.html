@@ -1,0 +1,20 @@
+<div class="card">
+<form [formGroup]="appointmentForm">
+    <div class="polje">
+    <label for="datum">Appointmet date:</label>
+    <input type="date" formControlName="datum" required class="input1"><br>
+    </div>
+
+    <div class="polje">
+    <label for="string">Appointment time:</label>
+    <input type="text" formControlName="vreme"  required class="input2"><br>
+    </div>
+
+    <div class="polje">
+    <label for="broj">Appointment duration:</label>
+    <input type="number" formControlName="trajanje" required class="input3"><br>
+    </div>
+
+    <button type="submit" (click)="createAppointment()">Create</button>
+  </form>
+</div>

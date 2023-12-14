@@ -16,6 +16,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile-edit/editProfile.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
+import { AdminCompanyComponent } from './admin-company/admin-company.component';
+import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
     CompanyEditFormComponent,
     ProfileComponent,
     EditProfileComponent,
-    AllEquipmentComponent
+    AllEquipmentComponent,
+    AdminCompanyComponent,
+    AppointmentFormComponent
   ],
   imports: [
     BrowserModule,

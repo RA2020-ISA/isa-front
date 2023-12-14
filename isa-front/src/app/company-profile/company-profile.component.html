@@ -4,9 +4,24 @@
         <div class="averageRating"><p>{{ company.description }}</p></div>
         <div class="address"><p>{{ company.address }}</p></div>
         <div class="averageRating"><p>Average grade: {{ company.averageGrade }}</p></div>
+        <div>
+            <div class="search-fields">  <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
+                <button (click)="search()"> 
+                  <mat-icon>search</mat-icon> 
+                </button>
+                <button (click)="showAll()">
+                  <mat-icon>clear</mat-icon>
+                </button>
+            </div>
+        </div>
         <div *ngFor="let equipment of equipments">
             <div class="equipment-card">
-                <div class="heading"><p>{{ equipment.name }}</p></div>
+                <div class="heading">
+                    <p>{{ equipment.name }}</p>
+                    <button (click)="acquireEquipment()" class="add-button">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
                 <div class="equipment-description"><p>{{ equipment.description }}</p></div>
                 <div class="equipment-price"><p>Price: {{ equipment.price }}</p></div>
                 <div class="equipment-grade"><p>Grade: {{ equipment.grade }}</p></div>

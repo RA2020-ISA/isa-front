@@ -6,6 +6,11 @@ import { CompanyService } from '../services/company.service';
 import { Equipment } from '../model/equipment.model';
 import { Router } from '@angular/router';
 import { EquipmentService } from '../services/equipment.service';
+import { ItemService } from '../services/item.service';
+import { Item } from '../model/item.model';
+import { UserStateService } from '../services/user-state.service';
+import { ReservationService } from '../services/reservation.service';
+import { AppointmentReservation } from '../model/reservation.model';
 
 @Component({
   selector: 'app-company-profile',
@@ -20,14 +25,19 @@ export class CompanyProfileComponent implements OnInit {
   searchName: string = '';
   selectedEquipments: Equipment[] = []
   quantity: number = 1; 
+  
   selectedEquipmentQuantities: Map<number, number> = new Map<number, number>();
 
   constructor(private route: ActivatedRoute, 
     private service: CompanyService,
     private router: Router,
-    private equipmentService: EquipmentService) {}
+    private equipmentService: EquipmentService,
+    private itemService: ItemService,
+    private userStateService: UserStateService,
+    private reservationService: ReservationService) {}
 
   ngOnInit(): void {
+    console.log(this.userStateService.getLoggedInUser());
     this.route.params.subscribe(params => {
       this.companyId = +params['id']; 
       console.log(this.companyId);
@@ -60,6 +70,73 @@ export class CompanyProfileComponent implements OnInit {
       },
       (error) => {
         console.error('Greška prilikom dobavljanja svih kompanija', error);
+      }
+    );
+  }
+  createReservations() {
+    const createdItems: Item[] = [];
+    // Iterate over selected equipments
+    for (const selectedEquipment of this.selectedEquipments) {
+      const equipmentId = selectedEquipment.id;
+      if(equipmentId==null){
+        return;
+      }
+      const quantity = this.selectedEquipmentQuantities.get(equipmentId) ?? 1;
+
+      if (quantity) {
+        this.submitQuantity(equipmentId, quantity);
+        // Call the createItem method to create an item
+        const newItem: Item = {
+          // construct the item object as needed
+          equipmentId,
+          quantity,
+          // ... other properties ...
+        };
+
+        this.itemService.createItem(newItem).subscribe(
+          (createdItem: Item) => {
+            createdItems.push(createdItem);
+            console.log(createdItems);
+            // Item created successfully, now create a reservation
+            const reservationData = {
+              // construct reservation data as needed
+              companyId: this.companyId,
+              itemId: createdItem.id,
+              // ... other properties ...
+            };
+            if (createdItems.length === this.selectedEquipments.length) {
+              this.createReservation(createdItems);
+            }
+            // Call the createReservation method in your service
+            
+          },
+          (error) => {
+            console.error('Error creating item', error);
+          }
+        );
+      }
+    }
+  }
+  createReservation(items: Item[]) {
+    // Construct reservation data as needed
+    const newReservation: AppointmentReservation = {
+      items: items,
+      appointmentDate: new Date(),
+      appointmentTime: '12:00 PM', // Replace with actual time
+      appointmentDuration: 15,
+      user:this.userStateService.getLoggedInUser() // Replace with actual duration
+      
+    };
+    
+    console.log(newReservation.user);
+    // Call the createReservation method in your service
+    this.reservationService.createReservation(newReservation).subscribe(
+      
+      (createdReservation: AppointmentReservation) => {
+        console.log('Reservation created:', createdReservation);
+      },
+      (error) => {
+        console.error('Error creating reservation', error);
       }
     );
   }

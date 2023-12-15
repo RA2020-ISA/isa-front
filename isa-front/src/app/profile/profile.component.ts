@@ -2,6 +2,7 @@ import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user-model';
+import { UserStateService } from '../services/user-state.service';
 
 @Component({
   selector: 'profile',
@@ -13,9 +14,11 @@ export class ProfileComponent implements OnInit{
     username?: string;
     user?: User;
 
-    constructor(private route: ActivatedRoute, private userService : UserService, private router: Router) {}
+    constructor(private route: ActivatedRoute, private userService : UserService, private router: Router,
+        private userStateService: UserStateService) {}
 
     ngOnInit():void{
+        console.log(this.userStateService.getLoggedInUser());
         this.route.params.subscribe(params => {
             this.username = params['username'];
 
@@ -41,4 +44,7 @@ export class ProfileComponent implements OnInit{
     editProfile() {
         this.router.navigate(['/editProfile/', this.username]);
     }
+    redirectToAllCompanies(){
+        this.router.navigate(['/companies']);
+      }
 }

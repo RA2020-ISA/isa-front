@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user-model';
-import * as bcrypt from 'bcryptjs';
 import { UserStateService } from '../services/user-state.service';
 
 @Component({
@@ -38,7 +37,6 @@ export class LoginComponent {
         } else {
           this.wrongPassword=true;
           console.log('Invalid password');
-          // Handle invalid password, for example, display an error message.
         }
       },
       (error) => {

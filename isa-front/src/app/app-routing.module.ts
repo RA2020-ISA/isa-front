@@ -13,6 +13,7 @@ import { EditProfileComponent } from './profile-edit/editProfile.component';
 import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
 import { AdminCompanyComponent } from './admin-company/admin-company.component';
 import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
+import { EquipmentEditFormComponent } from './equipment-edit-form/equipment-edit-form.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -27,7 +28,8 @@ const routes: Routes = [
   {path: 'editProfile/:username', component: EditProfileComponent}, 
   { path: 'all-equipment', component: AllEquipmentComponent },
   { path: 'admin-company', component: AdminCompanyComponent},
-  { path: 'appointment-form/:id', component: AppointmentFormComponent}
+  { path: 'appointment-form/:id', component: AppointmentFormComponent},
+  { path: 'edit-equipment/:id', component: EquipmentEditFormComponent}
 ];
 
 @NgModule({

@@ -10,7 +10,7 @@ body {
     height: 100vh;
 }
 
-button {
+.schedule-button {
     background-color: #3498db;
     color: white;
     border: none;
@@ -22,7 +22,24 @@ button {
     transition: background-color 0.3s;
 }
   
-button:hover {
+.schedule-button:hover {
+    background-color: #2980b9;
+}
+
+.delete-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    font-size: 17px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+    margin-bottom: 5px;
+}
+  
+.delete-button:hover {
     background-color: #2980b9;
 }
 
@@ -49,4 +66,10 @@ button:hover {
     color: white; 
     width: 300px;
     height: 200px;
+}
+
+.equipment-grade{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }

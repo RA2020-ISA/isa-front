@@ -4,16 +4,27 @@
         <div class="averageRating"><p>{{ company.description }}</p></div>
         <div class="address"><p>{{ company.address }}</p></div>
         <div class="averageRating"><p>Average grade: {{ company.averageGrade }}</p></div>
-        <div *ngFor="let equipment of equipments">
+        <div *ngFor="let equipment of company.equipments">
             <div class="equipment-card">
                 <div class="heading">
                     <p>{{ equipment.name }}</p>
-                    <button title="Use this button to make an appointment to pick up the equipment" (click)="createAppointment(equipment.id || 0)">Schedule pickup</button>
+                    <button title="Use this button to make an appointment to pick up the equipment" 
+                    class="schedule-button"
+                    (click)="createAppointment(equipment.id || 0)">Schedule pickup</button>
                 </div>
                 <div class="equipment-description"><p>{{ equipment.description }}</p></div>
                 <div class="equipment-price"><p>Price: {{ equipment.price }}</p></div>
-                <div class="equipment-grade"><p>Grade: {{ equipment.grade }}</p></div>
+                <div class="equipment-grade"><p>Grade: {{ equipment.grade }}</p><button mat-icon-button title="Use this button to 
+                    remove equipment from company" (click)="removeEquipment(equipment)" class="delete-button">
+                    <mat-icon>delete</mat-icon></button>
+                    <button mat-icon-button title="Use this button to 
+                    edit this equipment" (click)="editEquipment(equipment.id || 0..)" class="delete-button">
+                    <mat-icon>edit</mat-icon></button>
+                </div>
             </div>
         </div>
+        <button title="Use this button to add more equipment to your company" 
+                    class="schedule-button"
+                    (click)="addMoreEquipment()">Add more equipment</button>
     </div>
 </div>

@@ -54,10 +54,18 @@ export class CompanyService {
   }
   
   getCompanyByAdmin(adminId: number): Observable<Company>{
-    return this.http.get<Company>('http://localhost:8080/api/companies/getForAdmin/' + adminId);
+    return this.http.get<Company>('http://localhost:8080/api/companyAdmins/getCompanyForAdmin/' + adminId);
   }
   
   createAppointment(appointment: EquipmentAppointment): Observable<EquipmentAppointment>{
     return this.http.post<EquipmentAppointment>('http://localhost:8080/api/appointments/create', appointment);
+  }
+
+  getEquipmentById(id: number): Observable<Equipment>{
+    return  this.http.get<Equipment>('http://localhost:8080/api/equipment/getById/' + id);
+  }
+
+  updateEquipment(equipment: Equipment): Observable<Equipment>{
+    return this.http.put<Equipment>('http://localhost:8080/api/equipment/update/' + equipment.id, equipment);
   }
 }

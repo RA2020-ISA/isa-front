@@ -24,7 +24,7 @@ export class AdminCompanyComponent implements OnInit {
   ngOnInit(): void {
     this.loggedUser = this.userService.getLoggedInUser();
     if (this.loggedUser) {
-      console.log("Ulogovani korisnik:");
+      console.log("Ulogovani korisnik je sad:");
       console.log(this.loggedUser);
       this.getAdminCompany();
     } else {
@@ -38,11 +38,6 @@ export class AdminCompanyComponent implements OnInit {
         this.company = company;
         console.log("Kompanija:");
         console.log(this.company);
-        this.service.getEquipmentForCompany(this.company.id || 0).subscribe((equipments: Equipment[]) =>{
-          this.equipments = equipments;
-          console.log("Opreme:");
-          console.log(this.equipments);
-        })
       },
       (error) => {
         console.error('Greška prilikom dobavljanja kompanije', error);
@@ -52,5 +47,32 @@ export class AdminCompanyComponent implements OnInit {
 
   createAppointment(equipmentId: number): void{
     this.router.navigate(['/appointment-form/' + equipmentId]);
+  }
+
+  removeEquipment(equipment: Equipment): void{
+    const index = this.company?.equipments?.indexOf(equipment);
+
+    if (index !== undefined && this.company?.equipments) {
+      this.company.equipments.splice(index, 1);
+    }
+
+    if(this.company){
+      this.service.updateCompany(this.company).subscribe(
+        (updatedCompany: Company) => {
+          this.router.navigate(['/admin-company']);
+        },
+        (error) => {
+          console.error('Error updating company', error);
+        }
+      );
+    }  
+  }
+
+  addMoreEquipment(): void{
+
+  }
+
+  editEquipment(equipmentId: number): void{
+    this.router.navigate(['/edit-equipment/' + equipmentId]);
   }
 }

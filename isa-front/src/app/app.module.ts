@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
 import { AdminCompanyComponent } from './admin-company/admin-company.component';
 import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
+import { EquipmentEditFormComponent } from './equipment-edit-form/equipment-edit-form.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { AppointmentFormComponent } from './appointment-form/appointment-form.co
     EditProfileComponent,
     AllEquipmentComponent,
     AdminCompanyComponent,
-    AppointmentFormComponent
+    AppointmentFormComponent,
+    EquipmentEditFormComponent
   ],
   imports: [
     BrowserModule,

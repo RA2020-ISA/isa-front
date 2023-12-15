@@ -60,7 +60,8 @@ export class CompanyFormComponent implements OnInit{
       address: companyAddress,
       description: companyDescription,
       averageGrade: 0, //ovo izmeniti
-      adminId: 1
+      adminId: 1,
+      equipments: []
     };
   
     this.service.createCompany(newCompany).subscribe(

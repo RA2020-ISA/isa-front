@@ -18,6 +18,9 @@ export class CompanyProfileComponent implements OnInit {
   companies: Company[] = [];
   equipments: Equipment[] = [];
   searchName: string = '';
+  selectedEquipments: Equipment[] = []
+  quantity: number = 1; 
+  selectedEquipmentQuantities: Map<number, number> = new Map<number, number>();
 
   constructor(private route: ActivatedRoute, 
     private service: CompanyService,
@@ -89,7 +92,31 @@ export class CompanyProfileComponent implements OnInit {
     );
   }
 
-  acquireEquipment() {
-    
+  acquireEquipment(selectedEquipment: Equipment) {
+     // Ovde možete dodati logiku za dobijanje opreme
+        // Na primer, možete proslediti podatke serveru ili ažurirati lokalno stanje
+
+        // Dodajte odabrani equipment u listu sa količinom
+        this.selectedEquipments.push(selectedEquipment)
+        // Resetujte quantity na 1 za sledeću upotrebu
+        this.quantity = 1;
+
+        // Opciono, možete ažurirati logiku za sakrivanje ili uklanjanje dodate opreme
+  }
+
+  submitQuantity(equipmentId: number, quantity: number) {
+    // Ovde možete dodati logiku za obradu unete količine
+    console.log(`Quantity for Equipment ID ${equipmentId}: ${quantity}`);
+
+    // Ažurirajte mapu sa količinom
+    this.selectedEquipmentQuantities.set(equipmentId, quantity);
+
+    console.log(this.selectedEquipmentQuantities)
   }
 }
+
+//dugme za kreiraj reservaciju  
+//prvo kreiras item - i u reservation id mu stavis -1 item pokupi qunatity iz ove mape i eq id
+//pozivas item create iz endpointa *controller* 
+//kada se kreira rezervacija poziva se endpoint controller - createReservation - ides u service pravis blabla
+//u rezervaciji lista itema i ONDA ZAMENIS RESERVATION ID U ITEMU DA BUDE TAJ RESERVATION ID

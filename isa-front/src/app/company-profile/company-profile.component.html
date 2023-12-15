@@ -18,7 +18,7 @@
             <div class="equipment-card">
                 <div class="heading">
                     <p>{{ equipment.name }}</p>
-                    <button (click)="acquireEquipment()" class="add-button">
+                    <button (click)="acquireEquipment(equipment)" class="add-button">
                         <mat-icon>add</mat-icon>
                     </button>
                 </div>
@@ -31,4 +31,26 @@
     </div>
     <button title="Use this button to make an appointment to pick up the equipment">Schedule pickup</button>
     <button title="Use this button to edit data for this company" (click)="edit(company.id || 0)">Edit</button>
+
+    <div *ngFor="let selectedEquipment of selectedEquipments">
+        <div class="equipment-card">
+            <div class="heading">
+                <p>{{ selectedEquipment.name }}</p>
+            </div>
+            <div class="equipment-description"><p>{{ selectedEquipment.description }}</p></div>
+            <div class="equipment-price"><p>Price: {{ selectedEquipment.price }}</p></div>
+            <div class="equipment-grade"><p>Grade: {{ selectedEquipment.grade }}</p></div>
+            <div class="equipment-type"><p>Type: {{ selectedEquipment.type }}</p></div>
+
+            <form (ngSubmit)="selectedEquipment.id && submitQuantity(selectedEquipment.id, quantityForm.value.quantity)" #quantityForm="ngForm">
+                <div class="quantity-input">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" ngModel required>
+                </div>
+                <button type="submit">Submit Quantity</button>
+            </form>
+
+        </div>
+    </div>
+
 </div>

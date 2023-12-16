@@ -7,5 +7,6 @@ export interface Equipment {
     name: string,
     price: number,
     type: string, 
-    companies : Company[]
+    companies : Company[],
+    companyId: number
 }

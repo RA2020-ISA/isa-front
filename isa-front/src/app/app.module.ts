@@ -20,6 +20,8 @@ import { AdminCompanyComponent } from './admin-company/admin-company.component';
 import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
+import { EquipmentEditFormComponent } from './equipment-edit-form/equipment-edit-form.component';
+
 
 
 @NgModule({
@@ -38,7 +40,8 @@ import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
     AllEquipmentComponent,
     AdminCompanyComponent,
     AppointmentFormComponent,
-    WorkCalendarComponent
+    WorkCalendarComponent,
+    EquipmentEditFormComponent
   ],
   imports: [
     BrowserModule,

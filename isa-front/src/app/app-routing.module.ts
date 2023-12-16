@@ -14,6 +14,7 @@ import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
 import { AdminCompanyComponent } from './admin-company/admin-company.component';
 import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
 import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
+import { EquipmentEditFormComponent } from './equipment-edit-form/equipment-edit-form.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -29,7 +30,8 @@ const routes: Routes = [
   { path: 'all-equipment', component: AllEquipmentComponent },
   { path: 'admin-company', component: AdminCompanyComponent},
   { path: 'appointment-form/:id', component: AppointmentFormComponent},
-  {path: 'work-calendar', component: WorkCalendarComponent}
+  { path: 'work-calendar', component: WorkCalendarComponent},
+  { path: 'edit-equipment/:id', component: EquipmentEditFormComponent}
 ];
 
 @NgModule({

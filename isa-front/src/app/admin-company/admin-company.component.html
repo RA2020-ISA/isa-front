@@ -4,7 +4,14 @@
         <div class="averageRating"><p>{{ company.description }}</p></div>
         <div class="address"><p>{{ company.address }}</p></div>
         <div class="averageRating"><p>Average grade: {{ company.averageGrade }}</p></div>
-        <div *ngFor="let equipment of company.equipments">
+        <div class="search">
+            <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
+            <input type="number" placeholder="Price from: " [(ngModel)]="searchPriceFrom">
+            <input type="number" placeholder="Price to:" [(ngModel)]="searchPriceTo">
+            <button class="schedule-button" (click)="searchEquipments()">Search</button>
+            <button class="schedule-button" (click)="showAll()">Show all</button>
+        </div>
+        <div *ngFor="let equipment of companyEquipments">
             <div class="equipment-card">
                 <div class="heading">
                     <p>{{ equipment.name }}</p>
@@ -15,7 +22,8 @@
                 <div class="equipment-description"><p>{{ equipment.description }}</p></div>
                 <div class="equipment-price"><p>Price: {{ equipment.price }}</p></div>
                 <div class="equipment-grade"><p>Grade: {{ equipment.grade }}</p><button mat-icon-button title="Use this button to 
-                    remove equipment from company" (click)="removeEquipment(equipment)" class="delete-button">
+                    remove equipment from company" (click)="removeEquipment(equipment)" class="delete-button"
+                    *ngIf="canDelete(equipment.id || 0)">
                     <mat-icon>delete</mat-icon></button>
                     <button mat-icon-button title="Use this button to 
                     edit this equipment" (click)="editEquipment(equipment.id || 0..)" class="delete-button">
@@ -26,5 +34,20 @@
         <button title="Use this button to add more equipment to your company" 
                     class="schedule-button"
                     (click)="addMoreEquipment()">Add more equipment</button>
+    </div>
+    <div class="card" *ngIf="showMore">
+        <div *ngFor="let equipment of moreEquipments">
+            <div class="equipment-card">
+                <div class="heading">
+                    <p>{{ equipment.name }}</p><button 
+                    title="Use this button to add this equipment to your company" 
+                        class="schedule-button"
+                    (click)="addEquipment(equipment)">Add to company</button>
+                </div>
+                <div class="equipment-description"><p>{{ equipment.description }}</p></div>
+                <div class="equipment-price"><p>Price: {{ equipment.price }}</p></div>
+                <div class="equipment-grade"><p>Grade: {{ equipment.grade }}</p></div>
+            </div>
+        </div>
     </div>
 </div>

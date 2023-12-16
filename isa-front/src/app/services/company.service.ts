@@ -68,4 +68,12 @@ export class CompanyService {
   updateEquipment(equipment: Equipment): Observable<Equipment>{
     return this.http.put<Equipment>('http://localhost:8080/api/equipment/update/' + equipment.id, equipment);
   }
+
+  removeEqFromCom(companyId: number, equipmentId: number): Observable<Company>{
+    return this.http.get<Company>('http://localhost:8080/api/companies/removeFrom/' + companyId + '/' + equipmentId);
+  }
+
+  addEqToCom(companyId: number, equipmentId: number): Observable<Company>{
+    return this.http.get<Company>('http://localhost:8080/api/companies/addTo/' + companyId + '/' + equipmentId);
+  }
 }

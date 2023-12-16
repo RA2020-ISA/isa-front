@@ -5,6 +5,7 @@ import { Observable, catchError } from 'rxjs';
 import { Company } from '../model/company.model';
 import { Equipment } from '../model/equipment.model';
 import { environment } from '../../env/environment';
+import { EquipmentAppointment } from '../model/equipment-appointment.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,14 @@ export class EquipmentService {
   getAllEquipments(): Observable<Equipment[]> {
     return this.http.get<Equipment[]>('http://localhost:8080/api/equipment/getAllEquipmentWithCompanies');
   } 
+
+  getEq(): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>('http://localhost:8080/api/equipment/all');
+  } 
+
+  getAllAppointments(): Observable<EquipmentAppointment[]> {
+    return this.http.get<EquipmentAppointment[]>('http://localhost:8080/api/appointments/all');
+  }
 
   searchEquipmentsByName(searchName: string): Observable<Equipment[]> {
     const apiUrl = 'http://localhost:8080/api/equipment/searchByName';

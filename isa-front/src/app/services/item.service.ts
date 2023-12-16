@@ -17,5 +17,9 @@ export class ItemService {
   createItem(item: Item): Observable<Item> {
     return this.http.post<Item>('http://localhost:8080/api/item/create', item);
   }
+  getByReservation(id: number): Observable<Array<Item>> {
+    const url = `http://localhost:8080/api/item/byReservation/${id}`;
+    return this.http.get<Array<Item>>(url);
+  }
   
 }

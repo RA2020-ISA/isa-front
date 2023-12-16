@@ -7,5 +7,4 @@ export interface AppointmentReservation {
     appointmentTime?: string;
     appointmentDuration?: number;
     user?: User;
-    items: Item[];
 }

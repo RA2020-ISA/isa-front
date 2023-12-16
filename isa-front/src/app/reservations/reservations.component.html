@@ -5,12 +5,15 @@
         <p>ID: {{ reservation.id }}</p>
         <p>Date: {{ reservation.appointmentDate?.toString()?.slice(0, 11)?.replaceAll(',', '.')}}</p>
         <p>Time: {{ reservation.appointmentTime }}</p>
-        <!-- Add more details as needed -->
         <ul>
-          <li *ngFor="let item of reservation.items">
-            {{ item.equipmentId }} - Quantity: {{ item.quantity }}
-            <p>Equipment Name: {{ equipmentDetails[item.equipmentId] }}</p>
-          </li>
+          <ng-container *ngIf="reservation.id!=null">
+            <li *ngFor="let item of resolveObservable(getByReservation(reservation.id))">
+              <p>Item ID: {{ item.id }}</p>
+              <p>Item Name: {{ item.quantity }}</p>
+              <!-- Add more item details as needed -->
+            </li>
+          </ng-container>
+          
         </ul>
       </li>
     </ul>

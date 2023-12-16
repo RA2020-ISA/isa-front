@@ -14,6 +14,7 @@ import { AppointmentReservation } from '../model/reservation.model';
 import { EquipmentAppointment } from '../model/appointment.model';
 import { HttpParams } from '@angular/common/http';
 import { AppointmentService } from '../services/appointment.service';
+import { Observable, catchError, map } from 'rxjs';
 
 @Component({
   selector: 'app-company-profile',
@@ -31,6 +32,8 @@ export class CompanyProfileComponent implements OnInit {
   availableAppointments: EquipmentAppointment[]=[];
   selectedAppointment: EquipmentAppointment | undefined;
   createdItems: Item[] = [];
+  reservation: AppointmentReservation | undefined;
+  resId: number | undefined;
   
   selectedEquipmentQuantities: Map<number, number> = new Map<number, number>();
 
@@ -105,14 +108,7 @@ export class CompanyProfileComponent implements OnInit {
           (createdItem: Item) => {
             this.createdItems.push(createdItem);
             console.log(this.createdItems);
-  
-            // Item created successfully, now create a reservation
-            const reservationData = {
-              // construct reservation data as needed
-              companyId: this.companyId,
-              itemId: createdItem.id,
-              // ... other properties ...
-            };
+            
   
             if (this.createdItems.length === this.selectedEquipments.length) {
               // Save created items and call findAvailable method
@@ -126,11 +122,24 @@ export class CompanyProfileComponent implements OnInit {
       }
     }
   }
+  findLastId(): Observable<number> {
+    return this.reservationService.getAllOrders().pipe(
+      map((reservations: AppointmentReservation[]) => {
+        const sortedReservations = reservations.sort((a, b) => b.id! - a.id!);
+        const lastReservationId = sortedReservations.length > 0 ? sortedReservations[0].id! : 0;
+        return sortedReservations.length + 2;
+      }),
+      catchError((error) => {
+        console.error('Error retrieving reservations', error);
+        throw error; // Rethrow the error for the calling component to handle
+      })
+    );
+  }
   
   createReservation() {
     // Construct reservation data as needed
     const newReservation: AppointmentReservation = {
-      items: this.createdItems, // Use the items created earlier
+      //items: this.createdItems, // Use the items created earlier
       appointmentDate: new Date(),
       appointmentTime: this.selectedAppointment?.appointmentTime, // Replace with actual time
       appointmentDuration: this.selectedAppointment?.appointmentDuration,
@@ -139,17 +148,63 @@ export class CompanyProfileComponent implements OnInit {
   
     console.log('RESERVATION DATE', newReservation.appointmentDate);
     console.log('RESERVATION USER:', newReservation.user);
+    console.log('ID:::::',newReservation.id);
   
-    // Call the createReservation method in your service
-    this.reservationService.createReservation(newReservation).subscribe(
-      (createdReservation: AppointmentReservation) => {
-        console.log('Reservation created:', createdReservation);
-        // Optionally, you can reset the state or perform other actions after reservation creation
-      },
-      (error) => {
-        console.error('Error creating reservation', error);
+    this.findLastId().subscribe(
+      (lastReservationId: number) =>{
+        console.log('Last Reservation ID:', lastReservationId);
+        this.reservationService.createReservation(newReservation).subscribe(
+          (createdReservation: AppointmentReservation) => {
+            console.log('Reservation created:', createdReservation);
+            this.reservation=createdReservation;
+            console.log(this.reservation);
+            this.findLastId();
+            console.log('KREIRANI ITEMSI',this.createdItems);
+            for (const createdItem of this.createdItems) {
+              console.log('ID KREIRANOG ITEMA',createdItem.id);
+              console.log('RES',lastReservationId);
+              if(createdItem.id!=null && lastReservationId!=null){
+                this.addReservationToItem(createdItem.id, lastReservationId);
+                console.log('UVEZANO');
+              }
+              if(createdReservation.user!=null){
+                this.reservationService.sendReservationQRCode(lastReservationId, createdReservation.user?.email).subscribe(
+                  (qrCodeResult: any) => {
+                    console.log('QR Code generated successfully:', qrCodeResult);
+                    // Handle success as needed
+                  },
+                  (error) => {
+                    console.error('Error generating QR Code', error);
+                    // Handle error as needed
+                  }
+                );
+              }
+            }
+            
+            
+            // Optionally, you can reset the state or perform other actions after reservation creation
+          },
+          (error) => {
+            console.error('Error creating reservation', error);
+          }
+        );
       }
-    );
+    )
+    // Call the createReservation method in your service
+    
+  }
+  addReservationToItem(itemId: number, reservationId: number): void {
+    this.reservationService.addReservationToItem(itemId, reservationId)
+      .subscribe(
+        response => {
+          console.log('Reservation added to item successfully:', response);
+          // Handle success as needed
+        },
+        error => {
+          console.error('Failed to add reservation to item:', error);
+          // Handle error as needed
+        }
+      );
   }
   findAvailable(items: Item[]) {
     const params = new HttpParams().set('items', JSON.stringify(items));

@@ -20,5 +20,19 @@ export class ReservationService {
     const url = `http://localhost:8080/api/reservations/byUser/${username}`;
     return this.http.get<Array<AppointmentReservation>>(url);
   }
+  getAllOrders(): Observable<Array<AppointmentReservation>> {
+    return this.http.get<Array<AppointmentReservation>>(`http://localhost:8080/api/reservations/all`);
+  }
+  sendReservationQRCode(reservationId: number, recipientEmail: string): Observable<void> {
+    const url = `http://localhost:8080/api/reservations/sendQrCode/${reservationId}/${recipientEmail}`;
+    
+    return this.http.post<void>(url, null);
+  }
+
+  addReservationToItem(itemId: number, reservationId: number): Observable<string> {
+    const url = `http://localhost:8080/api/reservations/addReservationToItem/${itemId}/${reservationId}`;
+
+    return this.http.put<string>(url, null); // Assuming you are using PUT method for addReservationToItem
+  }
   
 }

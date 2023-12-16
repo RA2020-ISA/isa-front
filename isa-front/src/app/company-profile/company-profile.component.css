@@ -31,12 +31,50 @@ button:hover {
     background-color: lightblue; 
     padding: 20px; 
     color: white; 
-    width: 300px;
+    width: 400px;
 }
 
 .heading {
     font-size: 24px; 
     font-weight: bold; 
+}
+select {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #3498db;
+    border-radius: 3px;
+    font-size: 1em;
+    background-color: white; /* Background color of the dropdown */
+    color: #3498db; /* Text color of the dropdown */
+    appearance: none; /* Remove default arrow icon in some browsers */
+}
+
+/* Style for the select element when focused */
+select:focus {
+    outline: none;
+    border-color: #2980b9;
+}
+
+/* Style for the arrow icon in the select element */
+select::after {
+    content: "\25BC"; /* Unicode character for a downward-pointing triangle */
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #3498db; /* Color of the arrow icon */
+    pointer-events: none; /* Ensure the arrow icon doesn't interfere with clicking the select */
+}
+
+/* Style for the select element when hovered */
+select:hover {
+    border-color: #2980b9;
+}
+
+/* Style for the select element options */
+select option {
+    background-color: white; /* Background color of each option */
+    color: #3498db; /* Text color of each option */
 }
 
 .equipment-card{

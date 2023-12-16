@@ -1,5 +1,6 @@
-<div class="profile-container">
+<div *ngIf="userStateService.getLoggedInUser() ; else sorryMessage" class="profile-container" >
     <h1>User Profile</h1>
+    
     <div class="table-container">
       <table class="table">
         <tr>
@@ -69,6 +70,10 @@
         edit
       </mat-icon>
     </button>
-    <button (click)="redirectToAllCompanies()">Companies</button>
     <button (click)="viewReservations()">View Reservations</button>
   </div>
+  <ng-template #sorryMessage>
+    <div class="sorry-message">
+      <p>unauthorized</p>
+    </div>
+  </ng-template>

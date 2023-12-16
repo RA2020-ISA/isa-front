@@ -1,3 +1,11 @@
-<p>homepage works!</p>
-
-<button color="primary" (click)="userProfile()" mat-raised-button> User profile </button>
+<div *ngIf="userStateService.getLoggedInUser() ; else sorryMessage">
+<button (click)="redirectToAllCompanies()">Companies</button>
+<button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToCompanyForm()">Create company</button>
+<button (click)="redirectToAllEquipments()">All equipments</button>
+<button (click)="redirectToProfile()">Profile</button>
+</div>
+<ng-template #sorryMessage>
+    <div class="sorry-message">
+      <p>unauthorized</p>
+    </div>
+  </ng-template>

@@ -16,7 +16,7 @@ export class ProfileComponent implements OnInit{
     user?: User;
 
     constructor(private route: ActivatedRoute, private userService : UserService, private router: Router,
-        private userStateService: UserStateService, private resService: ReservationService) {}
+        public userStateService: UserStateService, private resService: ReservationService) {}
 
     ngOnInit():void{
         console.log(this.userStateService.getLoggedInUser());

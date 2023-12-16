@@ -18,7 +18,8 @@
             <div class="equipment-card">
                 <div class="heading">
                     <p>{{ equipment.name }}</p>
-                    <button (click)="acquireEquipment(equipment)" class="add-button">
+                    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
+                    (click)="acquireEquipment(equipment)" class="add-button">
                         <mat-icon>add</mat-icon>
                     </button>
                 </div>
@@ -57,7 +58,7 @@
         <td>{{ appointment.appointmentTime }}</td>
         Add more columns as needed
       </tr> -->
-      <div>
+      <div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'">
         <label for="appointmentDate">Select Appointment Date:</label>
         <select id="appointmentDate" name="appointmentDate" [(ngModel)]="selectedAppointment">
             <option *ngFor="let appointment of availableAppointments" [ngValue]="appointment">
@@ -70,9 +71,14 @@
 <div>
     <!-- Your existing content -->
   
-    <button title="Use this button to make an appointment to pick up the equipment" (click)="createReservations()">Create Items</button>
-    <button title="Use this button to edit data for this company" (click)="edit(company.id || 0)">Edit</button>
-    <button (click)="createReservation()" [disabled]="!selectedAppointment">Create Reservation</button>
+    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
+    title="Use this button to make an appointment to pick up the equipment" (click)="createReservations()">Find available appointments</button>
+    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" 
+        (click)="edit(company.id || 0)">
+  Edit
+    </button>
+    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
+    (click)="createReservation()" [disabled]="!selectedAppointment">Create Reservation</button>
   </div>
   
 

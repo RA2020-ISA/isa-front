@@ -1,0 +1,19 @@
+/* Basic button styling */
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #3498db; /* Blue color, you can change it */
+    color: #fff; /* White text color */
+    font-size: 16px;
+  }
+  
+  /* Hover effect */
+  button:hover {
+    background-color: #2980b9; /* Darker blue on hover, you can change it */
+  }
+  
+  /* Add more specific styles or adjust as needed */
+  

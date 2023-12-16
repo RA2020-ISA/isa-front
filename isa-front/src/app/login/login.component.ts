@@ -33,7 +33,7 @@ export class LoginComponent {
         } else if (this.user && this.comparePasswords(this.password, this.user.password)) {
           console.log(this.username);
           this.userStateService.setLoggedInUser(this.user);
-          this.router.navigate(['/profile', this.username]);
+          this.router.navigate(['/homepage']);
         } else {
           this.wrongPassword=true;
           console.log('Invalid password');

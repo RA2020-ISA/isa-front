@@ -7,6 +7,7 @@ import { EquipmentService } from '../services/equipment.service';
 import { Item } from '../model/item.model';
 import { ItemService } from '../services/item.service';
 import { Observable } from 'rxjs';
+import { UserStateService } from '../services/user-state.service';
 
 @Component({
   selector: 'app-reservations',
@@ -22,7 +23,8 @@ export class ReservationsComponent implements OnInit{
 
   constructor(private route: ActivatedRoute, private resService: ReservationService,
     private equipmentService: EquipmentService,
-    private itemService: ItemService) {}
+    private itemService: ItemService,
+    public userStateService: UserStateService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -42,6 +44,19 @@ export class ReservationsComponent implements OnInit{
         );
       }
     });
+  }
+  formatTime(timeString: string): string {
+    if (timeString.includes(':')) {
+      return timeString;
+    }
+
+    if (timeString.length === 2) {
+      return timeString.slice(0, 2) + ':00';
+    } else if (timeString.length === 3) {
+      return timeString.slice(0, 2) + ':' + timeString.slice(2);
+    } else {
+      return timeString.slice(0, 2) + ':' + timeString.slice(2);
+    }
   }
   getByReservation(reservationId: number): Observable<Array<Item>> {
     // Call ItemService to get items by reservation ID

@@ -21,16 +21,6 @@ export class HomeComponent {
     this.router.navigate(['/login']);
   }
 
-  redirectToAllCompanies(){
-    this.router.navigate(['/companies']);
-  }
-
-  redirectToCompanyForm() {
-    this.router.navigate(['/company-form']);
-  }
-
-  redirectToAllEquipments(){
-    this.router.navigate(['/all-equipment']);
-  }
+  
 
 }

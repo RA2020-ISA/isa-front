@@ -1,25 +1,25 @@
 <div *ngIf="reservations.length > 0; else noReservations">
+  <div *ngIf="userStateService.getLoggedInUser() ; else sorryMessage">
     <h2>Reservations for {{ username }}</h2>
     <ul>
+      
       <li *ngFor="let reservation of reservations">
-        <p>ID: {{ reservation.id }}</p>
+        <div *ngIf="userStateService.getLoggedInUser()?.email===reservation.user?.email">
         <p>Date: {{ reservation.appointmentDate?.toString()?.slice(0, 11)?.replaceAll(',', '.')}}</p>
-        <p>Time: {{ reservation.appointmentTime }}</p>
-        <ul>
-          <ng-container *ngIf="reservation.id!=null">
-            <li *ngFor="let item of resolveObservable(getByReservation(reservation.id))">
-              <p>Item ID: {{ item.id }}</p>
-              <p>Item Name: {{ item.quantity }}</p>
-              <!-- Add more item details as needed -->
-            </li>
-          </ng-container>
-          
-        </ul>
+        <p>Time: {{ reservation.appointmentTime}}</p>
+        <p>Duration: {{ reservation.appointmentDuration }}</p>
+      </div>
       </li>
+      
     </ul>
   </div>
-  
+  </div>
   <ng-template #noReservations>
     <p>No reservations found for {{ username }}</p>
+  </ng-template>
+  <ng-template #sorryMessage>
+    <div class="sorry-message">
+      <p>unauthorized</p>
+    </div>
   </ng-template>
   

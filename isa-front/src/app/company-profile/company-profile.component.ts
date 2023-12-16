@@ -42,7 +42,7 @@ export class CompanyProfileComponent implements OnInit {
     private router: Router,
     private equipmentService: EquipmentService,
     private itemService: ItemService,
-    private userStateService: UserStateService,
+    public userStateService: UserStateService,
     private reservationService: ReservationService,
     private appointmentService: AppointmentService) {}
 
@@ -180,7 +180,12 @@ export class CompanyProfileComponent implements OnInit {
                 );
               }
             }
-            
+          this.selectedEquipments = [];
+          this.selectedEquipmentQuantities.clear();
+          this.selectedAppointment = undefined;
+
+          // Show alert
+          alert('Reservation created successfully!');
             
             // Optionally, you can reset the state or perform other actions after reservation creation
           },

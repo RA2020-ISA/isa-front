@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user-model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserStateService } from '../services/user-state.service';
 
 @Component({
   selector: 'app-homepage',
@@ -12,7 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class HomepageComponent implements OnInit {
   user!: User;
   
-  constructor(private router: Router, private userService: UserService) {
+  constructor(private router: Router, private userService: UserService, public userStateService: UserStateService) {
   }
 
   ngOnInit():void{
@@ -21,5 +22,26 @@ export class HomepageComponent implements OnInit {
   userProfile(){
     this.router.navigate(['/profile']);
   }
+  redirectToAllCompanies(){
+    this.router.navigate(['/companies']);
+  }
+
+  redirectToCompanyForm() {
+    this.router.navigate(['/company-form']);
+  }
+
+  redirectToAllEquipments(){
+    this.router.navigate(['/all-equipment']);
+  }
+  redirectToProfile(){
+    const userEmail = this.userStateService.getLoggedInUser()?.email;
+    console.log(this.userStateService.getLoggedInUser());
+    if (userEmail) {
+      this.router.navigate(['/profile', userEmail]);
+    } else {
+      console.error("User email is undefined");
+    }
+  }
+
 
 }

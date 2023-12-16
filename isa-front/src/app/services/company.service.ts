@@ -76,4 +76,8 @@ export class CompanyService {
   addEqToCom(companyId: number, equipmentId: number): Observable<Company>{
     return this.http.get<Company>('http://localhost:8080/api/companies/addTo/' + companyId + '/' + equipmentId);
   }
+
+  getFreeCompanyAppoinments(): Observable<EquipmentAppointment[]>{
+    return this.http.get<EquipmentAppointment[]>('http://localhost:8080/api/appointments/all');
+  }
 }

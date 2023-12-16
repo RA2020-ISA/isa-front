@@ -212,4 +212,8 @@ export class AdminCompanyComponent implements OnInit {
     this.searchPriceTo = '';
     this.getAdminCompany();
   }
+
+  seeCompanyCalendarClick(){
+    this.router.navigate(['/see-company-calendar']);
+  }
 }

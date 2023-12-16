@@ -1,0 +1,22 @@
+.capture_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.capture_div h1{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1434A4;
+    font-size: 35px;
+}
+
+.calendar_div{
+    width: 600px;
+    height: 550px;
+    background-color:#ADD8E6;
+    padding: 20px;
+    margin: 0 auto; /*Centar ekrana*/
+    border-radius: 20px;
+}

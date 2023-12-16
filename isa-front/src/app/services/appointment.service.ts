@@ -6,19 +6,21 @@ import { Company } from '../model/company.model';
 import { Equipment } from '../model/equipment.model';
 import { environment } from '../../env/environment';
 import { AppointmentReservation } from '../model/reservation.model';
+import { EquipmentAppointment } from '../model/appointment.model';
+import { Item } from '../model/item.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ReservationService {
+export class AppointmentService {
 
   constructor(private http: HttpClient) {}
-  createReservation(reservation: AppointmentReservation): Observable<AppointmentReservation> {
-    return this.http.post<AppointmentReservation>('http://localhost:8080/api/reservations/create', reservation);
+  findAvailable(items: Array<Item>): Observable<Array<EquipmentAppointment>> {
+    const params = new HttpParams().set('items', JSON.stringify(items));
+    return this.http.post<Array<EquipmentAppointment>>('http://localhost:8080/api/appointments/availableDates', null, { params });
   }
-  getByUser(username: string): Observable<Array<AppointmentReservation>> {
-    const url = `http://localhost:8080/api/reservations/byUser/${username}`;
-    return this.http.get<Array<AppointmentReservation>>(url);
-  }
+
+  
+  
   
 }

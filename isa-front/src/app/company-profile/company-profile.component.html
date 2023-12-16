@@ -51,8 +51,29 @@
 
         </div>
     </div>
-    <button title="Use this button to make an appointment to pick up the equipment">Schedule pickup</button>
+    <!--<tr *ngFor="let appointment of availableAppointments">
+        <td>{{ appointment.id }}</td>
+        <td>{{ appointment.appointmentDate | date }}</td>
+        <td>{{ appointment.appointmentTime }}</td>
+        Add more columns as needed
+      </tr> -->
+      <div>
+        <label for="appointmentDate">Select Appointment Date:</label>
+        <select id="appointmentDate" name="appointmentDate" [(ngModel)]="selectedAppointment">
+            <option *ngFor="let appointment of availableAppointments" [ngValue]="appointment">
+                {{ appointment.appointmentDate | date }} {{ appointment.appointmentTime }} ({{ appointment.appointmentDuration }} hours)
+            </option>
+        </select>
+      </div>
+    <!-- ... (existing code) -->
+
+<div>
+    <!-- Your existing content -->
+  
+    <button title="Use this button to make an appointment to pick up the equipment" (click)="createReservations()">Create Items</button>
     <button title="Use this button to edit data for this company" (click)="edit(company.id || 0)">Edit</button>
-    <button (click)="createReservations()">Create Reservations</button>
+    <button (click)="createReservation()" [disabled]="!selectedAppointment">Create Reservation</button>
+  </div>
+  
 
 </div>

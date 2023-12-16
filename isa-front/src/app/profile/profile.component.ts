@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user-model';
 import { UserStateService } from '../services/user-state.service';
+import { ReservationService } from '../services/reservation.service';
 
 @Component({
   selector: 'profile',
@@ -15,7 +16,7 @@ export class ProfileComponent implements OnInit{
     user?: User;
 
     constructor(private route: ActivatedRoute, private userService : UserService, private router: Router,
-        private userStateService: UserStateService) {}
+        private userStateService: UserStateService, private resService: ReservationService) {}
 
     ngOnInit():void{
         console.log(this.userStateService.getLoggedInUser());
@@ -37,12 +38,27 @@ export class ProfileComponent implements OnInit{
                 }
             );
         });
+    
 
      
     }
 
     editProfile() {
         this.router.navigate(['/editProfile/', this.username]);
+    }
+    viewReservations() {
+        if (this.username) {
+          this.resService.getByUser(this.username).subscribe(
+            (reservations) => {
+              // Ovde možete dodati logiku za prikaz rezervacija, npr. prikazivanje na novoj stranici ili dijalogu
+              console.log('Reservations:', reservations);
+              this.router.navigate(['/reservations', this.username]);
+            },
+            (error) => {
+              console.log('Error fetching reservations:', error);
+            }
+          );
+        }
     }
     redirectToAllCompanies(){
         this.router.navigate(['/companies']);

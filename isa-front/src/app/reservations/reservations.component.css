@@ -1,0 +1,46 @@
+/* reservations.component.css */
+
+/* Style for the container div */
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  /* Style for the reservations list */
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  /* Style for each reservation item */
+  li {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+  
+  /* Style for the no reservations message */
+  p.no-reservations {
+    color: #888;
+  }
+  
+  /* Style for the header */
+  h2 {
+    color: #333;
+  }
+  
+  /* Style for the item list within each reservation */
+  ul.item-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+  }
+  
+  /* Style for each item in the list */
+  li.item {
+    margin-bottom: 5px;
+  }
+  
+  /* Add more styles as needed */
+  

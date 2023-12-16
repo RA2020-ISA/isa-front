@@ -28,6 +28,10 @@ export class EquipmentService {
     // Šaljemo GET zahtev sa parametrima u telu
     return this.http.get<Equipment[]>(apiUrl, { params: searchParams });
   }
+  getEquipment(id: number): Observable<Equipment> {
+    // return this.http.get<Company>(this.apiUrl + 'companies/' + id);
+    return this.http.get<Equipment>('http://localhost:8080/api/equipment/getById/' + id);
+   }
 
 
 }

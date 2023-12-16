@@ -11,6 +11,9 @@ import { Item } from '../model/item.model';
 import { UserStateService } from '../services/user-state.service';
 import { ReservationService } from '../services/reservation.service';
 import { AppointmentReservation } from '../model/reservation.model';
+import { EquipmentAppointment } from '../model/appointment.model';
+import { HttpParams } from '@angular/common/http';
+import { AppointmentService } from '../services/appointment.service';
 
 @Component({
   selector: 'app-company-profile',
@@ -25,6 +28,9 @@ export class CompanyProfileComponent implements OnInit {
   searchName: string = '';
   selectedEquipments: Equipment[] = []
   quantity: number = 1; 
+  availableAppointments: EquipmentAppointment[]=[];
+  selectedAppointment: EquipmentAppointment | undefined;
+  createdItems: Item[] = [];
   
   selectedEquipmentQuantities: Map<number, number> = new Map<number, number>();
 
@@ -34,7 +40,8 @@ export class CompanyProfileComponent implements OnInit {
     private equipmentService: EquipmentService,
     private itemService: ItemService,
     private userStateService: UserStateService,
-    private reservationService: ReservationService) {}
+    private reservationService: ReservationService,
+    private appointmentService: AppointmentService) {}
 
   ngOnInit(): void {
     console.log(this.userStateService.getLoggedInUser());
@@ -74,17 +81,18 @@ export class CompanyProfileComponent implements OnInit {
     );
   }
   createReservations() {
-    const createdItems: Item[] = [];
+    
+  
     // Iterate over selected equipments
     for (const selectedEquipment of this.selectedEquipments) {
       const equipmentId = selectedEquipment.id;
-      if(equipmentId==null){
+      if (equipmentId == null) {
         return;
       }
+  
       const quantity = this.selectedEquipmentQuantities.get(equipmentId) ?? 1;
-
+  
       if (quantity) {
-        this.submitQuantity(equipmentId, quantity);
         // Call the createItem method to create an item
         const newItem: Item = {
           // construct the item object as needed
@@ -92,11 +100,12 @@ export class CompanyProfileComponent implements OnInit {
           quantity,
           // ... other properties ...
         };
-
+  
         this.itemService.createItem(newItem).subscribe(
           (createdItem: Item) => {
-            createdItems.push(createdItem);
-            console.log(createdItems);
+            this.createdItems.push(createdItem);
+            console.log(this.createdItems);
+  
             // Item created successfully, now create a reservation
             const reservationData = {
               // construct reservation data as needed
@@ -104,11 +113,11 @@ export class CompanyProfileComponent implements OnInit {
               itemId: createdItem.id,
               // ... other properties ...
             };
-            if (createdItems.length === this.selectedEquipments.length) {
-              this.createReservation(createdItems);
+  
+            if (this.createdItems.length === this.selectedEquipments.length) {
+              // Save created items and call findAvailable method
+              this.findAvailable(this.createdItems);
             }
-            // Call the createReservation method in your service
-            
           },
           (error) => {
             console.error('Error creating item', error);
@@ -117,29 +126,43 @@ export class CompanyProfileComponent implements OnInit {
       }
     }
   }
-  createReservation(items: Item[]) {
+  
+  createReservation() {
     // Construct reservation data as needed
     const newReservation: AppointmentReservation = {
-      items: items,
+      items: this.createdItems, // Use the items created earlier
       appointmentDate: new Date(),
-      appointmentTime: '12:00 PM', // Replace with actual time
-      appointmentDuration: 15,
-      user:this.userStateService.getLoggedInUser() // Replace with actual duration
-      
+      appointmentTime: this.selectedAppointment?.appointmentTime, // Replace with actual time
+      appointmentDuration: this.selectedAppointment?.appointmentDuration,
+      user: this.userStateService.getLoggedInUser(), // Replace with actual duration
     };
-    
-    console.log(newReservation.user);
+  
+    console.log('RESERVATION DATE', newReservation.appointmentDate);
+    console.log('RESERVATION USER:', newReservation.user);
+  
     // Call the createReservation method in your service
     this.reservationService.createReservation(newReservation).subscribe(
-      
       (createdReservation: AppointmentReservation) => {
         console.log('Reservation created:', createdReservation);
+        // Optionally, you can reset the state or perform other actions after reservation creation
       },
       (error) => {
         console.error('Error creating reservation', error);
       }
     );
   }
+  findAvailable(items: Item[]) {
+    const params = new HttpParams().set('items', JSON.stringify(items));
+    this.appointmentService.findAvailable(items).subscribe(
+      (availableAppointments: EquipmentAppointment[]) => {
+        this.availableAppointments = availableAppointments;
+      },
+      (error) => {
+        console.error('Error finding available appointments', error);
+      }
+    );
+  }
+  
 
   edit(id: number): void{
     this.router.navigate(['/edit-company/' + id]);

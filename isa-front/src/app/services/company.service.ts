@@ -5,6 +5,7 @@ import { Observable, catchError } from 'rxjs';
 import { Company } from '../model/company.model';
 import { Equipment } from '../model/equipment.model';
 import { environment } from '../../env/environment';
+import { UserStateService } from './user-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,8 @@ import { environment } from '../../env/environment';
 export class CompanyService {
   private readonly apiUrl = `${environment.apiHost}`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private userStateService: UserStateService) {}
 
   getCompany(id: number): Observable<Company> {
    // return this.http.get<Company>(this.apiUrl + 'companies/' + id);
@@ -30,10 +32,21 @@ export class CompanyService {
   }
 
   createCompany(company : Company): Observable<Company> {
-    return this.http.post<Company>('http://localhost:8080/api/companies/create', company);
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
+
+    return this.http.post<Company>('http://localhost:8080/api/companies/create', company,  {params});
   }
   updateCompany(company : Company): Observable<Company> {
-    return this.http.put<Company>('http://localhost:8080/api/companies/update/' + company.id || '', company);
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
+    return this.http.put<Company>('http://localhost:8080/api/companies/update/' + company.id || '', company, {params});
   }
 
   searchCompany(searchName: string, searchLocation: string): Observable<Company[]> {
@@ -49,6 +62,11 @@ export class CompanyService {
   }
 
   createCompanyAdmins(userIds: number[], companyId: number): Observable<string> {
-    return this.http.post<string>('http://localhost:8080/api/companyAdmins/createAdmins/' + companyId, userIds);
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
+    return this.http.post<string>('http://localhost:8080/api/companyAdmins/createAdmins/' + companyId, userIds, {params});
   }
 }

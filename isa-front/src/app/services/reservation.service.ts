@@ -6,19 +6,30 @@ import { Company } from '../model/company.model';
 import { Equipment } from '../model/equipment.model';
 import { environment } from '../../env/environment';
 import { AppointmentReservation } from '../model/reservation.model';
+import { UserStateService } from './user-state.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReservationService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private userStateService: UserStateService) {}
   createReservation(reservation: AppointmentReservation): Observable<AppointmentReservation> {
-    return this.http.post<AppointmentReservation>('http://localhost:8080/api/reservations/create', reservation);
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
+    return this.http.post<AppointmentReservation>('http://localhost:8080/api/reservations/create', reservation,{params});
   }
   getByUser(username: string): Observable<Array<AppointmentReservation>> {
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
     const url = `http://localhost:8080/api/reservations/byUser/${username}`;
-    return this.http.get<Array<AppointmentReservation>>(url);
+    return this.http.get<Array<AppointmentReservation>>(url,{params});
   }
   getAllOrders(): Observable<Array<AppointmentReservation>> {
     return this.http.get<Array<AppointmentReservation>>(`http://localhost:8080/api/reservations/all`);
@@ -30,9 +41,14 @@ export class ReservationService {
   }
 
   addReservationToItem(itemId: number, reservationId: number): Observable<string> {
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
     const url = `http://localhost:8080/api/reservations/addReservationToItem/${itemId}/${reservationId}`;
 
-    return this.http.put<string>(url, null); // Assuming you are using PUT method for addReservationToItem
+    return this.http.put<string>(url, null,{params}); // Assuming you are using PUT method for addReservationToItem
   }
   
 }

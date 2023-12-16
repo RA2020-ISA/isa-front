@@ -150,9 +150,9 @@ export class CompanyProfileComponent implements OnInit {
     console.log('RESERVATION USER:', newReservation.user);
     console.log('ID:::::',newReservation.id);
   
-    this.findLastId().subscribe(
-      (lastReservationId: number) =>{
-        console.log('Last Reservation ID:', lastReservationId);
+    //this.findLastId().subscribe(
+      //(lastReservationId: number) =>{
+       // console.log('Last Reservation ID:', lastReservationId);
         this.reservationService.createReservation(newReservation).subscribe(
           (createdReservation: AppointmentReservation) => {
             console.log('Reservation created:', createdReservation);
@@ -162,13 +162,13 @@ export class CompanyProfileComponent implements OnInit {
             console.log('KREIRANI ITEMSI',this.createdItems);
             for (const createdItem of this.createdItems) {
               console.log('ID KREIRANOG ITEMA',createdItem.id);
-              console.log('RES',lastReservationId);
-              if(createdItem.id!=null && lastReservationId!=null){
-                this.addReservationToItem(createdItem.id, lastReservationId);
+              console.log('RES',createdReservation.id);
+              if(createdItem.id!=null && createdReservation.id!=null){
+                this.addReservationToItem(createdItem.id, createdReservation.id);
                 console.log('UVEZANO');
               }
-              if(createdReservation.user!=null){
-                this.reservationService.sendReservationQRCode(lastReservationId, createdReservation.user?.email).subscribe(
+              if(createdReservation.user!=null && createdReservation.id){
+                this.reservationService.sendReservationQRCode(createdReservation.id, createdReservation.user?.email).subscribe(
                   (qrCodeResult: any) => {
                     console.log('QR Code generated successfully:', qrCodeResult);
                     // Handle success as needed
@@ -192,9 +192,9 @@ export class CompanyProfileComponent implements OnInit {
           (error) => {
             console.error('Error creating reservation', error);
           }
-        );
-      }
-    )
+       );
+     // }
+    //)
     // Call the createReservation method in your service
     
   }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user-model';
+import * as bcrypt from 'bcryptjs';
 import { UserStateService } from '../services/user-state.service';
 
 @Component({
@@ -11,7 +12,9 @@ import { UserStateService } from '../services/user-state.service';
 })
 export class LoginComponent {
 
-  constructor(private router: Router, private userService: UserService,private userStateService: UserStateService) {
+
+  constructor(private router: Router, private userService: UserService, private userStateService: UserStateService) {
+
   }
 
   username: string = '';
@@ -29,12 +32,10 @@ export class LoginComponent {
         if (this.user && !this.user.enabled) {
           this.disabled = true;
           console.log('User is disabled');
-          // Handle disabled user error here
         } else if (this.user && this.comparePasswords(this.password, this.user.password)) {
           console.log(this.username);
           this.userStateService.setLoggedInUser(this.user);
-          console.log(this.userStateService.getLoggedInUser()?.lastName);
-          this.router.navigate(['/']);
+          this.router.navigate(['/profile', this.username]);
         } else {
           this.wrongPassword=true;
           console.log('Invalid password');
@@ -51,8 +52,7 @@ export class LoginComponent {
     );
   }
 
-  private comparePasswords(enteredPassword: string, storedPasswordHash: string): boolean {
-    // Use bcrypt to compare the entered password with the stored hashed password
-    return true;//bcrypt.compareSync(enteredPassword, storedPasswordHash);
+  private comparePasswords(enteredPassword: string, storedPassword: string): boolean {
+   return enteredPassword==storedPassword;
   }
 }

@@ -5,6 +5,7 @@ import { Company } from '../model/company.model';
 import { CompanyService } from '../services/company.service';
 import { Equipment } from '../model/equipment.model';
 import { Router } from '@angular/router';
+import { EquipmentService } from '../services/equipment.service';
 
 @Component({
   selector: 'app-company-profile',
@@ -16,9 +17,12 @@ export class CompanyProfileComponent implements OnInit {
   company?: Company;
   companies: Company[] = [];
   equipments: Equipment[] = [];
+  searchName: string = '';
 
-  constructor(private route: ActivatedRoute, private service: CompanyService,
-    private router: Router) {}
+  constructor(private route: ActivatedRoute, 
+    private service: CompanyService,
+    private router: Router,
+    private equipmentService: EquipmentService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -59,5 +63,33 @@ export class CompanyProfileComponent implements OnInit {
 
   edit(id: number): void{
     this.router.navigate(['/edit-company/' + id]);
+  }
+
+  search() {
+    this.equipmentService.searchEquipmentsByName(this.searchName).subscribe(
+      (searchResult: Equipment[]) => {
+        this.equipments = searchResult;
+      },
+      (error) => {
+        console.log('neuspeh prilikom search-a: ', error);
+      }
+    );
+  }
+
+  showAll(){
+    this.searchName = '';
+
+    this.equipmentService.searchEquipmentsByName(this.searchName).subscribe(
+      (searchResult: Equipment[]) => {
+        this.equipments = searchResult;
+      },
+      (error) => {
+        console.log('neuspeh prilikom search-a: ', error);
+      }
+    );
+  }
+
+  acquireEquipment() {
+    
   }
 }

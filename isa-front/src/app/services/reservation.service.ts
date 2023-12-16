@@ -41,14 +41,10 @@ export class ReservationService {
   }
 
   addReservationToItem(itemId: number, reservationId: number): Observable<string> {
-    const loggedInUser = this.userStateService.getLoggedInUser();
-    const userParams: { [param: string]: string | number | boolean } = {
-      id: loggedInUser?.id || '',
-    };
-    const params = new HttpParams({ fromObject: userParams });
+   
     const url = `http://localhost:8080/api/reservations/addReservationToItem/${itemId}/${reservationId}`;
 
-    return this.http.put<string>(url, null,{params}); // Assuming you are using PUT method for addReservationToItem
+    return this.http.put<string>(url, null); // Assuming you are using PUT method for addReservationToItem
   }
   
 }

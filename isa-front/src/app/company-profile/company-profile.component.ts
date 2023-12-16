@@ -34,6 +34,7 @@ export class CompanyProfileComponent implements OnInit {
   createdItems: Item[] = [];
   reservation: AppointmentReservation | undefined;
   resId: number | undefined;
+  broj: number=0;
   
   selectedEquipmentQuantities: Map<number, number> = new Map<number, number>();
 
@@ -150,34 +151,44 @@ export class CompanyProfileComponent implements OnInit {
     console.log('RESERVATION USER:', newReservation.user);
     console.log('ID:::::',newReservation.id);
   
-    //this.findLastId().subscribe(
-      //(lastReservationId: number) =>{
-       // console.log('Last Reservation ID:', lastReservationId);
+    this.findLastId().subscribe(
+      (lastReservationId: number) =>{
+        console.log('Last Reservation ID:', lastReservationId);
         this.reservationService.createReservation(newReservation).subscribe(
           (createdReservation: AppointmentReservation) => {
-            console.log('Reservation created:', createdReservation);
+            //console.log('Reservation created:', createdReservation);
             this.reservation=createdReservation;
             console.log(this.reservation);
             this.findLastId();
-            console.log('KREIRANI ITEMSI',this.createdItems);
+            //console.log('KREIRANI ITEMSI',this.createdItems);
+            
             for (const createdItem of this.createdItems) {
-              console.log('ID KREIRANOG ITEMA',createdItem.id);
-              console.log('RES',createdReservation.id);
+              this.broj=this.broj+1;
+              createdItem.reservation=createdReservation.id;
+              
+              //console.log('ID KREIRANOG ITEMA',createdItem.id);
+              //console.log('RES',createdReservation.id);
               if(createdItem.id!=null && createdReservation.id!=null){
                 this.addReservationToItem(createdItem.id, createdReservation.id);
                 console.log('UVEZANO');
               }
               if(createdReservation.user!=null && createdReservation.id){
-                this.reservationService.sendReservationQRCode(createdReservation.id, createdReservation.user?.email).subscribe(
-                  (qrCodeResult: any) => {
-                    console.log('QR Code generated successfully:', qrCodeResult);
-                    // Handle success as needed
-                  },
-                  (error) => {
-                    console.error('Error generating QR Code', error);
-                    // Handle error as needed
-                  }
-                );
+                console.log('BROJAC',this.broj);
+                console.log('BROJ KREIRANIH',this.createdItems.length);
+                console.log('CREATED ITEMS: ',this.createdItems);
+                if(this.broj==this.createdItems.length){
+                  this.reservationService.sendReservationQRCode(createdReservation.id, createdReservation.user?.email).subscribe(
+                    (qrCodeResult: any) => {
+                      console.log('QR Code generated successfully:', qrCodeResult);
+                      // Handle success as needed
+                    },
+                    (error) => {
+                      console.error('Error generating QR Code', error);
+                      // Handle error as needed
+                    }
+                  );
+                }
+                
               }
             }
           this.selectedEquipments = [];
@@ -193,8 +204,8 @@ export class CompanyProfileComponent implements OnInit {
             console.error('Error creating reservation', error);
           }
        );
-     // }
-    //)
+      }
+    )
     // Call the createReservation method in your service
     
   }

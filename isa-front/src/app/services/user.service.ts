@@ -47,5 +47,10 @@ export class UserService {
   /*validatePassword(newPassword?: string, username?: string): Observable<boolean> {
     return this.http.get<boolean>('http://localhost:8080/api/users/validatePassword/' + newPassword + '/' + username);
   }*/
+
+  getAllUsers(): Observable<User[]>{
+    return this.http.get<User[]>('http://localhost:8080/api/users/all');
+  }
+
   
 }

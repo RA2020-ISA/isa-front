@@ -80,4 +80,8 @@ export class CompanyService {
   getFreeCompanyAppoinments(): Observable<EquipmentAppointment[]>{
     return this.http.get<EquipmentAppointment[]>('http://localhost:8080/api/appointments/all');
   }
+
+  getFreeAdminsAppoinments(adminId: number): Observable<EquipmentAppointment[]>{
+    return this.http.get<EquipmentAppointment[]>('http://localhost:8080/api/adminsAppointments/' + adminId);
+  }
 }

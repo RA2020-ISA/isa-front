@@ -43,5 +43,8 @@ export class HomepageComponent implements OnInit {
     }
   }
 
+  redirectToAdminCompany(){
+    this.router.navigate(['/admin-company']);
+  }
 
 }

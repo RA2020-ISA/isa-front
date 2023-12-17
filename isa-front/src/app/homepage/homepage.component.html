@@ -3,6 +3,7 @@
 <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToCompanyForm()">Create company</button>
 <button (click)="redirectToAllEquipments()">All equipments</button>
 <button (click)="redirectToProfile()">Profile</button>
+<button (click)="redirectToAdminCompany()">My company</button>
 </div>
 <ng-template #sorryMessage>
     <div class="sorry-message">

@@ -20,6 +20,7 @@ body {
     margin: auto;
     background-color: #fff; /* Adding a white background color */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Adding a subtle box shadow */
+    margin-bottom: 40px;
 }
 
 h2 {

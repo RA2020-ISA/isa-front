@@ -1,6 +1,6 @@
 // registration.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../env/environment';
 import { User } from '../model/user-model';
@@ -47,5 +47,10 @@ export class UserService {
   /*validatePassword(newPassword?: string, username?: string): Observable<boolean> {
     return this.http.get<boolean>('http://localhost:8080/api/users/validatePassword/' + newPassword + '/' + username);
   }*/
-  
+
+  //izmeni ovo na put a ne get
+  //updateUsersPassword/{password}/{userId} 
+  updateUsersPassword(password: string, userId: number): Observable<User> {
+    return this.http.get<User>('http://localhost:8080/api/users/updateUsersPassword/' + password + '/' + userId); 
+  }
 }

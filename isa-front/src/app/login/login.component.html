@@ -23,5 +23,30 @@
   
       <button type="button" (click)="login()">Login</button>
     </form>
+</div>
+
+<div class="container" *ngIf="showChangePassword">
+  <h2>Change your password before login!</h2>
+  <div>
+    <div>
+      <label for="oldPassword">Old:</label>
+      <input type="password" id="oldPassword" required [(ngModel)]="oldPassword" placeholder="Old Password" />
+    </div>
+    <div>
+      <label for="newPassword">New:</label>
+      <input type="password" id="newPassword" required [(ngModel)]="newPassword" placeholder="New Password" />
+    </div>
+    <div>
+      <label for="confirmPassword">Confirm:</label>
+      <input type="password" id="confirmPassword" required [(ngModel)]="confirmPassword" placeholder="Confirm Password" />
+    </div>
+    <div *ngIf="isPasswordNotConfirmed" class="error-message">
+        Your passwords are not the same! Try again!
+    </div>
+    <div>
+      <button type="button" (click)="changePassword()">Submit</button>
+    </div>
   </div>
+</div>
+
   

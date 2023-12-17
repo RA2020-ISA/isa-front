@@ -107,7 +107,7 @@ export class EditProfileComponent implements OnInit{
             country: this.userForm.value.country || '',
             phoneNumber: this.userForm.value.phoneNumber || '',
             occupation: this.userForm.value.occupation || '',
-            companyInfo: '',
+            companyInfo: '', //ovde fali is user first loged 
         };
     
         if (this.user) {

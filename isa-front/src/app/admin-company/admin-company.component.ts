@@ -79,29 +79,10 @@ export class AdminCompanyComponent implements OnInit {
   }
 
   createAppointment(equipmentId: number): void{
-    this.router.navigate(['/appointment-form/' + equipmentId]);
+    this.router.navigate(['/appointment-form/' + equipmentId + '/' + this.company?.id]);
   }
 
   removeEquipment(equipment: Equipment): void{
-    /*const index = this.company?.equipments?.indexOf(equipment);
-
-    if (index !== undefined && this.company?.equipments) {
-      this.company.equipments.splice(index, 1);
-    }
-
-    console.log("apdejtovana kompanija:");
-    console.log(this.company);
-
-    if(this.company){
-      this.service.updateCompany(this.company).subscribe(
-        (updatedCompany: Company) => {
-          this.router.navigate(['/admin-company']);
-        },
-        (error) => {
-          console.error('Error updating company', error);
-        }
-      );
-    }*/
     console.log("Pre brisanja:");
     console.log(this.company);
     

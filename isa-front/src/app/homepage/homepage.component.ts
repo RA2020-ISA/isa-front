@@ -51,4 +51,7 @@ export class HomepageComponent implements OnInit {
     this.router.navigate(['/admin-company']);
   }
 
+  redirectToManageAdmins(){
+    this.router.navigate(['/manage-administrators']);
+  }
 }

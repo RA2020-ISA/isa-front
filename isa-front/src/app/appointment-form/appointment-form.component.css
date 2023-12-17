@@ -50,3 +50,8 @@ button:hover {
 .input2{
     margin-left: 5px;
 }
+
+.poruka{
+    color: red;
+    font-size: 15px;
+}

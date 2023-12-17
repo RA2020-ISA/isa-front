@@ -5,6 +5,7 @@
 <button (click)="redirectToProfile()">Profile</button>
 <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'"  (click)="redirectToAdminCompany()">My company</button>
 <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'"  (click)="redirectToWorkCalendar()">Work calendar</button>
+<button (click)="redirectToManageAdmins()">Manage administrations</button>
 </div>
 <ng-template #sorryMessage>
     <div class="sorry-message">

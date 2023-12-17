@@ -1,0 +1,11 @@
+<div *ngFor="let user of users ">
+            <div class="equipment-card">
+                <div class="heading">
+                    <p>{{ user.firstName }}  {{user.lastName}} </p>
+                    <button title="Use this button to make this user as an system admin"
+                    (click)="makeSystemAdmin(user.email)" class="schedule-button">
+                        Make user as an system admin
+                    </button>
+                </div>
+            </div>
+</div>

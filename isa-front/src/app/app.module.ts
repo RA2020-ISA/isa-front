@@ -23,6 +23,7 @@ import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
 import { EquipmentEditFormComponent } from './equipment-edit-form/equipment-edit-form.component';
 import { CompanyCalendarComponent } from './company-calendar/company-calendar.component';
 import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
+import { ManageAdministratorsComponent } from './manage-administrators/manage-administrators.component';
 
 
 
@@ -45,7 +46,8 @@ import { ReservationDetailsComponent } from './reservation-details/reservation-d
     WorkCalendarComponent,
     EquipmentEditFormComponent,
     CompanyCalendarComponent,
-    ReservationDetailsComponent
+    ReservationDetailsComponent,
+    ManageAdministratorsComponent
   ],
   imports: [
     BrowserModule,

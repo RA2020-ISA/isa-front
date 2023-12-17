@@ -3,7 +3,14 @@
         <div class="heading"><p>{{ company.name }}</p></div>
         <div class="averageRating"><p>{{ company.description }}</p></div>
         <div class="address"><p>{{ company.address }}</p></div>
-        <div class="averageRating"><p>Average grade: {{ company.averageGrade }}</p></div>
+        <div class="averageRating"><p>Average grade: {{ company.averageGrade }}</p>
+            <div><p>Other administrations of company:</p></div>
+            <div *ngFor="let admin of otherAdministrators">
+                <p>{{admin.firstName}}  {{admin.lastName}}</p>
+            </div>
+            <div><p>Working time: {{ company.workTimeBegin }} - {{ company.workTimeEnd}} h</p></div>
+        </div>
+        
         <div class="search">
             <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
             <input type="number" placeholder="Price from: " [(ngModel)]="searchPriceFrom">

@@ -29,6 +29,7 @@ export class AdminCompanyComponent implements OnInit {
   searchPriceTo: string = '';
   filteredEquipments: Equipment[] = [];
   companyEquipments: Equipment[] = [];
+  otherAdministrators: User[] = [];
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
     private router: Router, private userService: UserStateService, private equipmentService: EquipmentService,
@@ -78,29 +79,10 @@ export class AdminCompanyComponent implements OnInit {
   }
 
   createAppointment(equipmentId: number): void{
-    this.router.navigate(['/appointment-form/' + equipmentId]);
+    this.router.navigate(['/appointment-form/' + equipmentId + '/' + this.company?.id]);
   }
 
   removeEquipment(equipment: Equipment): void{
-    /*const index = this.company?.equipments?.indexOf(equipment);
-
-    if (index !== undefined && this.company?.equipments) {
-      this.company.equipments.splice(index, 1);
-    }
-
-    console.log("apdejtovana kompanija:");
-    console.log(this.company);
-
-    if(this.company){
-      this.service.updateCompany(this.company).subscribe(
-        (updatedCompany: Company) => {
-          this.router.navigate(['/admin-company']);
-        },
-        (error) => {
-          console.error('Error updating company', error);
-        }
-      );
-    }*/
     console.log("Pre brisanja:");
     console.log(this.company);
     
@@ -159,9 +141,26 @@ export class AdminCompanyComponent implements OnInit {
   
         console.log("Svi termini za preuzimanje:");
         console.log(this.allAppointments);
+        this.getAdministrators();
       },
       (error) => {
         console.error('Greška prilikom dobavljanja svih termina za preuzimanje', error);
+      }
+    );
+  }
+
+  getAdministrators(): void{
+    console.log('Id kompanije koji se salje u zahtev za admine:');
+    console.log(this.company?.id || 0);
+    this.service.getAdminsForCompany(this.company?.id || 0).subscribe(
+      (result: User[]) => {
+        this.otherAdministrators = result;
+        this.otherAdministrators = this.otherAdministrators.filter(admin => admin.id !== this.loggedUser?.id);
+        console.log("Svi administratori kompanije:");
+        console.log(this.otherAdministrators);
+      },
+      (error) => {
+        console.error('Greška prilikom dobavljanja svih administratora kompanije', error);
       }
     );
   }

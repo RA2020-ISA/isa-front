@@ -1,7 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core'; //dodala 
 import dayGridPlugin from '@fullcalendar/daygrid'; //dodala instaliraj
 import timeGridPlugin from '@fullcalendar/timegrid'; //dodala instaliraj 
+import { AppointmentReservation } from '../model/reservation.model';
+import { CompanyService } from '../services/company.service';
+import { ReservationService } from '../services/reservation.service';
+import { User } from '../model/user-model';
+import { UserService } from '../services/user.service';
+import { UserStateService } from '../services/user-state.service';
 //import dayGridYearPlugin from '@fullcalendar/daygrid-year';
 
 @Component({
@@ -9,24 +15,79 @@ import timeGridPlugin from '@fullcalendar/timegrid'; //dodala instaliraj
   templateUrl: './work-calendar.component.html',
   styleUrls: ['./work-calendar.component.css']
 })
-export class WorkCalendarComponent {
+export class WorkCalendarComponent implements OnInit{
 
-  //primer kako dodati dogadjaje
-  events = [
-    {
-      title: 'Meeting',
-      start: '2023-12-10T10:00:00',
-      end: '2023-12-10T12:00:00',
-      /*extendedProps: {
-        description: 'Neki opis' //ne prikaze mi?
-      }*/
-    },
-    {
-      title: 'Conference',
-      start: '2023-12-10T13:00:00',
-      end: '2023-12-10T15:00:00' 
-    }
-  ];
+  
+  constructor(private companyService: CompanyService, public userService: UserStateService, public reservationService: ReservationService) {}
+  calendarAppointments: AppointmentReservation[] = [];
+  events: any[] = [];
+  loggedUser?: User;
+
+   
+  ngOnInit(): void {
+    this.loggedUser = this.userService.getLoggedInUser();
+    console.log(this.loggedUser);
+    this.reservationService.getAdminsAppointmentReservation(this.loggedUser?.id || 0).subscribe(
+      (result: AppointmentReservation[]) => {
+          this.calendarAppointments = result;
+          //console.log("Ispisi OVDE")
+          console.log(this.calendarAppointments);
+          this.createCalendarEvents();
+      },
+      (error) => {
+        console.error('Greška', error);
+      }
+    );
+  }
+
+  createCalendarEvents() {
+    this.calendarAppointments.forEach(appointment => {
+      const dateArray = appointment.appointmentDate;
+      
+      // Check if dateArray is defined
+      if (Array.isArray(dateArray) && dateArray.length >= 7) {
+        // Convert the array to a LocalDateTime object
+        const localDateTime = new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4], dateArray[5], dateArray[6] / 1000000);
+        
+        // Convert LocalDateTime to JavaScript Date
+        const date = new Date(localDateTime);
+        
+        // Start time
+        const startTime = new Date(`${date.toISOString().slice(0, 10)}T${appointment.appointmentTime}:00`);
+  
+        // Add duration to the startTime
+        const endTime = new Date(startTime.getTime() + (appointment.appointmentDuration || 0) * 60000);
+  
+        const formattedStartTime = this.formatToISOString(startTime);
+        const formattedEndTime = this.formatToISOString(endTime);
+  
+        // Create event object
+        const event = {
+          title: appointment.user?.firstName + ' ' + appointment.user?.lastName,
+          start: formattedStartTime,
+          end: formattedEndTime
+        };
+  
+        this.events.push(event);
+      }
+    });
+  
+    this.calendarOptions.events = this.events;
+    console.log('Generated Events:');
+    console.log(this.events);
+  }
+  
+  formatToISOString(date: Date): string {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+  
+    const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+    return formattedDate;
+  }
   
 
   calendarOptions: CalendarOptions = {
@@ -46,9 +107,16 @@ export class WorkCalendarComponent {
     initialView: 'dayGridMonth', // Prikaz počinje sa mesečnim prikazom
     weekends: true, // Prikazivanje vikenda
     editable: true, // Omogućavanje uređivanja događaja
-    events: this.events// Dodaj ovu liniju za događaje
-  //  selectable: true, // Omogućavanje selektovanja datuma/događaja
-  //  dayMaxEvents: true, // Prikaži više događaja ako ima više od dayMaxEvents
+    events: [], 
+    eventContent: (arg, createElement) => {
+      const div = document.createElement('div');
+      div.innerHTML = `<b>${arg.timeText}</b><br>${arg.event.title}`;
+      div.style.backgroundColor = 'lightgreen'; // Zelena pozadina
+      div.style.color = 'red'; // Crni tekst
+      div.style.border = '2px solid black'; // Deblja granica
+      div.style.borderRadius = '5px'; // Zaobljeni ivici
+      return { domNodes: [div] };
+    }
   };
 
 }

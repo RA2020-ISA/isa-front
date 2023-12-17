@@ -14,5 +14,6 @@ export interface User{
     country: string, 
     phoneNumber: string, 
     occupation: string, 
-    companyInfo: string
+    companyInfo: string, 
+    userFirstLogged?: boolean
 }

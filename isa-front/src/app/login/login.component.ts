@@ -26,18 +26,9 @@ export class LoginComponent {
   login() {
     this.userService.getUserByUsername(this.username).subscribe(
       (response) => {
-        this.user = response;
-        console.log(this.user);
-        if (this.user && !this.user.enabled) {
-          this.disabled = true;
-          console.log('User is disabled');
-        } else if (this.user && this.comparePasswords(this.password, this.user.password)) {
-          console.log(this.username);
-          this.userStateService.setLoggedInUser(this.user);
-          this.router.navigate(['/homepage']);
-        } else {
-          this.wrongPassword=true;
-          console.log('Invalid password');
+        if(response != null){
+          this.user = response;
+          this.handleLogIn();
         }
       },
       (error) => {
@@ -48,8 +39,55 @@ export class LoginComponent {
     );
   }
 
+  handleLogIn(){
+    if(this.user && this.user.userFirstLogged){
+
+      this.showChangePassword = false;
+      console.log(this.user);
+
+      if (this.user && !this.user.enabled) {
+        this.disabled = true;
+      } else if (this.user && this.comparePasswords(this.password, this.user.password)) {
+        this.userStateService.setLoggedInUser(this.user);
+        this.router.navigate(['/homepage']);
+      } else {
+        this.wrongPassword=true;
+      }
+    }else{
+      this.showChangePassword = true;
+    }
+  }
+
   private comparePasswords(enteredPassword: string, storedPassword: string): boolean {
    return enteredPassword==storedPassword;
    //return true; //izmena?
+  }
+
+  //change password:
+  oldPassword: string = '';
+  newPassword: string = '';
+  confirmPassword: string = '';
+  isPasswordNotConfirmed: boolean = false;
+  showChangePassword: boolean = false;
+
+  changePassword() {
+    if ((this.newPassword != this.confirmPassword) || (this.oldPassword != this.user?.password)) {
+
+      //if (this.newPassword != '' && this.confirmPassword != '' && this.user != null) {
+        this.isPasswordNotConfirmed = true;
+      //}
+       
+    } else {
+      this.userService.updateUsersPassword(this.newPassword, this.user?.id || 0).subscribe(
+        (response) => {
+
+          alert('Password changed successfuly! You can now log in!');
+          this.showChangePassword = false;
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    }
   }
 }

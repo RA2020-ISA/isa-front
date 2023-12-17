@@ -46,5 +46,9 @@ export class ReservationService {
 
     return this.http.put<string>(url, null); // Assuming you are using PUT method for addReservationToItem
   }
+
+  getAdminsAppointmentReservation(adminId: number): Observable<Array<AppointmentReservation>> {
+    return this.http.get<Array<AppointmentReservation>>(`http://localhost:8080/api/reservations/getAdminsAppointmentReservation/` + adminId);
+  }
   
 }

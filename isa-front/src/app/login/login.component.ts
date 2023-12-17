@@ -11,7 +11,9 @@ import { UserStateService } from '../services/user-state.service';
 })
 export class LoginComponent {
 
+
   constructor(private router: Router, private userService: UserService, private userStateService: UserStateService) {
+
   }
 
   username: string = '';
@@ -26,7 +28,6 @@ export class LoginComponent {
       (response) => {
         this.user = response;
         console.log(this.user);
-
         if (this.user && !this.user.enabled) {
           this.disabled = true;
           console.log('User is disabled');
@@ -49,5 +50,6 @@ export class LoginComponent {
 
   private comparePasswords(enteredPassword: string, storedPassword: string): boolean {
    return enteredPassword==storedPassword;
+   //return true; //izmena?
   }
 }

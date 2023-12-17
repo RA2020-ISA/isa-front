@@ -16,6 +16,13 @@ import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile-edit/editProfile.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
+import { AdminCompanyComponent } from './admin-company/admin-company.component';
+import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
+import { EquipmentEditFormComponent } from './equipment-edit-form/equipment-edit-form.component';
+import { CompanyCalendarComponent } from './company-calendar/company-calendar.component';
+
 
 
 @NgModule({
@@ -31,7 +38,12 @@ import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
     CompanyEditFormComponent,
     ProfileComponent,
     EditProfileComponent,
-    AllEquipmentComponent
+    AllEquipmentComponent,
+    AdminCompanyComponent,
+    AppointmentFormComponent,
+    WorkCalendarComponent,
+    EquipmentEditFormComponent,
+    CompanyCalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +52,8 @@ import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
     HttpClientModule,
     FormsModule, 
     ReactiveFormsModule,
-    MatIconModule 
+    MatIconModule, 
+    FullCalendarModule // register FullCalendar with your app
   ],
   providers: [],
   bootstrap: [AppComponent]

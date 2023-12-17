@@ -12,6 +12,11 @@ import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile-edit/editProfile.component';
 import { AllEquipmentComponent } from './all-equipment/all-equipment.component';
 import { ReservationsComponent } from './reservations/reservations.component';
+import { AdminCompanyComponent } from './admin-company/admin-company.component';
+import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
+import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
+import { EquipmentEditFormComponent } from './equipment-edit-form/equipment-edit-form.component';
+import { CompanyCalendarComponent } from './company-calendar/company-calendar.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -25,7 +30,12 @@ const routes: Routes = [
   {path: 'profile/:username', component: ProfileComponent},
   {path: 'editProfile/:username', component: EditProfileComponent}, 
   { path: 'all-equipment', component: AllEquipmentComponent },
-  { path: 'reservations/:username', component: ReservationsComponent }, // Add a new route for reservations
+  { path: 'reservations/:username', component: ReservationsComponent }, 
+  { path: 'admin-company', component: AdminCompanyComponent},
+  { path: 'appointment-form/:id', component: AppointmentFormComponent},
+  { path: 'work-calendar', component: WorkCalendarComponent},
+  { path: 'edit-equipment/:id', component: EquipmentEditFormComponent},
+  { path: 'see-company-calendar', component: CompanyCalendarComponent}
 ];
 
 @NgModule({

@@ -6,6 +6,7 @@ import { Company } from '../model/company.model';
 import { Equipment } from '../model/equipment.model';
 import { environment } from '../../env/environment';
 import { UserStateService } from './user-state.service';
+import { EquipmentAppointment } from '../model/equipment-appointment.model';
 
 @Injectable({
   providedIn: 'root',
@@ -68,5 +69,37 @@ export class CompanyService {
     };
     const params = new HttpParams({ fromObject: userParams });
     return this.http.post<string>('http://localhost:8080/api/companyAdmins/createAdmins/' + companyId, userIds, {params});
+  }
+  
+  getCompanyByAdmin(adminId: number): Observable<Company>{
+    return this.http.get<Company>('http://localhost:8080/api/companyAdmins/getCompanyForAdmin/' + adminId);
+  }
+  
+  createAppointment(appointment: EquipmentAppointment): Observable<EquipmentAppointment>{
+    return this.http.post<EquipmentAppointment>('http://localhost:8080/api/appointments/create', appointment);
+  }
+
+  getEquipmentById(id: number): Observable<Equipment>{
+    return  this.http.get<Equipment>('http://localhost:8080/api/equipment/getById/' + id);
+  }
+
+  updateEquipment(equipment: Equipment): Observable<Equipment>{
+    return this.http.put<Equipment>('http://localhost:8080/api/equipment/update/' + equipment.id, equipment);
+  }
+
+  removeEqFromCom(companyId: number, equipmentId: number): Observable<Company>{
+    return this.http.get<Company>('http://localhost:8080/api/companies/removeFrom/' + companyId + '/' + equipmentId);
+  }
+
+  addEqToCom(companyId: number, equipmentId: number): Observable<Company>{
+    return this.http.get<Company>('http://localhost:8080/api/companies/addTo/' + companyId + '/' + equipmentId);
+  }
+
+  getFreeCompanyAppoinments(): Observable<EquipmentAppointment[]>{
+    return this.http.get<EquipmentAppointment[]>('http://localhost:8080/api/appointments/all');
+  }
+
+  getFreeAdminsAppoinments(adminId: number): Observable<EquipmentAppointment[]>{
+    return this.http.get<EquipmentAppointment[]>('http://localhost:8080/api/adminsAppointments/' + adminId);
   }
 }

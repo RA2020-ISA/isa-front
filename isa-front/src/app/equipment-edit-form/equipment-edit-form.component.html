@@ -1,0 +1,14 @@
+<div *ngIf="equipment">
+    <form (ngSubmit)="onSubmit()" #equipmentForm="ngForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" [(ngModel)]="equipment.name" required>
+  
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" [(ngModel)]="equipment.description"></textarea>
+  
+      <label for="price">Price:</label>
+      <input type="number" id="price" name="price" [(ngModel)]="equipment.price" required>
+  
+      <button type="submit">Update equipment</button>
+    </form>
+  </div>

@@ -14,7 +14,7 @@ import { UserStateService } from '../services/user-state.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './reservations.component.html',
-  styleUrl: './reservations.component.css'
+  styleUrls: ['./reservations.component.css']
 })
 export class ReservationsComponent implements OnInit{
   username?: string;

@@ -7,6 +7,7 @@ import { Equipment } from '../model/equipment.model';
 import { environment } from '../../env/environment';
 import { UserStateService } from './user-state.service';
 import { EquipmentAppointment } from '../model/equipment-appointment.model';
+import { User } from '../model/user-model';
 
 @Injectable({
   providedIn: 'root',
@@ -101,5 +102,9 @@ export class CompanyService {
 
   getFreeAdminsAppoinments(adminId: number): Observable<EquipmentAppointment[]>{
     return this.http.get<EquipmentAppointment[]>('http://localhost:8080/api/adminsAppointments/' + adminId);
+  }
+
+  getAdminsForCompany(companyId: number): Observable<User[]>{
+    return this.http.get<User[]>('http://localhost:8080/api/companyAdmins/getAdminsForCompany/' + companyId);
   }
 }

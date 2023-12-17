@@ -29,6 +29,7 @@ export class AdminCompanyComponent implements OnInit {
   searchPriceTo: string = '';
   filteredEquipments: Equipment[] = [];
   companyEquipments: Equipment[] = [];
+  otherAdministrators: User[] = [];
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
     private router: Router, private userService: UserStateService, private equipmentService: EquipmentService,
@@ -159,9 +160,26 @@ export class AdminCompanyComponent implements OnInit {
   
         console.log("Svi termini za preuzimanje:");
         console.log(this.allAppointments);
+        this.getAdministrators();
       },
       (error) => {
         console.error('Greška prilikom dobavljanja svih termina za preuzimanje', error);
+      }
+    );
+  }
+
+  getAdministrators(): void{
+    console.log('Id kompanije koji se salje u zahtev za admine:');
+    console.log(this.company?.id || 0);
+    this.service.getAdminsForCompany(this.company?.id || 0).subscribe(
+      (result: User[]) => {
+        this.otherAdministrators = result;
+        this.otherAdministrators = this.otherAdministrators.filter(admin => admin.id !== this.loggedUser?.id);
+        console.log("Svi administratori kompanije:");
+        console.log(this.otherAdministrators);
+      },
+      (error) => {
+        console.error('Greška prilikom dobavljanja svih administratora kompanije', error);
       }
     );
   }

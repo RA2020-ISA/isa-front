@@ -8,7 +8,7 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    font-size: 17px;
+    font-size: 20px;
 }
 
 .schedule-button {
@@ -49,7 +49,8 @@ body {
     background-color: lightblue; 
     padding: 20px; 
     color: white; 
-    width: 300px;
+    width: 350px;
+    font-size: 18px;
 }
 
 .heading {

@@ -127,24 +127,6 @@ export class AdminCompanyComponent implements OnInit {
   }
 
   addEquipment(equipment: Equipment): void{
-    /*this.company?.equipments.push(equipment);
-    const index = this.moreEquipments?.indexOf(equipment);
-
-    if (index !== undefined && this.moreEquipments) {
-      this.moreEquipments.splice(index, 1);
-    }
-
-    if(this.company){
-      this.service.updateCompany(this.company).subscribe(
-        (updatedCompany: Company) => {
-          this.router.navigate(['/admin-company']);
-        },
-        (error) => {
-          console.error('Error updating company', error);
-        }
-      );
-    }  */
-
     this.service.addEqToCom(this.company?.id || 0, equipment.id || 0).subscribe(
       (updatedCompany: Company) => {
         this.router.navigate(['/admin-company']);

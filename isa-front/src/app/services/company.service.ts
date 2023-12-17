@@ -76,7 +76,12 @@ export class CompanyService {
   }
   
   createAppointment(appointment: EquipmentAppointment): Observable<EquipmentAppointment>{
-    return this.http.post<EquipmentAppointment>('http://localhost:8080/api/appointments/create', appointment);
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
+    return this.http.post<EquipmentAppointment>('http://localhost:8080/api/appointments/create', appointment, {params});
   }
 
   getEquipmentById(id: number): Observable<Equipment>{

@@ -4,6 +4,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid'; 
 import { EquipmentAppointment } from '../model/equipment-appointment.model';
 import { CompanyService } from '../services/company.service';
+import { UserService } from '../services/user.service';
+import { UserStateService } from '../services/user-state.service';
 
 @Component({
   selector: 'app-company-calendar',
@@ -44,7 +46,7 @@ export class CompanyCalendarComponent implements OnInit{
     }
   };
 
-  constructor(private companyService: CompanyService) {}
+  constructor(private companyService: CompanyService, public userStateService: UserStateService) {}
   
   ngOnInit(): void {
     this.companyService.getFreeCompanyAppoinments().subscribe(

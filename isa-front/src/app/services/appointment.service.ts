@@ -19,6 +19,10 @@ export class AppointmentService {
     const params = new HttpParams().set('items', JSON.stringify(items));
     return this.http.post<Array<EquipmentAppointment>>('http://localhost:8080/api/appointments/availableDates', null, { params });
   }
+  deleteAppointment(appointmentId: number): Observable<string> {
+    const url = `http://localhost:8080/api/appointments/delete/${appointmentId}`;
+    return this.http.delete<string>(url);
+  }
 
   
   

@@ -1,0 +1,12 @@
+<div>
+    <h2>Reservation Details</h2>
+    <p>Reservation ID: {{ reservationId }}</p>
+    
+    <h3>Items:</h3>
+    <ul>
+      <li *ngFor="let item of items">
+        <!-- Display item details as needed -->
+        <p>{{ item.equipmentName }}, Quantity: {{ item.quantity }}</p>
+      </li>
+    </ul>
+  </div>

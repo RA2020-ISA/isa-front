@@ -22,6 +22,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
 import { EquipmentEditFormComponent } from './equipment-edit-form/equipment-edit-form.component';
 import { CompanyCalendarComponent } from './company-calendar/company-calendar.component';
+import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
 
 
 
@@ -43,7 +44,8 @@ import { CompanyCalendarComponent } from './company-calendar/company-calendar.co
     AppointmentFormComponent,
     WorkCalendarComponent,
     EquipmentEditFormComponent,
-    CompanyCalendarComponent
+    CompanyCalendarComponent,
+    ReservationDetailsComponent
   ],
   imports: [
     BrowserModule,

@@ -17,7 +17,7 @@ import { AppointmentFormComponent } from './appointment-form/appointment-form.co
 import { WorkCalendarComponent } from './work-calendar/work-calendar.component';
 import { EquipmentEditFormComponent } from './equipment-edit-form/equipment-edit-form.component';
 import { CompanyCalendarComponent } from './company-calendar/company-calendar.component';
-
+import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
   {path:'login', component:LoginComponent},
@@ -35,7 +35,8 @@ const routes: Routes = [
   { path: 'appointment-form/:id', component: AppointmentFormComponent},
   { path: 'work-calendar', component: WorkCalendarComponent},
   { path: 'edit-equipment/:id', component: EquipmentEditFormComponent},
-  { path: 'see-company-calendar', component: CompanyCalendarComponent}
+  { path: 'see-company-calendar', component: CompanyCalendarComponent},
+  { path: 'reservation-details/:id', component: ReservationDetailsComponent }
 ];
 
 @NgModule({

@@ -33,6 +33,10 @@ export class HomepageComponent implements OnInit {
   redirectToAllEquipments(){
     this.router.navigate(['/all-equipment']);
   }
+  redirectToWorkCalendar(){
+    this.router.navigate(['/work-calendar']);
+  }
+  
   redirectToProfile(){
     const userEmail = this.userStateService.getLoggedInUser()?.email;
     console.log(this.userStateService.getLoggedInUser());

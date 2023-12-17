@@ -95,12 +95,14 @@ export class CompanyProfileComponent implements OnInit {
       }
   
       const quantity = this.selectedEquipmentQuantities.get(equipmentId) ?? 1;
+      const equipmentName = selectedEquipment.name;
   
       if (quantity) {
         // Call the createItem method to create an item
         const newItem: Item = {
           // construct the item object as needed
           equipmentId,
+          equipmentName,
           quantity,
           // ... other properties ...
         };
@@ -136,6 +138,17 @@ export class CompanyProfileComponent implements OnInit {
       })
     );
   }
+  deleteAppointment(appointmentId: number): void {
+    this.appointmentService.deleteAppointment(appointmentId)
+      .subscribe(
+        response => {
+          console.log(response); // Handle success
+        },
+        error => {
+          console.error(error); // Handle error
+        }
+      );
+  }
   
   createReservation() {
     // Construct reservation data as needed
@@ -146,7 +159,7 @@ export class CompanyProfileComponent implements OnInit {
       appointmentDuration: this.selectedAppointment?.appointmentDuration,
       user: this.userStateService.getLoggedInUser(), // Replace with actual duration
     };
-  
+    console.log(this.selectedAppointment?.id);
     console.log('RESERVATION DATE', newReservation.appointmentDate);
     console.log('RESERVATION USER:', newReservation.user);
     console.log('ID:::::',newReservation.id);
@@ -176,7 +189,7 @@ export class CompanyProfileComponent implements OnInit {
                 console.log('BROJAC',this.broj);
                 console.log('BROJ KREIRANIH',this.createdItems.length);
                 console.log('CREATED ITEMS: ',this.createdItems);
-                if(this.broj==this.createdItems.length){
+                //if(this.broj==this.createdItems.length){
                   this.reservationService.sendReservationQRCode(createdReservation.id, createdReservation.user?.email).subscribe(
                     (qrCodeResult: any) => {
                       console.log('QR Code generated successfully:', qrCodeResult);
@@ -187,14 +200,15 @@ export class CompanyProfileComponent implements OnInit {
                       // Handle error as needed
                     }
                   );
-                }
+                //}
                 
               }
             }
           this.selectedEquipments = [];
           this.selectedEquipmentQuantities.clear();
           this.selectedAppointment = undefined;
-
+          
+            
           // Show alert
           alert('Reservation created successfully!');
             
@@ -206,6 +220,9 @@ export class CompanyProfileComponent implements OnInit {
        );
       }
     )
+    if(this.selectedAppointment?.id){
+      this.deleteAppointment(this.selectedAppointment.id);
+    }
     // Call the createReservation method in your service
     
   }

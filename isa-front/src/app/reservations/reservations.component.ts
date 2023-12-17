@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppointmentReservation } from '../model/reservation.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationService } from '../services/reservation.service';
 import { CommonModule } from '@angular/common';
 import { EquipmentService } from '../services/equipment.service';
@@ -24,7 +24,8 @@ export class ReservationsComponent implements OnInit{
   constructor(private route: ActivatedRoute, private resService: ReservationService,
     private equipmentService: EquipmentService,
     private itemService: ItemService,
-    public userStateService: UserStateService) {}
+    public userStateService: UserStateService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -44,6 +45,9 @@ export class ReservationsComponent implements OnInit{
         );
       }
     });
+  }
+  viewReservationDetails(reservationId: number): void {
+    this.router.navigate(['/reservation-details', reservationId]);
   }
   formatTime(timeString: string): string {
     if (timeString.includes(':')) {

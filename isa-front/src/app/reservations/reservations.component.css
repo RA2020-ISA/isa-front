@@ -29,6 +29,36 @@
   h2 {
     color: #333;
   }
+  /* styles.css or styles.scss */
+/* Basic button styling */
+button {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #3498db; /* Blue color, you can change it */
+  color: #fff; /* White text color */
+  font-size: 16px;
+}
+
+/* Hover effect */
+button:hover {
+  background-color: #2980b9; /* Darker blue on hover, you can change it */
+}
+.view-details-button {
+  background-color: #007bff; /* Blue */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
   
   /* Style for the item list within each reservation */
   ul.item-list {

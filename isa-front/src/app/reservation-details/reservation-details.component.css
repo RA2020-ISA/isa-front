@@ -1,0 +1,47 @@
+/* Stilizacija za glavni div */
+div {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f8f8f8;
+  }
+  
+  /* Stilizacija za naslov "Reservation Details" */
+  h2 {
+    color: #333;
+  }
+  
+  /* Stilizacija za paragraf sa Reservation ID */
+  p {
+    font-weight: bold;
+  }
+  
+  /* Stilizacija za naslov "Items" */
+  h3 {
+    margin-top: 10px;
+    color: #555;
+  }
+  
+  /* Stilizacija za listu */
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  /* Stilizacija za stavke liste */
+  li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+  }
+  
+  /* Stilizacija za stavke liste koje se ponavljaju (*ngFor) */
+  li p {
+    margin: 0;
+  }
+  
+  /* Stilizacija za paran i neparan red u listi (opciono) */
+  li:nth-child(even) {
+    background-color: #f5f5f5;
+  }
+  

@@ -8,6 +8,8 @@
         <p>Date: {{ reservation.appointmentDate?.toString()?.slice(0, 11)?.replaceAll(',', '.')}}</p>
         <p>Time: {{ reservation.appointmentTime}}</p>
         <p>Duration: {{ reservation.appointmentDuration }}</p>
+        
+        <button *ngIf="reservation.id" (click)="viewReservationDetails(reservation.id)" >View Details</button>
       </div>
       </li>
       

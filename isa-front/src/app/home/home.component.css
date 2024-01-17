@@ -1,30 +1,35 @@
-/* styles.css */
-
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f8f8;
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
-  
-  button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 1em;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #2980b9;
-  }
-  
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f8f8;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Align items to the top right */
+  justify-content: center;
+  height: 100vh;
+}
+
+header {
+  text-align: right; /* Align text to the right */
+}
+
+.button-container {
+  display: inline-block; /* Keep buttons on the same line */
+}
+
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 0.6em;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #2980b9;
+}

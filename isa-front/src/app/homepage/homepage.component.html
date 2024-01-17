@@ -1,14 +1,21 @@
-<div *ngIf="userStateService.getLoggedInUser() ; else sorryMessage">
-<button (click)="redirectToAllCompanies()">Companies</button>
-<button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToCompanyForm()">Create company</button>
-<button (click)="redirectToAllEquipments()">All equipments</button>
-<button (click)="redirectToProfile()">Profile</button>
-<button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'"  (click)="redirectToAdminCompany()">My company</button>
-<button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'"  (click)="redirectToWorkCalendar()">Work calendar</button>
-<button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToManageAdmins()">Manage administrations</button>
-</div>
-<ng-template #sorryMessage>
-    <div class="sorry-message">
-      <p>unauthorized</p>
+<body>
+<div *ngIf="userStateService.getLoggedInUser(); else sorryMessage" class="menu-container">
+  <div class="dropdown">
+    <button class="dropbtn">Menu</button>
+    <div class="dropdown-content">
+      <button (click)="redirectToAllCompanies()">Companies</button>
+      <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToCompanyForm()">Create company</button>
+      <button (click)="redirectToAllEquipments()">All equipments</button>
+      <button (click)="redirectToProfile()">Profile</button>
+      <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToAdminCompany()">My company</button>
+      <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToWorkCalendar()">Work calendar</button>
+      <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToManageAdmins()">Manage administrations</button>
     </div>
-  </ng-template>
+  </div>
+</div>
+</body>
+<ng-template #sorryMessage>
+  <div class="sorry-message">
+    <p>Unauthorized</p>
+  </div>
+</ng-template>

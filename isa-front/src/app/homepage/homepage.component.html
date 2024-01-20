@@ -5,7 +5,7 @@
     <div class="dropdown-content">
       <button (click)="redirectToAllCompanies()">Companies</button>
       <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToCompanyForm()">Create company</button>
-      <button (click)="redirectToAllEquipments()">All equipments</button>
+      <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToAllEquipments()">All equipments</button>
       <button (click)="redirectToProfile()">Profile</button>
       <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToAdminCompany()">My company</button>
       <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToWorkCalendar()">Work calendar</button>
@@ -19,3 +19,6 @@
     <p>Unauthorized</p>
   </div>
 </ng-template>
+
+
+<!-- NAPOMENA::: za all equipment sam dodala COMPANY ADMIN , ne znam kome to treba, pa nek izmeni  -->

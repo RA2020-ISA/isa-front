@@ -1,11 +1,58 @@
-<div *ngFor="let user of users ">
-            <div class="equipment-card">
-                <div class="heading">
-                    <p>{{ user.firstName }}  {{user.lastName}} </p>
-                    <button title="Use this button to make this user as an system admin"
-                    (click)="makeSystemAdmin(user.email)" class="schedule-button">
-                        Make user as an system admin
-                    </button>
-                </div>
-            </div>
-</div>
+<div class="form-container">
+    <div class="success-message" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+    <form>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" [(ngModel)]="firstName" [ngModelOptions]="{standalone:true}" class="form-control" id="firstName" placeholder="Enter name">
+      </div>
+      <div class="form-group">
+        <label>Last name</label>
+        <input type="text" [(ngModel)]="lastName" [ngModelOptions]="{standalone:true}" id="lastName" class="form-control" placeholder="Enter lastname">
+      </div>
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" [(ngModel)]="email" [ngModelOptions]="{standalone:true}" id="email" class="form-control" placeholder="Enter email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone:true}" id="password" class="form-control" placeholder="Enter password">
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input type="password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone:true}" id="confirmPassword" class="form-control" placeholder="Confirm password">
+      </div>
+      <!-- New Fields -->
+      <div class="form-group">
+        <label>City</label>
+        <input type="text" [(ngModel)]="city" [ngModelOptions]="{standalone:true}" class="form-control" id="city" placeholder="Enter city">
+      </div>
+      <div class="form-group">
+        <label>Country</label>
+        <input type="text" [(ngModel)]="country" [ngModelOptions]="{standalone:true}" id="country" class="form-control" placeholder="Enter country">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="text" [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone:true}" id="phoneNumber" class="form-control" placeholder="Enter phone number">
+      </div>
+      <div class="form-group">
+        <label>Occupation</label>
+        <input type="text" [(ngModel)]="occupation" [ngModelOptions]="{standalone:true}" id="occupation" class="form-control" placeholder="Enter occupation">
+      </div>
+      <div class="form-group">
+        <label>Company Info</label>
+        <input type="text" [(ngModel)]="companyInfo" [ngModelOptions]="{standalone:true}" id="companyInfo" class="form-control" placeholder="Enter company info">
+      </div>
+      <!-- End of New Fields -->
+      <div *ngIf="errorMessage" class="error-message">
+        Error: {{ errorMessage }}
+      </div>
+  
+      <div *ngIf="password !== confirmPassword && confirmPassword !== ''" class="error-message">
+        Error: Passwords do not match.
+      </div>
+  
+      <button type="submit" class="btn btn-primary" (click)="makeSystemAdmin()">Register system admin</button>
+    </form>
+  </div>

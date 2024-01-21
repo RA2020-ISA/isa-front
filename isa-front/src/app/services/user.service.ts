@@ -19,6 +19,10 @@ export class UserService {
     });
   }
 
+  registerSystemAdmin(userData: any): Observable<User> {
+    return this.http.post<User>(this.apiUrl + 'registration/registerSystemAdmin', userData);
+  }
+
   /*findLoggedUser(): Observable<User>{
     return this.http.get<User>('http://localhost:8080/api/users/loggedUser');
     //return this.http.get<User>(this.apiUrl + 'users/loggedUser');

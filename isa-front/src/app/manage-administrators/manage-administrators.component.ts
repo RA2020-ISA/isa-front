@@ -1,74 +1,78 @@
 import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Company } from '../model/company.model';
 import { CompanyService } from '../services/company.service';
-import { Equipment } from '../model/equipment.model';
 import { Router } from '@angular/router';
 import { UserStateService } from '../services/user-state.service';
 import { User } from '../model/user-model';
-import { EquipmentService } from '../services/equipment.service';
-import { EquipmentAppointment } from '../model/equipment-appointment.model';
-import { Location } from '@angular/common';
 import { UserService } from '../services/user.service';
 import { UserRole } from '../model/user-role-enum';
 
 @Component({
   selector: 'app-manage-administrators',
   templateUrl: './manage-administrators.component.html',
-  styleUrls: ['./manage-administrators.component.css']
+  styleUrls: ['./manage-administrators.component.css'], 
+  providers: [UserService], //Nisam sigurna da li treba
 })
-export class ManageAdministratorsComponent implements OnInit {
-  users?: User[] = [];
-  user?: User;
+export class ManageAdministratorsComponent{
+  firstName: string = '';
+  lastName: string = '';
+  email: string = '';
+  password: string = '';
+  confirmPassword: string = '';
+  city: string = '';
+  country: string = '';
+  phoneNumber: string = '';
+  occupation: string = '';
+  companyInfo: string = '';
+
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
+
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
-    private router: Router, private userService: UserService, private equipmentService: EquipmentService,
-    private location: Location) {}
+    private router: Router, private userService: UserService) {}
 
-  ngOnInit(): void {
-    this.userService.getAllUsers().subscribe(
-      (result: User[]) => {
-        this.users = result;
-        this.users = this.users.filter(user => user.userRole !== 'SYSTEM_ADMIN');
+  makeSystemAdmin(): void {
+    if (this.password !== this.confirmPassword) {
+      return;
+    }
 
-        console.log('All users:');
-        console.log(this.users);
+    let bodyData = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      password: this.password,
+      city: this.city,
+      country: this.country,
+      phoneNumber: this.phoneNumber,
+      occupation: this.occupation,
+      companyInfo: this.companyInfo,
+    };
+
+    this.userService.registerSystemAdmin(bodyData).subscribe(
+      (resultData: User) => {
+        console.log(resultData);
+        this.clearForm();
+        this.successMessage =
+          'Susccessfuly registered new system admin.' + this. firstName + this.lastName;
       },
-      (error) => {
-        console.error('Error in getting all users!', error);
+      (error: any) => {
+        console.error(error);
       }
     );
   }
 
-  makeSystemAdmin(username: string): void {
-    if(this.users){
-      this.userService.getUserByUsername(username).subscribe(
-        (result: User) => {
-          this.user = result;
-    
-          this.user.userRole = UserRole.SYSTEM_ADMIN; 
-          this.userService.updateUser(username, this.user).subscribe(
-            (updatedUser: User) => {
-              console.log('User successfully updated:', updatedUser);
-              if(this.users){
-                const index = this.users.findIndex(u => u.email === username);
-                if (index !== -1) {
-                  this.users.splice(index, 1); 
-                }
-              }
-    
-            },
-            (error) => {
-              console.error('Error updating user!', error);
-            }
-          );
-    
-        },
-        (error) => {
-          console.error('Error getting user!', error);
-        }
-      );
-    }
+  clearForm() {
+    this.firstName = '';
+    this.lastName = '';
+    this.email = '';
+    this.password = '';
+    this.confirmPassword = '';
+    this.city = '';
+    this.country = '';
+    this.phoneNumber = '';
+    this.occupation = '';
+    this.companyInfo = '';
+    this.errorMessage='';
   }
 }

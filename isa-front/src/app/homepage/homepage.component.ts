@@ -54,4 +54,8 @@ export class HomepageComponent implements OnInit {
   redirectToManageAdmins(){
     this.router.navigate(['/manage-administrators']);
   }
+
+  redirectToPickupEquipment(){
+    this.router.navigate(['/pickup-equipment']);
+  }
 }

@@ -51,4 +51,14 @@ export class ReservationService {
     return this.http.get<Array<AppointmentReservation>>(`http://localhost:8080/api/reservations/getAdminsAppointmentReservation/` + adminId);
   }
   
+  readQrCodeImage(selectedFile: File): Observable<String>{
+    let formData = new FormData();
+    formData.append("file", selectedFile);
+    //return this.http.post<String>(`http://localhost:8080/api/registration/readQrCodeImage`, formData);
+   //return this.http.post<String>(`http://localhost:8080/api/qr-code/readQrCodeImage`, selectedFile);
+    //return this.http.get<String>(`http://localhost:8080/api/qr-code/proba`);
+    return this.http.post(`http://localhost:8080/api/registration/readQrCodeImage`, formData, { responseType: 'text' });
+  }
+
+  
 }

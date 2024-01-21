@@ -1,0 +1,11 @@
+<div>
+    <h1>Pickup your order!</h1>
+    <form #uploadForm="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+        <input type="file" name="image" id="imageInput" (change)="onFileSelected($event)" accept="image/*" required>
+        <button type="submit" id="uploadButton" [disabled]="!selectedFile">Read image</button>
+    </form>
+      
+    <div id="imagePreview" *ngIf="imageUrl" style="max-width: 300px; margin-top: 20px;">
+        <img [src]="imageUrl" alt="Uploaded Image" style="width: 100%;">
+    </div>
+</div>

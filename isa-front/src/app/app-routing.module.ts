@@ -19,6 +19,7 @@ import { EquipmentEditFormComponent } from './equipment-edit-form/equipment-edit
 import { CompanyCalendarComponent } from './company-calendar/company-calendar.component';
 import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
 import { ManageAdministratorsComponent } from './manage-administrators/manage-administrators.component';
+import { PickupEquipmentComponent } from './pickup-equipment/pickup-equipment.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -39,7 +40,8 @@ const routes: Routes = [
   { path: 'edit-equipment/:id', component: EquipmentEditFormComponent},
   { path: 'see-company-calendar', component: CompanyCalendarComponent},
   { path: 'reservation-details/:id', component: ReservationDetailsComponent },
-  { path: 'manage-administrators', component: ManageAdministratorsComponent}
+  { path: 'manage-administrators', component: ManageAdministratorsComponent}, 
+  { path: 'pickup-equipment', component: PickupEquipmentComponent}
 ];
 
 @NgModule({

@@ -24,6 +24,7 @@ import { EquipmentEditFormComponent } from './equipment-edit-form/equipment-edit
 import { CompanyCalendarComponent } from './company-calendar/company-calendar.component';
 import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
 import { ManageAdministratorsComponent } from './manage-administrators/manage-administrators.component';
+import { PickupEquipmentComponent } from './pickup-equipment/pickup-equipment.component';
 
 
 
@@ -47,7 +48,8 @@ import { ManageAdministratorsComponent } from './manage-administrators/manage-ad
     EquipmentEditFormComponent,
     CompanyCalendarComponent,
     ReservationDetailsComponent,
-    ManageAdministratorsComponent
+    ManageAdministratorsComponent,
+    PickupEquipmentComponent
   ],
   imports: [
     BrowserModule,

@@ -1,11 +1,9 @@
-export interface EquipmentAppointment {
+import { User } from "./user-model";
+
+export interface Appointment {
     id?: number;
     adminId?: number;
-    equipmentId?: number;
-    adminName?: string;
-    adminSurname?: string;
     appointmentDate?: Date;
     appointmentTime?: string;
     appointmentDuration?: number;
-  }
-  
+}

@@ -31,7 +31,6 @@ export class AllEquipmentComponent implements OnInit{
         console.log("Oprema sva:");
         console.log(this.equipments);
         console.log("Kompanije:");
-        console.log(this.equipments[0].companies)
       },
       (error) => {
         console.error('Greška prilikom dobavljanja sve opreme', error);

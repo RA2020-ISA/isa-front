@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core'; //dodala 
 import dayGridPlugin from '@fullcalendar/daygrid'; //dodala instaliraj
 import timeGridPlugin from '@fullcalendar/timegrid'; //dodala instaliraj 
-import { AppointmentReservation } from '../model/reservation.model';
 import { CompanyService } from '../services/company.service';
 import { ReservationService } from '../services/reservation.service';
 import { User } from '../model/user-model';
 import { UserService } from '../services/user.service';
 import { UserStateService } from '../services/user-state.service';
+import { Appointment } from '../model/appointment.model';
+import { Reservation } from '../model/reservation.model';
 //import dayGridYearPlugin from '@fullcalendar/daygrid-year';
 
 @Component({
@@ -19,7 +20,7 @@ export class WorkCalendarComponent implements OnInit{
 
   
   constructor(private companyService: CompanyService, public userService: UserStateService, public reservationService: ReservationService) {}
-  calendarAppointments: AppointmentReservation[] = [];
+  calendarAppointments: Appointment[] = [];
   events: any[] = [];
   loggedUser?: User;
 
@@ -28,12 +29,12 @@ export class WorkCalendarComponent implements OnInit{
     this.loggedUser = this.userService.getLoggedInUser();
     console.log(this.loggedUser);
     this.reservationService.getAdminsAppointmentReservation(this.loggedUser?.id || 0).subscribe(
-      (result: AppointmentReservation[]) => {
+      /* (result: Appointment[]) => {
           this.calendarAppointments = result;
           //console.log("Ispisi OVDE")
           console.log(this.calendarAppointments);
           this.createCalendarEvents();
-      },
+      }, */
       (error) => {
         console.error('Greška', error);
       }
@@ -63,7 +64,7 @@ export class WorkCalendarComponent implements OnInit{
   
         // Create event object
         const event = {
-          title: appointment.user?.firstName + ' ' + appointment.user?.lastName,
+          //title: appointment.user?.firstName + ' ' + appointment.user?.lastName,
           start: formattedStartTime,
           end: formattedEndTime
         };

@@ -5,8 +5,8 @@ import { Observable, catchError } from 'rxjs';
 import { Company } from '../model/company.model';
 import { Equipment } from '../model/equipment.model';
 import { environment } from '../../env/environment';
-import { AppointmentReservation } from '../model/reservation.model';
 import { UserStateService } from './user-state.service';
+import { Reservation } from '../model/reservation.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,25 +14,26 @@ import { UserStateService } from './user-state.service';
 export class ReservationService {
 
   constructor(private http: HttpClient,private userStateService: UserStateService) {}
-  createReservation(reservation: AppointmentReservation): Observable<AppointmentReservation> {
+  createReservation(reservation: Reservation): Observable<Reservation> {
     const loggedInUser = this.userStateService.getLoggedInUser();
     const userParams: { [param: string]: string | number | boolean } = {
       id: loggedInUser?.id || '',
     };
     const params = new HttpParams({ fromObject: userParams });
-    return this.http.post<AppointmentReservation>('http://localhost:8080/api/reservations/create', reservation,{params});
+    //return this.http.post<Reservation>('http://localhost:8080/api/reservations/create', reservation,{params});
+    return this.http.post<Reservation>('http://localhost:8080/api/reservations/create', reservation);
   }
-  getByUser(username: string): Observable<Array<AppointmentReservation>> {
+  getByUser(username: string): Observable<Array<Reservation>> {
     const loggedInUser = this.userStateService.getLoggedInUser();
     const userParams: { [param: string]: string | number | boolean } = {
       id: loggedInUser?.id || '',
     };
     const params = new HttpParams({ fromObject: userParams });
     const url = `http://localhost:8080/api/reservations/byUser/${username}`;
-    return this.http.get<Array<AppointmentReservation>>(url,{params});
+    return this.http.get<Array<Reservation>>(url,{params});
   }
-  getAllOrders(): Observable<Array<AppointmentReservation>> {
-    return this.http.get<Array<AppointmentReservation>>(`http://localhost:8080/api/reservations/all`);
+  getAllOrders(): Observable<Array<Reservation>> {
+    return this.http.get<Array<Reservation>>(`http://localhost:8080/api/reservations/all`);
   }
   sendReservationQRCode(reservationId: number, recipientEmail: string): Observable<void> {
     const url = `http://localhost:8080/api/reservations/sendQrCode/${reservationId}/${recipientEmail}`;
@@ -47,8 +48,12 @@ export class ReservationService {
     return this.http.put<string>(url, null); // Assuming you are using PUT method for addReservationToItem
   }
 
-  getAdminsAppointmentReservation(adminId: number): Observable<Array<AppointmentReservation>> {
-    return this.http.get<Array<AppointmentReservation>>(`http://localhost:8080/api/reservations/getAdminsAppointmentReservation/` + adminId);
+  getAdminsAppointmentReservation(adminId: number): Observable<Array<Reservation>> {
+    return this.http.get<Array<Reservation>>(`http://localhost:8080/api/reservations/getAdminsAppointmentReservation/` + adminId);
   }
+
+  getAllReservations(): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>('http://localhost:8080/api/reservations/all');
+  } 
   
 }

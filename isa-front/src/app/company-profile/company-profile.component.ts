@@ -10,11 +10,12 @@ import { ItemService } from '../services/item.service';
 import { Item } from '../model/item.model';
 import { UserStateService } from '../services/user-state.service';
 import { ReservationService } from '../services/reservation.service';
-import { AppointmentReservation } from '../model/reservation.model';
-import { EquipmentAppointment } from '../model/appointment.model';
 import { HttpParams } from '@angular/common/http';
 import { AppointmentService } from '../services/appointment.service';
 import { Observable, catchError, map } from 'rxjs';
+import { Appointment } from '../model/appointment.model';
+import { Reservation } from '../model/reservation.model';
+import { eq } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-company-profile',
@@ -29,14 +30,25 @@ export class CompanyProfileComponent implements OnInit {
   searchName: string = '';
   selectedEquipments: Equipment[] = []
   quantity: number = 1; 
-  availableAppointments: EquipmentAppointment[]=[];
-  selectedAppointment: EquipmentAppointment | undefined;
+  //availableAppointments: Appointment[]=[];
+  selectedAppointment: Appointment | undefined;
   createdItems: Item[] = [];
-  reservation: AppointmentReservation | undefined;
+  reservation: Reservation | undefined;
   resId: number | undefined;
   broj: number=0;
+  companyAppointments : Appointment[] = [];
+  selectedItems : Item[] = []
+  proveraReservation: Reservation | undefined;
   
-  selectedEquipmentQuantities: Map<number, number> = new Map<number, number>();
+  selectedEquipmentQuantities: Map<Equipment, number> = new Map<Equipment, number>();
+
+  //
+  selectedDateStr: string | undefined;
+  showDatePicker = false;
+  showTimeSlots = false;
+  selectedDate: Date | undefined = new Date();
+  selectedTimeSlot: string | undefined;
+  availableTimeSlots: any[] | undefined; // Ovde bi trebali dodati stvarne vrednosti
 
   constructor(private route: ActivatedRoute, 
     private service: CompanyService,
@@ -62,82 +74,231 @@ export class CompanyProfileComponent implements OnInit {
             console.log("Opreme:");
             console.log(this.equipments);
           })
+          this.findAvailableAppointments();
         },
         (error) => {
           console.error('Greška prilikom dobavljanja kompanije', error);
         }
       );
     });
-
-    this.getAll();
   }
 
-  getAll(): void{
-    this.service.getAllCompanies().subscribe(
-      (companies: Company[]) => {
-        this.companies = companies;
-        console.log("Kompanije:");
-        console.log(this.companies);
+  createReservation() {
+
+    console.log('ULOGOVANI USER:', this.userStateService.getLoggedInUser() )
+
+    const newReservation: Reservation = {
+      appointment: this.selectedAppointment,      
+      user: this.userStateService.getLoggedInUser(),        
+      items: this.selectedItems,
+    };
+
+    console.log(this.selectedItems);
+    console.log('KORISNIK U NEW RESERVATION: ', newReservation.user);
+
+    this.reservationService.createReservation(newReservation).subscribe(
+      response => {
+        console.log("Reservation created successfully", response);
+
+        for (const selectedItem of this.selectedItems) {
+          console.log('svi selected items: ', this.selectedItems)
+          if (selectedItem.id)
+          selectedItem.reservation = response;
+          console.log('kakav je sad item koji ide na update: ', selectedItem);
+          this.itemService.update(selectedItem).subscribe(
+              updateResponse => {
+                console.log(`Item ${selectedItem.id} updated successfully`, updateResponse);
+              },
+              updateError => {
+                console.error(`Error updating item ${selectedItem.id}`, updateError);
+              }
+            );
+        }
       },
-      (error) => {
-        console.error('Greška prilikom dobavljanja svih kompanija', error);
+      error => {
+        console.error("Error creating reservation", error);
       }
-    );
+    ); 
   }
-  createReservations() {
-    
   
-    // Iterate over selected equipments
-    for (const selectedEquipment of this.selectedEquipments) {
-      const equipmentId = selectedEquipment.id;
-      if (equipmentId == null) {
-        return;
-      }
   
-      const quantity = this.selectedEquipmentQuantities.get(equipmentId) ?? 1;
-      const equipmentName = selectedEquipment.name;
+  //////////////////////////////////////
+  setExtraAppointment() {
+    this.showDatePicker = true;
+  }
+
+  loadAvailableTimeSlots() {
+    // Provera da li je this.selectedDateStr definisana i nije prazna
+    if (this.selectedDateStr && this.selectedDateStr.trim() !== '') {
+      this.selectedDate = new Date(this.selectedDateStr);
+    } else {
+      console.error('Invalid or undefined selectedDateStr');
+      return; // Dodajte povratnu vrednost kako biste prekinuli izvršavanje u slučaju greške
+    }
   
-      if (quantity) {
-        // Call the createItem method to create an item
-        const newItem: Item = {
-          // construct the item object as needed
-          equipmentId,
-          equipmentName,
-          quantity,
-          // ... other properties ...
-        };
+    // Dodajte ispis za proveru
+    console.log('Selected date:', this.selectedDate);
   
-        this.itemService.createItem(newItem).subscribe(
-          (createdItem: Item) => {
-            this.createdItems.push(createdItem);
-            console.log(this.createdItems);
-            
-  
-            if (this.createdItems.length === this.selectedEquipments.length) {
-              // Save created items and call findAvailable method
-              this.findAvailable(this.createdItems);
+    this.availableTimeSlots = this.generateRandomTimeSlots();
+    this.showTimeSlots = true;
+  }
+
+  getAppointmentsForSelectedDate(): Appointment[] {
+    // ...
+
+    // Filtrirajte appointmente za odabrani datum
+    const appointmentsForSelectedDate = this.companyAppointments
+        .filter(appointment => {
+            const appointmentDate = appointment.appointmentDate;
+
+            // Provera da li je appointmentDate definisan i tipa number
+            if (typeof appointmentDate !== 'number') {
+                console.error('Invalid or undefined appointmentDate.');
+                return false;
             }
-          },
-          (error) => {
-            console.error('Error creating item', error);
-          }
+
+            // Konvertujte appointmentDate u Date objekat
+            const dateObject = new Date(appointmentDate);
+
+            // Provera da li je dateObject validan
+            if (isNaN(dateObject.getTime())) {
+                console.error('Invalid dateObject for appointmentDate:', appointmentDate);
+                return false;
+            }
+
+            // Provera da li je this.selectedDate definisan i tipa Date
+            if (!this.selectedDate || !(this.selectedDate instanceof Date)) {
+                console.error('Invalid or undefined selectedDate.');
+                return false;
+            }
+
+            // Normalizujte vreme na početak dana za poređenje datuma
+            const normalizedDateObject = new Date(dateObject);
+            normalizedDateObject.setHours(0, 0, 0, 0);
+
+            const normalizedSelectedDate = new Date(this.selectedDate);
+            normalizedSelectedDate.setHours(0, 0, 0, 0);
+
+            return normalizedDateObject.getTime() === normalizedSelectedDate.getTime();
+        });
+
+    return appointmentsForSelectedDate;
+  }
+
+  
+  getAppointmentTimesForSelectedDate(): string[] {
+    const appointmentsForSelectedDate = this.getAppointmentsForSelectedDate();
+    console.log('Appointments for selected date:', appointmentsForSelectedDate);  
+    
+    // Koristite map da biste izdvojili samo appointmentTime
+    const appointmentTimesForSelectedDate = appointmentsForSelectedDate
+      .map(appointment => appointment.appointmentTime)
+      .filter(appointmentTime => typeof appointmentTime === 'string') as string[];
+  
+    return appointmentTimesForSelectedDate;
+  }
+  
+  
+
+  generateRandomTimeSlots(): any[] {
+    // LOGIKA ZA PRIKAZ TERMINA U SKLOPU RADNOG VREMENA FIRME (ZA TU FIRMU)
+    // I LOGIKA DA SE NE PRIKAZU TERMINI KOJI SU VEC PREDEFINISANI ZA TAJ DATUM
+
+    // Svi mogući vremenski slotovi
+    const allTimeSlots = [
+      { value: '6', display: '6:00 AM' },
+      { value: '7', display: '7:00 AM' },
+      { value: '8', display: '8:00 AM' },
+      { value: '9', display: '9:00 AM' },
+      { value: '10', display: '10:00 AM' },
+      { value: '11', display: '11:00 AM' },
+      { value: '12', display: '12:00 PM' },
+      { value: '13', display: '1:00 PM' },
+      { value: '14', display: '2:00 PM' },
+      { value: '15', display: '3:00 PM' },
+      { value: '16', display: '4:00 PM' },
+      { value: '17', display: '5:00 PM' },
+      { value: '18', display: '6:00 PM' },
+      { value: '19', display: '7:00 PM' },
+      { value: '20', display: '8:00 PM' },
+      { value: '21', display: '9:00 PM' },
+
+      // Dodajte više termina po potrebi
+    ];
+  
+    // Dobijanje vremenskih slotova za odabrani datum
+    const existingAppointmentTimes = this.getAppointmentTimesForSelectedDate();
+    console.log('Existing appointment times:', existingAppointmentTimes);
+    console.log('All time slots:', allTimeSlots);
+
+    console.log(this.company?.workTimeBegin, this.company?.workTimeEnd);
+
+    // Filtriranje vremenskih slotova kako bismo izbacili one koje već postoje
+    const foundSlots = allTimeSlots.filter(timeSlot => {
+      console.log('Checking time slot:', timeSlot.value);
+    
+      // Pretvorba vrednosti u integer
+      const slotValueAsInt = parseInt(timeSlot.value, 10);
+    
+      // Provera postojanja kompanije i validnosti vrednosti radnog vremena
+      if (this.company && this.company.workTimeBegin && this.company.workTimeEnd) {
+        const workTimeBeginAsInt = parseInt(this.company.workTimeBegin, 10);
+        const workTimeEndAsInt = parseInt(this.company.workTimeEnd, 10);
+    
+        // Provera da li vrednost vremenskog slota ne prelazi radno vreme kompanije
+        return (
+          !existingAppointmentTimes.includes(timeSlot.value) &&
+          slotValueAsInt >= workTimeBeginAsInt &&
+          slotValueAsInt < workTimeEndAsInt
         );
       }
-    }
+    
+      return false; // Dodajte ovu liniju kao podrazumevani slučaj ako vrednosti nisu definisane
+    });
+
+    console.log('Found slots after filtering:', foundSlots);
+
+    return foundSlots;
   }
-  findLastId(): Observable<number> {
-    return this.reservationService.getAllOrders().pipe(
-      map((reservations: AppointmentReservation[]) => {
-        const sortedReservations = reservations.sort((a, b) => b.id! - a.id!);
-        const lastReservationId = sortedReservations.length > 0 ? sortedReservations[0].id! : 0;
-        return sortedReservations.length + 2;
-      }),
-      catchError((error) => {
-        console.error('Error retrieving reservations', error);
-        throw error; // Rethrow the error for the calling component to handle
-      })
-    );
+  
+  
+ checkAppointmentAvailability() {
+  // Provera da li su odabrani datum i termin
+  if (!this.selectedDate || !this.selectedTimeSlot) {
+    console.error('Selected date or time slot is undefined or null.');
+    alert('Please select a date and time slot before checking availability.');
+    return;
   }
+
+  // Dodajte ispis za proveru
+  console.log('Selected date:', this.selectedDate);
+  console.log('Selected time slot:', this.selectedTimeSlot);
+
+  // Kreiranje objekta appointment
+  const appointment = {
+    adminId: -1,
+    appointmentDate: this.selectedDate,
+    appointmentTime: this.selectedTimeSlot,
+    appoointmentDuration: 1
+  };
+
+  this.selectedAppointment = appointment;
+
+  console.log(this.selectedAppointment);
+
+    //IDE PROVERA ZA ADMINA I DODAVANJE ADMINA 
+
+    // Poziv funkcije na backend-u za proveru dostupnosti i pronalaženje slobodnog admina
+    /* this.yourApiService.checkAppointmentAvailability(appointment)
+      .subscribe((response) => {
+        // Ovde rukujte odgovorom sa servera, možda ažuriranjem UI-a ili prikazivanjem potvrde
+      }, (error) => {
+        console.error('Error checking appointment availability:', error);
+        // Ovde rukujte greškom, prikažite korisniku poruku ili ažurirajte UI
+      }); */
+  }
+  //////////////////////////////////////////////////
+  
   deleteAppointment(appointmentId: number): void {
     this.appointmentService.deleteAppointment(appointmentId)
       .subscribe(
@@ -150,105 +311,19 @@ export class CompanyProfileComponent implements OnInit {
       );
   }
   
-  createReservation() {
-    // Construct reservation data as needed
-    const newReservation: AppointmentReservation = {
-      //items: this.createdItems, // Use the items created earlier
-      appointmentDate: new Date(),
-      appointmentTime: this.selectedAppointment?.appointmentTime, // Replace with actual time
-      appointmentDuration: this.selectedAppointment?.appointmentDuration,
-      user: this.userStateService.getLoggedInUser(), // Replace with actual duration
-    };
-    console.log(this.selectedAppointment?.id);
-    console.log('RESERVATION DATE', newReservation.appointmentDate);
-    console.log('RESERVATION USER:', newReservation.user);
-    console.log('ID:::::',newReservation.id);
-  
-    this.findLastId().subscribe(
-      (lastReservationId: number) =>{
-        console.log('Last Reservation ID:', lastReservationId);
-        this.reservationService.createReservation(newReservation).subscribe(
-          (createdReservation: AppointmentReservation) => {
-            //console.log('Reservation created:', createdReservation);
-            this.reservation=createdReservation;
-            console.log(this.reservation);
-            this.findLastId();
-            //console.log('KREIRANI ITEMSI',this.createdItems);
-            
-            for (const createdItem of this.createdItems) {
-              this.broj=this.broj+1;
-              createdItem.reservation=createdReservation.id;
-              
-              //console.log('ID KREIRANOG ITEMA',createdItem.id);
-              //console.log('RES',createdReservation.id);
-              if(createdItem.id!=null && createdReservation.id!=null){
-                this.addReservationToItem(createdItem.id, createdReservation.id);
-                console.log('UVEZANO');
-              }
-              if(createdReservation.user!=null && createdReservation.id){
-                console.log('BROJAC',this.broj);
-                console.log('BROJ KREIRANIH',this.createdItems.length);
-                console.log('CREATED ITEMS: ',this.createdItems);
-                //if(this.broj==this.createdItems.length){
-                  this.reservationService.sendReservationQRCode(createdReservation.id, createdReservation.user?.email).subscribe(
-                    (qrCodeResult: any) => {
-                      console.log('QR Code generated successfully:', qrCodeResult);
-                      // Handle success as needed
-                    },
-                    (error) => {
-                      console.error('Error generating QR Code', error);
-                      // Handle error as needed
-                    }
-                  );
-                //}
-                
-              }
-            }
-          this.selectedEquipments = [];
-          this.selectedEquipmentQuantities.clear();
-          this.selectedAppointment = undefined;
-          
-            
-          // Show alert
-          alert('Reservation created successfully!');
-            
-            // Optionally, you can reset the state or perform other actions after reservation creation
-          },
-          (error) => {
-            console.error('Error creating reservation', error);
-          }
-       );
-      }
-    )
-    if(this.selectedAppointment?.id){
-      this.deleteAppointment(this.selectedAppointment.id);
-    }
-    // Call the createReservation method in your service
-    
-  }
-  addReservationToItem(itemId: number, reservationId: number): void {
-    this.reservationService.addReservationToItem(itemId, reservationId)
-      .subscribe(
-        response => {
-          console.log('Reservation added to item successfully:', response);
-          // Handle success as needed
+  findAvailableAppointments() {
+    if (this.companyId) {
+      this.appointmentService.findCompanyAppointments(this.companyId).subscribe(
+        (companyAppointments : Appointment[]) => {
+          console.log('Uspesno dobavljeni termini za tu kompaniju')
+          this.companyAppointments = companyAppointments;
+          console.log(this.companyAppointments);
         },
-        error => {
-          console.error('Failed to add reservation to item:', error);
-          // Handle error as needed
+        (error) => {
+          console.error('Error finding company appointments', error);
         }
       );
-  }
-  findAvailable(items: Item[]) {
-    const params = new HttpParams().set('items', JSON.stringify(items));
-    this.appointmentService.findAvailable(items).subscribe(
-      (availableAppointments: EquipmentAppointment[]) => {
-        this.availableAppointments = availableAppointments;
-      },
-      (error) => {
-        console.error('Error finding available appointments', error);
-      }
-    );
+    }
   }
   
 
@@ -281,30 +356,32 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   acquireEquipment(selectedEquipment: Equipment) {
-     // Ovde možete dodati logiku za dobijanje opreme
-        // Na primer, možete proslediti podatke serveru ili ažurirati lokalno stanje
-
-        // Dodajte odabrani equipment u listu sa količinom
-        this.selectedEquipments.push(selectedEquipment)
-        // Resetujte quantity na 1 za sledeću upotrebu
-        this.quantity = 1;
-
-        // Opciono, možete ažurirati logiku za sakrivanje ili uklanjanje dodate opreme
+      this.selectedEquipments.push(selectedEquipment)
+      this.quantity = 1;
   }
 
-  submitQuantity(equipmentId: number, quantity: number) {
-    // Ovde možete dodati logiku za obradu unete količine
-    console.log(`Quantity for Equipment ID ${equipmentId}: ${quantity}`);
+  submitQuantity(equipment: Equipment, quantity: number) {
+    console.log('equipment::::', equipment);
+    console.log(`Quantity for Equipment ID ${equipment}: ${quantity}`);
+    this.selectedEquipmentQuantities.set(equipment, quantity);
+    console.log(this.selectedEquipmentQuantities);
+  
+    const newItem: Item = {
+      equipment: equipment,
+      quantity: quantity,
+      reservation: null,
+    };
 
-    // Ažurirajte mapu sa količinom
-    this.selectedEquipmentQuantities.set(equipmentId, quantity);
+    console.log('new item eq:::', newItem.equipment);
 
-    console.log(this.selectedEquipmentQuantities)
+    this.itemService.createItem(newItem).subscribe(
+      response => {
+        console.log("Item created successfully", response);
+        this.selectedItems.push(response);
+      },
+      error => {
+        console.error("Error creating item", error);
+      }
+    ); 
   }
 }
-
-//dugme za kreiraj reservaciju  
-//prvo kreiras item - i u reservation id mu stavis -1 item pokupi qunatity iz ove mape i eq id
-//pozivas item create iz endpointa *controller* 
-//kada se kreira rezervacija poziva se endpoint controller - createReservation - ides u service pravis blabla
-//u rezervaciji lista itema i ONDA ZAMENIS RESERVATION ID U ITEMU DA BUDE TAJ RESERVATION ID

@@ -1,10 +1,10 @@
+import { Appointment } from "./appointment.model";
 import { Item } from "./item.model";
 import { User } from "./user-model";
 
-export interface AppointmentReservation {
+export interface Reservation {
     id?: number;
-    appointmentDate?: Date;
-    appointmentTime?: string;
-    appointmentDuration?: number;
+    appointment?: Appointment;
     user?: User;
+    items: Item[];
 }

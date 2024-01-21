@@ -46,9 +46,6 @@ export class ReservationsComponent implements OnInit{
       }
     });
   }
-  viewReservationDetails(reservationId: number): void {
-    this.router.navigate(['/reservation-details', reservationId]);
-  }
   formatTime(timeString: string): string {
     if (timeString.includes(':')) {
       return timeString;

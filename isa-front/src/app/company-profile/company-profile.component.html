@@ -79,7 +79,6 @@
         <input type="date" [(ngModel)]="selectedDateStr" (change)="loadAvailableTimeSlots()" />
     </div>
 
-    <!-- Time slots -->
     <div *ngIf="showTimeSlots">
         <label>Select a time slot:</label>
         <select [(ngModel)]="selectedTimeSlot">
@@ -87,7 +86,6 @@
         </select>
     </div>
 
-    <!-- Check appointment availability -->
     <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
         title="Check appointment availability" (click)="checkAppointmentAvailability()">
         Check Appointment Availability

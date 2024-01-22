@@ -52,12 +52,6 @@
 
         </div>
     </div>
-    <!--<tr *ngFor="let appointment of availableAppointments">
-        <td>{{ appointment.id }}</td>
-        <td>{{ appointment.appointmentDate | date }}</td>
-        <td>{{ appointment.appointmentTime }}</td>
-        Add more columns as needed
-      </tr> -->
       <div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'">
         <label for="appointmentDate">Select Appointment Date:</label>
         <select id="appointmentDate" name="appointmentDate" [(ngModel)]="selectedAppointment">
@@ -79,14 +73,12 @@
         <input type="date" [(ngModel)]="selectedDateStr" (change)="loadAvailableTimeSlots()" />
     </div>
 
-    <!-- Time slots -->
     <div *ngIf="showTimeSlots">
         <label>Select a time slot:</label>
         <select [(ngModel)]="selectedTimeSlot">
             <option *ngFor="let timeSlot of availableTimeSlots" [value]="timeSlot.value">{{ timeSlot.display }}</option>
         </select>
     </div>
-
     <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" 
         (click)="edit(company.id || 0)">
         Edit

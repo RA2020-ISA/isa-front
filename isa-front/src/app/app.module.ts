@@ -24,6 +24,7 @@ import { EquipmentEditFormComponent } from './equipment-edit-form/equipment-edit
 import { CompanyCalendarComponent } from './company-calendar/company-calendar.component';
 import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
 import { ManageAdministratorsComponent } from './manage-administrators/manage-administrators.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 
@@ -34,6 +35,7 @@ import { ManageAdministratorsComponent } from './manage-administrators/manage-ad
     LoginComponent,
     HomeComponent,
     HomepageComponent,
+    NavbarComponent,
     CompanyProfileComponent,
     AllCompaniesComponent,
     CompanyFormComponent,

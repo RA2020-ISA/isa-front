@@ -2,34 +2,54 @@
 
 /* Style for the container div */
 .container {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-  }
-  
-  /* Style for the reservations list */
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  /* Style for each reservation item */
-  li {
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    padding: 10px;
-  }
-  
-  /* Style for the no reservations message */
-  p.no-reservations {
-    color: #888;
-  }
-  
-  /* Style for the header */
-  h2 {
-    color: #333;
-  }
-  /* styles.css or styles.scss */
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: #f4f4f4; /* Light gray background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+}
+
+/* Style for each reservation item */
+.reservation-item {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #fff; /* White background */
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+}
+
+/* Style for the no reservations message */
+.no-reservations {
+  color: #888;
+}
+
+/* Style for the sorry message */
+.sorry-message {
+  background-color: #ff9999; /* Light red background for sorry message */
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+/* Style for the header */
+h2 {
+  color: #3498db; /* Blue header text */
+}
+
+/* Style for the item list within each reservation */
+.item-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+/* Style for each item in the list */
+.item {
+  margin-bottom: 5px;
+}
+
 /* Basic button styling */
 button {
   padding: 10px 15px;
@@ -46,6 +66,7 @@ button {
 button:hover {
   background-color: #2980b9; /* Darker blue on hover, you can change it */
 }
+
 .view-details-button {
   background-color: #007bff; /* Blue */
   border: none;
@@ -58,19 +79,3 @@ button:hover {
   margin: 4px 2px;
   cursor: pointer;
 }
-
-  
-  /* Style for the item list within each reservation */
-  ul.item-list {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 10px;
-  }
-  
-  /* Style for each item in the list */
-  li.item {
-    margin-bottom: 5px;
-  }
-  
-  /* Add more styles as needed */
-  

@@ -136,12 +136,14 @@ export class AdminCompanyComponent implements OnInit {
         }
         this.moreEquipments?.push(equipment);
         this.router.navigate(['/admin-company']);
+        this.recalculateAverageGrade();
       },
       (error) => {
         console.error('Error updating company', error);
       }
     );
   }
+
 
   refreshPage() {
     window.location.reload();
@@ -157,12 +159,30 @@ export class AdminCompanyComponent implements OnInit {
         if (index !== undefined && this.moreEquipments) {
           this.moreEquipments.splice(index, 1);
         }
+        this.recalculateAverageGrade();
       },
       (error) => {
         console.error('Error updating company', error);
       }
     );
     this.showMore = false;
+  }
+
+  recalculateAverageGrade(): void {
+    if(this.company){
+      if (this.company.equipments.length === 0) {
+        // Opciono: Postavi prosečnu ocenu na 0 ili neku podrazumevanu vrednost ako nema opreme.
+        this.company.averageGrade = 0;
+      } else {
+        const totalGrade = this.company.equipments.reduce((sum, equipment) => sum + equipment.grade, 0);
+  
+        // Izračunaj novu prosečnu ocenu
+        const newAverageGrade = totalGrade / this.company.equipments.length;
+  
+        // Postavi novu prosečnu ocenu u kompaniju
+        this.company.averageGrade = newAverageGrade;
+      }
+    }
   }
 
   addMoreEquipment(): void{

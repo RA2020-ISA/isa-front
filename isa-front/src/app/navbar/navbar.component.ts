@@ -58,4 +58,7 @@ export class NavbarComponent implements OnInit {
     this.userStateService.clearLoggedInUser();
     this.router.navigate(['/']);
   }
+  redirectToPickupEquipment(){
+    this.router.navigate(['/pickup-equipment']);
+  }
 }

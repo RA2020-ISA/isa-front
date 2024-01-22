@@ -10,6 +10,7 @@
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToAdminCompany()">My company</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToWorkCalendar()">Work calendar</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToManageAdmins()">Manage administrations</button>
+          <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'" (click)="redirectToPickupEquipment()">Pickup order</button>
           <button *ngIf="userStateService.getLoggedInUser()" (click)="logout()">Logout</button>
         </div>
       </div>

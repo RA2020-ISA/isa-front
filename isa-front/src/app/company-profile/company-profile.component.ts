@@ -234,7 +234,15 @@ export class CompanyProfileComponent implements OnInit {
     return appointmentTimesForSelectedDate;
   }
   
-  
+  minDate(): string {
+    const today = new Date();
+    
+    // Set the minimum date as today's date in the local time zone
+    today.setHours(0, 0, 0, 0);
+    console.log(today);
+    const minDate = today.toLocaleDateString('en-CA');
+    return minDate;
+}
 
   generateRandomTimeSlots(): any[] {
     // LOGIKA ZA PRIKAZ TERMINA U SKLOPU RADNOG VREMENA FIRME (ZA TU FIRMU)

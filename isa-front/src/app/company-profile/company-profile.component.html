@@ -70,7 +70,7 @@
 
     <div *ngIf="showDatePicker">
         <label>Select a date:</label>
-        <input type="date" [(ngModel)]="selectedDateStr" (change)="loadAvailableTimeSlots()" />
+        <input type="date" [(ngModel)]="selectedDateStr" (change)="loadAvailableTimeSlots()" [attr.min]="minDate()" />
     </div>
 
     <div *ngIf="showTimeSlots">

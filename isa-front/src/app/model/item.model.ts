@@ -1,9 +1,9 @@
-import { AppointmentReservation } from "./reservation.model";
+import { Equipment } from "./equipment.model";
+import { Reservation } from "./reservation.model";
 
 export interface Item {
     id?: number,
-    equipmentId: number;
-    equipmentName: string;
+    equipment: Equipment;
     quantity: number;
-    reservation?: number;
+    reservation?: Reservation | null;
 }

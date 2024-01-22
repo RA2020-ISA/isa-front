@@ -7,6 +7,7 @@ import { Equipment } from '../model/equipment.model';
 import { environment } from '../../env/environment';
 import { Item } from '../model/item.model';
 import { UserStateService } from './user-state.service';
+import { Reservation } from '../model/reservation.model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,10 @@ export class ItemService {
   getByReservation(id: number): Observable<Array<Item>> {
     const url = `http://localhost:8080/api/item/byReservation/${id}`;
     return this.http.get<Array<Item>>(url);
+  }
+
+  update(selectedItem: Item): Observable<Item> {
+    return this.http.put<Item>('http://localhost:8080/api/item/update/' + selectedItem.id, selectedItem);
   }
   
 }

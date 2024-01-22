@@ -2,11 +2,11 @@ import { Company } from "./company.model";
 
 export interface Equipment {
     id?: number,
-    description: string, 
-    grade: number, 
     name: string,
+    description: string, 
     price: number,
+    grade: number, 
     type: string, 
-    companies : Company[],
-    companyId: number
+    maxQuantity: number,
+    company: Company
 }

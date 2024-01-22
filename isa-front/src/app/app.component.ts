@@ -7,11 +7,13 @@ import dayGridPlugin from '@fullcalendar/daygrid'; //dodala kalendar
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   title = 'isa-front';
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin]
+    
   };
   
 }

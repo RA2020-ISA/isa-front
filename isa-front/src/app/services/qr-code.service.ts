@@ -1,0 +1,23 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, catchError } from 'rxjs';
+import { Company } from '../model/company.model';
+import { Equipment } from '../model/equipment.model';
+import { environment } from '../../env/environment';
+import { Item } from '../model/item.model';
+import { UserStateService } from './user-state.service';
+import { Reservation } from '../model/reservation.model';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class QRCodeService {
+  private readonly apiUrl = `${environment.apiHost}`;
+
+  constructor(private http: HttpClient,private userStateService: UserStateService) {}
+
+  generateQRCodeSendMail(reservationId: number): Observable<string> {
+    return this.http.post('http://localhost:8080/api/qr-code/generateQrCodeSendMail', reservationId, { responseType: 'text' });
+  }
+  
+}

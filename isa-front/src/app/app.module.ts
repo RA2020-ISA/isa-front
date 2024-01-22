@@ -25,8 +25,7 @@ import { CompanyCalendarComponent } from './company-calendar/company-calendar.co
 import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
 import { ManageAdministratorsComponent } from './manage-administrators/manage-administrators.component';
 import { PickupEquipmentComponent } from './pickup-equipment/pickup-equipment.component';
-
-
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +48,8 @@ import { PickupEquipmentComponent } from './pickup-equipment/pickup-equipment.co
     CompanyCalendarComponent,
     ReservationDetailsComponent,
     ManageAdministratorsComponent,
-    PickupEquipmentComponent
+    PickupEquipmentComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

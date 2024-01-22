@@ -13,7 +13,7 @@ import { UserStateService } from '../services/user-state.service';
   styleUrls: ['./company-calendar.component.css']
 })
 export class CompanyCalendarComponent implements OnInit{
-
+/*  */
   calendarAppointments: EquipmentAppointment[] = [];
   events: any[] = [];
 

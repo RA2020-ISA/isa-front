@@ -42,7 +42,7 @@
             <div class="equipment-grade"><p>Grade: {{ selectedEquipment.grade }}</p></div>
             <div class="equipment-type"><p>Type: {{ selectedEquipment.type }}</p></div>
 
-            <form (ngSubmit)="selectedEquipment.id && submitQuantity(selectedEquipment.id, quantityForm.value.quantity)" #quantityForm="ngForm">
+            <form (ngSubmit)="selectedEquipment && submitQuantity(selectedEquipment, quantityForm.value.quantity)" #quantityForm="ngForm">
                 <div class="quantity-input">
                     <label for="quantity">Quantity:</label>
                     <input type="number" id="quantity" name="quantity" ngModel required>
@@ -52,33 +52,41 @@
 
         </div>
     </div>
-    <!--<tr *ngFor="let appointment of availableAppointments">
-        <td>{{ appointment.id }}</td>
-        <td>{{ appointment.appointmentDate | date }}</td>
-        <td>{{ appointment.appointmentTime }}</td>
-        Add more columns as needed
-      </tr> -->
       <div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'">
         <label for="appointmentDate">Select Appointment Date:</label>
         <select id="appointmentDate" name="appointmentDate" [(ngModel)]="selectedAppointment">
-            <option *ngFor="let appointment of availableAppointments" [ngValue]="appointment">
+            <option *ngFor="let appointment of companyAppointments" [ngValue]="appointment">
                 {{ appointment.appointmentDate | date }} {{ appointment.appointmentTime }} ({{ appointment.appointmentDuration }} hours)
             </option>
         </select>
       </div>
-    <!-- ... (existing code) -->
 
 <div>
-    <!-- Your existing content -->
   
     <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
-    title="Use this button to make an appointment to pick up the equipment" (click)="createReservations()">Find available appointments</button>
+    title="Use this button to make an appointment to pick up the equipment" (click)="setExtraAppointment()">
+       Set Extra Appointment
+    </button>
+
+    <div *ngIf="showDatePicker">
+        <label>Select a date:</label>
+        <input type="date" [(ngModel)]="selectedDateStr" (change)="loadAvailableTimeSlots()" />
+    </div>
+
+    <div *ngIf="showTimeSlots">
+        <label>Select a time slot:</label>
+        <select [(ngModel)]="selectedTimeSlot">
+            <option *ngFor="let timeSlot of availableTimeSlots" [value]="timeSlot.value">{{ timeSlot.display }}</option>
+        </select>
+    </div>
     <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" 
         (click)="edit(company.id || 0)">
-  Edit
+        Edit
     </button>
     <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
-    (click)="createReservation()" [disabled]="!selectedAppointment">Create Reservation</button>
+    (click)="createReservation()" >
+        Create Reservation
+    </button>
   </div>
   
 

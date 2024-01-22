@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AppointmentReservation } from '../model/reservation.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationService } from '../services/reservation.service';
 import { CommonModule } from '@angular/common';
@@ -8,6 +7,7 @@ import { Item } from '../model/item.model';
 import { ItemService } from '../services/item.service';
 import { Observable } from 'rxjs';
 import { UserStateService } from '../services/user-state.service';
+import { Reservation } from '../model/reservation.model';
 
 @Component({
   selector: 'app-reservations',
@@ -18,7 +18,7 @@ import { UserStateService } from '../services/user-state.service';
 })
 export class ReservationsComponent implements OnInit{
   username?: string;
-  reservations: AppointmentReservation[] = []; 
+  reservations: Reservation[] = []; 
   equipmentDetails: { [key: number]: string } = {};
 
   constructor(private route: ActivatedRoute, private resService: ReservationService,
@@ -46,9 +46,6 @@ export class ReservationsComponent implements OnInit{
       }
     });
   }
-  viewReservationDetails(reservationId: number): void {
-    this.router.navigate(['/reservation-details', reservationId]);
-  }
   formatTime(timeString: string): string {
     if (timeString.includes(':')) {
       return timeString;
@@ -74,7 +71,7 @@ export class ReservationsComponent implements OnInit{
     });
     return items;
   }
-  hasReservationId(reservation: AppointmentReservation): boolean {
+  hasReservationId(reservation: Reservation): boolean {
     return reservation.id !== undefined;
   }
 }

@@ -13,6 +13,7 @@
               <p>Name: {{ item.equipment.name }}, Quantity: {{ item.quantity }}</p>
             </li>
           </ul>
+          <button (click)="cancelReservation(reservation)"  class="cancel-button" [disabled]="isPastDate(reservation.appointment?.appointmentDate)">Cancel Reservation</button>
         </div>
       </li>
     </ul>

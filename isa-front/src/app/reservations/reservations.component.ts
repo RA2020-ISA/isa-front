@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationService } from '../services/reservation.service';
 import { CommonModule } from '@angular/common';
@@ -25,6 +25,8 @@ export class ReservationsComponent implements OnInit{
     private equipmentService: EquipmentService,
     private itemService: ItemService,
     public userStateService: UserStateService,
+    private reservationService: ReservationService,
+    private cdr: ChangeDetectorRef,
     private router: Router) {}
 
   ngOnInit(): void {
@@ -74,4 +76,28 @@ export class ReservationsComponent implements OnInit{
   hasReservationId(reservation: Reservation): boolean {
     return reservation.id !== undefined;
   }
+  cancelReservation(reservation: Reservation): void {
+    this.reservationService.cancelReservation(reservation).subscribe(response => {
+      console.log(response); // Ispisivanje odgovora sa servera
+      // Ažurirajte listu rezervacija na osnovu potreba
+      this.cdr.detectChanges();
+      
+    }, error => {
+      console.error(error); // Ispisivanje greške ako je došlo do problema na serveru
+      // Dodajte odgovarajuće korisničke poruke ili logiku rukovanja greškama
+    });
+  }
+  // Dodajte ovo u vašu komponentu
+isPastDate(appointmentDate: Date | undefined): boolean {
+  if (!appointmentDate) {
+    // Ako nema datuma, smatramo da nije u prošlosti
+    return false;
+  }
+  
+  const currentDate = new Date();
+  const appointmentDateTime = new Date(appointmentDate);
+
+  return appointmentDateTime < currentDate;
+}
+
 }

@@ -6,7 +6,7 @@ export interface User{
     lastName: string,
     email: string, 
     password: string, 
-    isLocked: boolean,
+    locked: boolean,
     enabled: boolean,
     userRole: UserRole, 
     penaltyPoints: number,

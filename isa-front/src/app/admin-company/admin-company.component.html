@@ -22,9 +22,6 @@
             <div class="equipment-card">
                 <div class="heading">
                     <p>{{ equipment.name }}</p>
-                    <button title="Use this button to make an appointment to pick up the equipment" 
-                    class="schedule-button"
-                    (click)="createAppointment(equipment.id || 0)">Schedule pickup</button>
                 </div>
                 <div class="equipment-description"><p>{{ equipment.description }}</p></div>
                 <div class="equipment-price"><p>Price: {{ equipment.price }}</p></div>

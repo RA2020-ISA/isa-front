@@ -34,7 +34,7 @@ const routes: Routes = [
   { path: 'all-equipment', component: AllEquipmentComponent },
   { path: 'reservations/:username', component: ReservationsComponent }, 
   { path: 'admin-company', component: AdminCompanyComponent},
-  { path: 'appointment-form/:id/:comid', component: AppointmentFormComponent},
+  { path: 'appointment-form', component: AppointmentFormComponent},
   { path: 'work-calendar', component: WorkCalendarComponent},
   { path: 'edit-equipment/:id', component: EquipmentEditFormComponent},
   { path: 'see-company-calendar', component: CompanyCalendarComponent},

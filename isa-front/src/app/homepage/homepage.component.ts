@@ -54,4 +54,8 @@ export class HomepageComponent implements OnInit {
   redirectToManageAdmins(){
     this.router.navigate(['/manage-administrators']);
   }
+
+  redirectToCreateAppointment(){
+    this.router.navigate(['/appointment-form']);
+  }
 }

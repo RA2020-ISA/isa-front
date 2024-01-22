@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyService } from '../services/company.service';
 import { Company } from '../model/company.model';
 import { UserService } from '../services/user.service';
-import { EquipmentAppointment } from '../model/equipment-appointment.model';
+import { Appointment } from '../model/appointment.model';
 import { UserStateService } from '../services/user-state.service';
 import { User } from '../model/user-model';
 import { Time } from '@angular/common';
@@ -16,9 +16,7 @@ import { Time } from '@angular/common';
 })
 export class AppointmentFormComponent implements OnInit {
   appointmentForm: FormGroup;
-  equipmentId?: number;
   loggedUser?: User;
-  companyId?: number;
   company?: Company;
   message?: string = '';
 
@@ -39,32 +37,28 @@ export class AppointmentFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.equipmentId = +params['id'];
-    });
-    this.route.params.subscribe(params => {
-      this.companyId = +params['comid'];
-      this.getCompany();
-    });
     this.loggedUser = this.userStateService.getLoggedInUser();
     if (this.loggedUser) {
       console.log("Ulogovani korisnik termin:");
       console.log(this.loggedUser);
+      this.getCompany();
     } else {
       console.log('Nije ulogovan nijedan korisnik!');
     }
   }
 
   getCompany(): void{
-    if (this.companyId) {
-      this.service.getCompany(this.companyId).subscribe(
+    if(this.loggedUser && this.loggedUser.id){
+      this.service.getCompanyByAdmin(this.loggedUser.id).subscribe(
         (result: Company) => {
           console.log('Kompanija:');
           console.log(result);
+          console.log('Id usera:');
+          console.log(this.loggedUser?.id);
           this.company = result;  // Postavi vrednost company ovde
         },
         (error) => {
-          console.error('Greška prilikom dobavljanja kompanije', error);
+          console.error('Greška prilikom dobavljanja kompanije za admina!', error);
         }
       );
     }
@@ -98,11 +92,8 @@ export class AppointmentFormComponent implements OnInit {
         this.isTimeWithinRange(this.addMinutes(appointmentTime, durationInMinutes), workTimeBegin, workTimeEnd);
     
       if (isWithinWorkTimeRange && isEndTimeWithinWorkTimeRange) {
-        const newAppointment: EquipmentAppointment = {
-          equipmentId: this.equipmentId || 0,
+        const newAppointment: Appointment = {
           adminId: this.loggedUser?.id || 0,
-          adminName: this.loggedUser?.firstName || '',
-          adminSurname: this.loggedUser?.lastName || '',
           appointmentDate: datum,
           appointmentTime: vreme,
           appointmentDuration: trajanje
@@ -112,7 +103,7 @@ export class AppointmentFormComponent implements OnInit {
         console.log(newAppointment);
     
         this.service.createAppointment(newAppointment).subscribe(
-          (result: EquipmentAppointment) => {
+          (result: Appointment) => {
             console.log('New appointment:');
             console.log(result);
             this.router.navigate(['/admin-company']);

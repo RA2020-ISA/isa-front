@@ -6,7 +6,7 @@ import { Company } from '../model/company.model';
 import { Equipment } from '../model/equipment.model';
 import { environment } from '../../env/environment';
 import { UserStateService } from './user-state.service';
-import { EquipmentAppointment } from '../model/equipment-appointment.model';
+import { Appointment } from '../model/appointment.model';
 import { User } from '../model/user-model';
 
 @Injectable({
@@ -76,13 +76,13 @@ export class CompanyService {
     return this.http.get<Company>('http://localhost:8080/api/companyAdmins/getCompanyForAdmin/' + adminId);
   }
   
-  createAppointment(appointment: EquipmentAppointment): Observable<EquipmentAppointment>{
+  createAppointment(appointment: Appointment): Observable<Appointment>{
     const loggedInUser = this.userStateService.getLoggedInUser();
     const userParams: { [param: string]: string | number | boolean } = {
       id: loggedInUser?.id || '',
     };
     const params = new HttpParams({ fromObject: userParams });
-    return this.http.post<EquipmentAppointment>('http://localhost:8080/api/appointments/create', appointment, {params});
+    return this.http.post<Appointment>('http://localhost:8080/api/appointments/create', appointment, {params});
   }
 
   getEquipmentById(id: number): Observable<Equipment>{
@@ -101,12 +101,12 @@ export class CompanyService {
     return this.http.get<Company>('http://localhost:8080/api/companies/addTo/' + companyId + '/' + equipmentId);
   }
 
-  getFreeCompanyAppoinments(): Observable<EquipmentAppointment[]>{
-    return this.http.get<EquipmentAppointment[]>('http://localhost:8080/api/appointments/all');
+  getFreeCompanyAppoinments(): Observable<Appointment[]>{
+    return this.http.get<Appointment[]>('http://localhost:8080/api/appointments/all');
   }
 
-  getFreeAdminsAppoinments(adminId: number): Observable<EquipmentAppointment[]>{
-    return this.http.get<EquipmentAppointment[]>('http://localhost:8080/api/adminsAppointments/' + adminId);
+  getFreeAdminsAppoinments(adminId: number): Observable<Appointment[]>{
+    return this.http.get<Appointment[]>('http://localhost:8080/api/adminsAppointments/' + adminId);
   }
 
   getAdminsForCompany(companyId: number): Observable<User[]>{

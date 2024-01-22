@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 import { UserStateService } from '../services/user-state.service';
 import { User } from '../model/user-model';
 import { EquipmentService } from '../services/equipment.service';
-import { EquipmentAppointment } from '../model/equipment-appointment.model';
 import { Location } from '@angular/common';
+import { Appointment } from '../model/appointment.model';
 
 @Component({
   selector: 'app-admin-company',
@@ -23,7 +23,7 @@ export class AdminCompanyComponent implements OnInit {
   showMore: boolean = false;
   moreEquipments?: Equipment[];
   allEquipments?: Equipment[];
-  allAppointments?: EquipmentAppointment[];
+  allAppointments?: Appointment[];
   searchName: string = '';
   searchPriceFrom: string = '';
   searchPriceTo: string = '';
@@ -76,10 +76,6 @@ export class AdminCompanyComponent implements OnInit {
         console.error('Greška prilikom dobavljanja kompanije', error);
       }
     );
-  }
-
-  createAppointment(equipmentId: number): void{
-    this.router.navigate(['/appointment-form/' + equipmentId + '/' + this.company?.id]);
   }
 
   removeEquipment(equipment: Equipment): void{
@@ -136,7 +132,7 @@ export class AdminCompanyComponent implements OnInit {
 
   getAllAppointments(): void{
     this.equipmentService.getAllAppointments().subscribe(
-      (result: EquipmentAppointment[]) => {
+      (result: Appointment[]) => {
         this.allAppointments = result;
   
         console.log("Svi termini za preuzimanje:");
@@ -166,10 +162,10 @@ export class AdminCompanyComponent implements OnInit {
   }
 
   canDelete(id: number): boolean {
-    if(this.allAppointments){
+    /*if(this.allAppointments){
       const canDelete = !this.allAppointments.some(appointment => appointment.equipmentId === id);
       return canDelete;
-    }
+    }*/
     return true;
   }
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core'; 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid'; 
-import { EquipmentAppointment } from '../model/equipment-appointment.model';
+import { Appointment } from '../model/appointment.model';
 import { CompanyService } from '../services/company.service';
 import { UserService } from '../services/user.service';
 import { UserStateService } from '../services/user-state.service';
@@ -14,7 +14,7 @@ import { UserStateService } from '../services/user-state.service';
 })
 export class CompanyCalendarComponent implements OnInit{
 /*  */
-  calendarAppointments: EquipmentAppointment[] = [];
+  calendarAppointments: Appointment[] = [];
   events: any[] = [];
 
   calendarOptions: CalendarOptions = {
@@ -50,7 +50,7 @@ export class CompanyCalendarComponent implements OnInit{
   
   ngOnInit(): void {
     this.companyService.getFreeCompanyAppoinments().subscribe(
-      (result: EquipmentAppointment[]) => {
+      (result: Appointment[]) => {
           this.calendarAppointments = result;
           //console.log("Ispisi OVDE")
           console.log(this.calendarAppointments);
@@ -64,24 +64,28 @@ export class CompanyCalendarComponent implements OnInit{
 
   createCalendarEvents() {
     this.calendarAppointments.forEach(appointment => {
-      const datePart = new Date(appointment.appointmentDate).toLocaleString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' });
-      // Start time
-      const startTime = new Date(`${datePart}T${appointment.appointmentTime}:00`);
+      if(appointment.appointmentDate){
+        const datePart = new Date(appointment.appointmentDate).toLocaleString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' });
+        // Start time
+        const startTime = new Date(`${datePart}T${appointment.appointmentTime}:00`);
+        if(appointment.appointmentDuration){
+          const endTime = new Date(startTime.getTime() + appointment.appointmentDuration * 60000);
+          const formattedStartTime = this.formatToISOString(startTime);
+          const formattedEndTime = this.formatToISOString(endTime);
+      
+          // Create event object
+          const event = {
+            title: 'Termin', //appointment.adminName + ' ' +  appointment.adminSurname, //ovo izmeni na nesto bolje
+            start: formattedStartTime,
+            end: formattedEndTime
+          };
+      
+          this.events.push(event); 
+        }
+      }
  
-      // Assuming duration is in minutes
-      const endTime = new Date(startTime.getTime() + appointment.appointmentDuration * 60000);
 
-      const formattedStartTime = this.formatToISOString(startTime);
-      const formattedEndTime = this.formatToISOString(endTime);
-  
-      // Create event object
-      const event = {
-        title: appointment.adminName + ' ' +  appointment.adminSurname, //ovo izmeni na nesto bolje
-        start: formattedStartTime,
-        end: formattedEndTime
-      };
-  
-      this.events.push(event); 
+      
     });
 
     this.calendarOptions.events = this.events;

@@ -26,4 +26,8 @@ export class AppointmentService {
   findCompanyAppointments(companyId: number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>('http://localhost:8080/api/appointments/companyAppointments/' + companyId);
   }
+
+  addAdminToAppointment(companyId: number, selectedAppointment: Appointment): Observable<Appointment> {
+    return this.http.post<Appointment>('http://localhost:8080/api/appointments/addAdminToAppointment/' + companyId, selectedAppointment);
+  }
 }

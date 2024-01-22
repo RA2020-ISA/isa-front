@@ -50,6 +50,10 @@ export class CompanyProfileComponent implements OnInit {
   selectedTimeSlot: string | undefined;
   availableTimeSlots: any[] | undefined; // Ovde bi trebali dodati stvarne vrednosti
 
+  foundAdminId: number | undefined; 
+  extraAppointment: boolean | undefined =  false;
+  noAvailableAdmin: boolean | undefined = false;
+
   constructor(private route: ActivatedRoute, 
     private service: CompanyService,
     private router: Router,
@@ -84,47 +88,102 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   createReservation() {
-
-    console.log('ULOGOVANI USER:', this.userStateService.getLoggedInUser() )
-
-    const newReservation: Reservation = {
-      appointment: this.selectedAppointment,      
-      user: this.userStateService.getLoggedInUser(),        
-      items: this.selectedItems,
-    };
-
-    console.log(this.selectedItems);
-    console.log('KORISNIK U NEW RESERVATION: ', newReservation.user);
-
-    this.reservationService.createReservation(newReservation).subscribe(
-      response => {
-        console.log("Reservation created successfully", response);
-
-        for (const selectedItem of this.selectedItems) {
-          console.log('svi selected items: ', this.selectedItems)
-          if (selectedItem.id)
-          selectedItem.reservation = response;
-          console.log('kakav je sad item koji ide na update: ', selectedItem);
-          this.itemService.update(selectedItem).subscribe(
-              updateResponse => {
-                console.log(`Item ${selectedItem.id} updated successfully`, updateResponse);
-              },
-              updateError => {
-                console.error(`Error updating item ${selectedItem.id}`, updateError);
-              }
-            );
+    console.log('USAO U CREATE RESERVATION');
+    console.log('IZABRANI EXTRA DATE: ', this.selectedDate);
+    console.log('IZABRANI EXTRA TIME: ', this.selectedTimeSlot);
+    
+    if (this.extraAppointment) {
+      this.checkAppointmentAvailability()
+    }
+    else {
+      this.createNewReservation();
+    }
+    /*
+    if (this.noAvailableAdmin) {
+      alert('There is no available admin, try to find a new date and time');
+    } 
+    else {
+      console.log('ULOGOVANI USER:', this.userStateService.getLoggedInUser() )
+  
+      const newReservation: Reservation = {
+        appointment: this.selectedAppointment,      
+        user: this.userStateService.getLoggedInUser(),        
+        items: this.selectedItems,
+      };
+  
+      console.log(this.selectedItems);
+      console.log('KORISNIK U NEW RESERVATION: ', newReservation.user);
+  
+      this.reservationService.createReservation(newReservation).subscribe(
+        response => {
+          console.log("Reservation created successfully", response);
+  
+          for (const selectedItem of this.selectedItems) {
+            console.log('svi selected items: ', this.selectedItems)
+            if (selectedItem.id)
+            selectedItem.reservation = response;
+            console.log('kakav je sad item koji ide na update: ', selectedItem);
+            this.itemService.update(selectedItem).subscribe(
+                updateResponse => {
+                  console.log(`Item ${selectedItem.id} updated successfully`, updateResponse);
+                },
+                updateError => {
+                  console.error(`Error updating item ${selectedItem.id}`, updateError);
+                }
+              );
+          }
+        },
+        error => {
+          console.error("Error creating reservation", error);
         }
-      },
-      error => {
-        console.error("Error creating reservation", error);
-      }
-    ); 
+      ); 
+    }
+    */
+  }
+
+  createNewReservation() {
+    console.log('ULOGOVANI USER:', this.userStateService.getLoggedInUser() )
+  
+      const newReservation: Reservation = {
+        appointment: this.selectedAppointment,      
+        user: this.userStateService.getLoggedInUser(),        
+        items: this.selectedItems,
+      };
+  
+      console.log(this.selectedItems);
+      console.log('KORISNIK U NEW RESERVATION: ', newReservation.user);
+  
+      this.reservationService.createReservation(newReservation).subscribe(
+        response => {
+          console.log("Reservation created successfully", response);
+  
+          for (const selectedItem of this.selectedItems) {
+            console.log('svi selected items: ', this.selectedItems)
+            if (selectedItem.id)
+            selectedItem.reservation = response;
+            console.log('kakav je sad item koji ide na update: ', selectedItem);
+            this.itemService.update(selectedItem).subscribe(
+                updateResponse => {
+                  console.log(`Item ${selectedItem.id} updated successfully`, updateResponse);
+                },
+                updateError => {
+                  console.error(`Error updating item ${selectedItem.id}`, updateError);
+                }
+              );
+          }
+        },
+        error => {
+          console.error("Error creating reservation", error);
+        }
+      ); 
   }
   
   
   //////////////////////////////////////
   setExtraAppointment() {
     this.showDatePicker = true;
+    this.extraAppointment = true;
+    console.log('EXTRA APPOINTMENT: ', this.extraAppointment);
   }
 
   loadAvailableTimeSlots() {
@@ -233,36 +292,36 @@ export class CompanyProfileComponent implements OnInit {
 
     console.log(this.company?.workTimeBegin, this.company?.workTimeEnd);
 
-    // Filtriranje vremenskih slotova kako bismo izbacili one koje već postoje
+    // Filtriranje vremenskih slotova kako bismo izbacili one koji nisu u okviru radnog vremena
     const foundSlots = allTimeSlots.filter(timeSlot => {
       console.log('Checking time slot:', timeSlot.value);
-    
+
       // Pretvorba vrednosti u integer
       const slotValueAsInt = parseInt(timeSlot.value, 10);
-    
+
       // Provera postojanja kompanije i validnosti vrednosti radnog vremena
       if (this.company && this.company.workTimeBegin && this.company.workTimeEnd) {
         const workTimeBeginAsInt = parseInt(this.company.workTimeBegin, 10);
         const workTimeEndAsInt = parseInt(this.company.workTimeEnd, 10);
-    
-        // Provera da li vrednost vremenskog slota ne prelazi radno vreme kompanije
+        
         return (
-          !existingAppointmentTimes.includes(timeSlot.value) &&
           slotValueAsInt >= workTimeBeginAsInt &&
           slotValueAsInt < workTimeEndAsInt
         );
       }
-    
-      return false; // Dodajte ovu liniju kao podrazumevani slučaj ako vrednosti nisu definisane
+
+      // Dodajte povratnu vrednost ako ne ispunjava prethodni uslov
+      return false; // ili nešto drugo u zavisnosti od vaših potreba
     });
+
 
     console.log('Found slots after filtering:', foundSlots);
 
     return foundSlots;
   }
   
-  
  checkAppointmentAvailability() {
+  console.log('USAO U CHECK APP AVAILABILITY');
   // Provera da li su odabrani datum i termin
   if (!this.selectedDate || !this.selectedTimeSlot) {
     console.error('Selected date or time slot is undefined or null.');
@@ -279,7 +338,7 @@ export class CompanyProfileComponent implements OnInit {
     adminId: -1,
     appointmentDate: this.selectedDate,
     appointmentTime: this.selectedTimeSlot,
-    appoointmentDuration: 1
+    appointmentDuration: 1
   };
 
   this.selectedAppointment = appointment;
@@ -287,15 +346,23 @@ export class CompanyProfileComponent implements OnInit {
   console.log(this.selectedAppointment);
 
     //IDE PROVERA ZA ADMINA I DODAVANJE ADMINA 
-
-    // Poziv funkcije na backend-u za proveru dostupnosti i pronalaženje slobodnog admina
-    /* this.yourApiService.checkAppointmentAvailability(appointment)
-      .subscribe((response) => {
-        // Ovde rukujte odgovorom sa servera, možda ažuriranjem UI-a ili prikazivanjem potvrde
-      }, (error) => {
-        console.error('Error checking appointment availability:', error);
-        // Ovde rukujte greškom, prikažite korisniku poruku ili ažurirajte UI
-      }); */
+  if (this.selectedAppointment.id == undefined && this.companyId)
+    this.appointmentService.addAdminToAppointment(this.companyId, this.selectedAppointment).subscribe(
+      (response: Appointment) => {
+        if (response.adminId == -1) {
+          alert('There is no available admin for this appointment, please choose another one.');
+          console.log('ako nije nadjen slobodan: ', this.selectedAppointment);
+        }
+        else {
+          this.selectedAppointment = response;
+          console.log('ako je nadjen slobodan: ', this.selectedAppointment);
+          this.createNewReservation();
+        }
+      },
+      (error: any) => {
+        console.error('greska pri dodavanju slobodnog admina u appointment', error);
+      }
+    )   
   }
   //////////////////////////////////////////////////
   

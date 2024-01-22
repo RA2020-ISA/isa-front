@@ -87,18 +87,12 @@
         </select>
     </div>
 
-    <!-- Check appointment availability -->
-    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
-        title="Check appointment availability" (click)="checkAppointmentAvailability()">
-        Check Appointment Availability
-    </button>
-
     <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" 
         (click)="edit(company.id || 0)">
         Edit
     </button>
     <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
-    (click)="createReservation()" [disabled]="!selectedAppointment">
+    (click)="createReservation()" >
         Create Reservation
     </button>
   </div>

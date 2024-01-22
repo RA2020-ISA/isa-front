@@ -16,6 +16,7 @@ import { Observable, catchError, map } from 'rxjs';
 import { Appointment } from '../model/appointment.model';
 import { Reservation } from '../model/reservation.model';
 import { eq } from '@fullcalendar/core/internal-common';
+import { QRCodeService } from '../services/qr-code.service';
 
 @Component({
   selector: 'app-company-profile',
@@ -30,7 +31,6 @@ export class CompanyProfileComponent implements OnInit {
   searchName: string = '';
   selectedEquipments: Equipment[] = []
   quantity: number = 1; 
-  //availableAppointments: Appointment[]=[];
   selectedAppointment: Appointment | undefined;
   createdItems: Item[] = [];
   reservation: Reservation | undefined;
@@ -39,6 +39,7 @@ export class CompanyProfileComponent implements OnInit {
   companyAppointments : Appointment[] = [];
   selectedItems : Item[] = []
   proveraReservation: Reservation | undefined;
+  reservationId: number | undefined;
   
   selectedEquipmentQuantities: Map<Equipment, number> = new Map<Equipment, number>();
 
@@ -61,7 +62,8 @@ export class CompanyProfileComponent implements OnInit {
     private itemService: ItemService,
     public userStateService: UserStateService,
     private reservationService: ReservationService,
-    private appointmentService: AppointmentService) {}
+    private appointmentService: AppointmentService,
+    private qrCodeService: QRCodeService) {}
 
   ngOnInit(): void {
     console.log(this.userStateService.getLoggedInUser());
@@ -98,47 +100,6 @@ export class CompanyProfileComponent implements OnInit {
     else {
       this.createNewReservation();
     }
-    /*
-    if (this.noAvailableAdmin) {
-      alert('There is no available admin, try to find a new date and time');
-    } 
-    else {
-      console.log('ULOGOVANI USER:', this.userStateService.getLoggedInUser() )
-  
-      const newReservation: Reservation = {
-        appointment: this.selectedAppointment,      
-        user: this.userStateService.getLoggedInUser(),        
-        items: this.selectedItems,
-      };
-  
-      console.log(this.selectedItems);
-      console.log('KORISNIK U NEW RESERVATION: ', newReservation.user);
-  
-      this.reservationService.createReservation(newReservation).subscribe(
-        response => {
-          console.log("Reservation created successfully", response);
-  
-          for (const selectedItem of this.selectedItems) {
-            console.log('svi selected items: ', this.selectedItems)
-            if (selectedItem.id)
-            selectedItem.reservation = response;
-            console.log('kakav je sad item koji ide na update: ', selectedItem);
-            this.itemService.update(selectedItem).subscribe(
-                updateResponse => {
-                  console.log(`Item ${selectedItem.id} updated successfully`, updateResponse);
-                },
-                updateError => {
-                  console.error(`Error updating item ${selectedItem.id}`, updateError);
-                }
-              );
-          }
-        },
-        error => {
-          console.error("Error creating reservation", error);
-        }
-      ); 
-    }
-    */
   }
 
   createNewReservation() {
@@ -156,7 +117,10 @@ export class CompanyProfileComponent implements OnInit {
       this.reservationService.createReservation(newReservation).subscribe(
         response => {
           console.log("Reservation created successfully", response);
-  
+          this.reservationId = response.id;
+
+          const selectedItemsNum: number = this.selectedItems.length;
+          var i: number = 0;
           for (const selectedItem of this.selectedItems) {
             console.log('svi selected items: ', this.selectedItems)
             if (selectedItem.id)
@@ -164,7 +128,22 @@ export class CompanyProfileComponent implements OnInit {
             console.log('kakav je sad item koji ide na update: ', selectedItem);
             this.itemService.update(selectedItem).subscribe(
                 updateResponse => {
+                  i = i + 1;
                   console.log(`Item ${selectedItem.id} updated successfully`, updateResponse);
+                  console.log('USAO DA GENERISE QR CODE');
+                  console.log(this.reservationId);
+                  if (i == selectedItemsNum) {
+                    if (this.reservationId)
+                    this.qrCodeService.generateQRCodeSendMail(this.reservationId).subscribe(
+                      (response) => {
+                        console.log(response);
+                        console.log('Upsesno generisanje qr koda i poslat mail');
+                      },
+                      (error) => {
+                        console.error(error);
+                      }
+                    );
+                  }
                 },
                 updateError => {
                   console.error(`Error updating item ${selectedItem.id}`, updateError);
@@ -177,8 +156,6 @@ export class CompanyProfileComponent implements OnInit {
         }
       ); 
   }
-  
-  
   //////////////////////////////////////
   setExtraAppointment() {
     this.showDatePicker = true;

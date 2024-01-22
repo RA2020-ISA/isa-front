@@ -10,6 +10,7 @@ import { User } from '../model/user-model';
 import { EquipmentService } from '../services/equipment.service';
 import { Location } from '@angular/common';
 import { Appointment } from '../model/appointment.model';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-admin-company',
@@ -30,6 +31,7 @@ export class AdminCompanyComponent implements OnInit {
   filteredEquipments: Equipment[] = [];
   companyEquipments: Equipment[] = [];
   otherAdministrators: User[] = [];
+  map: L.Map | undefined; // mapa
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
     private router: Router, private userService: UserStateService, private equipmentService: EquipmentService,
@@ -45,6 +47,46 @@ export class AdminCompanyComponent implements OnInit {
       console.log('Nije ulogovan nijedan korisnik!');
     }
   }
+
+  private initMap(): void {
+    const companyAddress = this.company?.address || 'Default Company Address';
+    console.log('adresa u mapi:');
+    console.log(companyAddress);
+    L.Icon.Default.imagePath = 'assets/images/';
+
+    // Poziv Geocoding API-ja da dobijete koordinate za adresu
+    this.getGeocodeCoordinates(companyAddress).then(coordinates => {
+      if (coordinates) {
+        // Postavljanje mape i markera sa dobijenim koordinatama
+        const initialCoordinates: [number, number] = [coordinates.lat, coordinates.lng];
+        console.log('koordinate mape:');
+        console.log(initialCoordinates);
+        this.map = L.map('map').setView(initialCoordinates, 15);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(this.map);
+
+        const companyMarker = L.marker([coordinates.lat, coordinates.lng]).addTo(this.map);
+        companyMarker.bindPopup(this.company?.address || 'adresa').openPopup();
+      }
+    });
+  }
+
+  private async getGeocodeCoordinates(address: string): Promise<{ lat: number, lng: number } | null> {
+    // Koristimo Nominatim servis za pretragu adrese i dobijanje koordinata
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+    const data = await response.json();
+    console.log('usao je i evo data:');
+    console.log(data);
+  
+    if (data && data.length > 0) {
+      const location = data[0];
+      return { lat: parseFloat(location.lat), lng: parseFloat(location.lon) };
+    }
+  
+    return null;
+  }  
 
   getMoreEquipments(): void{
     this.equipmentService.getEq().subscribe(
@@ -71,6 +113,7 @@ export class AdminCompanyComponent implements OnInit {
         console.log(this.company);
         this.companyEquipments = this.company.equipments;
         this.getMoreEquipments();
+        this.initMap(); // inicijalizuj mapu
       },
       (error) => {
         console.error('Greška prilikom dobavljanja kompanije', error);
@@ -192,5 +235,9 @@ export class AdminCompanyComponent implements OnInit {
 
   seeCompanyCalendarClick(){
     this.router.navigate(['/see-company-calendar']);
+  }
+
+  editCompany(): void{
+    this.router.navigate(['/edit-company/' + this.company?.id || 0]);
   }
 }

@@ -1,6 +1,11 @@
 <div *ngIf="company">
     <div class="card">
-        <div class="heading"><p>{{ company.name }}</p></div>
+        <div class="heading">
+            <p>{{ company.name }}</p>
+            <button mat-icon-button title="Use this button to edit company" (click)="editCompany()">
+                <mat-icon>edit</mat-icon>
+              </button>
+        </div>
         <div class="averageRating"><p>{{ company.description }}</p></div>
         <div class="address"><p>{{ company.address }}</p></div>
         <div class="averageRating"><p>Average grade: {{ company.averageGrade }}</p>
@@ -58,3 +63,4 @@
         <button (click)="seeCompanyCalendarClick()"  class="schedule-button">See company calendar</button>
     </div>
 </div>
+<div id="map" style="height: 350px !important; width: 50% !important;"></div>

@@ -26,8 +26,6 @@ import { ReservationDetailsComponent } from './reservation-details/reservation-d
 import { ManageAdministratorsComponent } from './manage-administrators/manage-administrators.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +33,6 @@ import { NavbarComponent } from './navbar/navbar.component';
     LoginComponent,
     HomeComponent,
     HomepageComponent,
-    NavbarComponent,
     CompanyProfileComponent,
     AllCompaniesComponent,
     CompanyFormComponent,
@@ -49,7 +46,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     EquipmentEditFormComponent,
     CompanyCalendarComponent,
     ReservationDetailsComponent,
-    ManageAdministratorsComponent
+    ManageAdministratorsComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,20 @@
+<div *ngIf="loading; else content">
+    <p>Loading QR codes...</p>
+</div>
+
+<ng-template #content>
+    <div *ngIf="userQRCodeImages.length > 0; else noQRCodeMessage" class="container">
+        <h2 class="qr-codes-heading">Your Reservations</h2>
+        <h3 class="qr-codes-heading2">Scan them to reveal the contents</h3>
+        <div *ngFor="let imageUrl of userQRCodeImages; let i = index" class="qr-code-card">
+            <div class="card">
+                <p class="reservation-number">Reservation #{{ i + 1 }}</p>
+                <img [src]="imageUrl" alt="QR Code">
+            </div>
+        </div>
+    </div>
+
+    <ng-template #noQRCodeMessage>
+        <p>No QR codes available</p>
+    </ng-template>
+</ng-template>

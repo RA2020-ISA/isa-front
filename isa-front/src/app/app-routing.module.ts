@@ -21,6 +21,7 @@ import { ReservationDetailsComponent } from './reservation-details/reservation-d
 import { ManageAdministratorsComponent } from './manage-administrators/manage-administrators.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UsersPenaltyPoints } from './users-penalty-points/users-penalty-points.component';
+import { UsersQRCodesComponent } from './users-qr-codes/users-qr-codes.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -43,7 +44,8 @@ const routes: Routes = [
   { path: 'reservation-details/:id', component: ReservationDetailsComponent },
   { path: 'manage-administrators', component: ManageAdministratorsComponent},
   { path: 'navbar', component: NavbarComponent},
-  { path: 'users-penalty-points', component: UsersPenaltyPoints}
+  { path: 'users-penalty-points', component: UsersPenaltyPoints},
+  { path: 'users-qr-codes', component: UsersQRCodesComponent}
 ];
 
 @NgModule({

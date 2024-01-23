@@ -1,0 +1,85 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.qr-code-image {
+    margin: 10px;
+}
+
+/* Loading styles */
+div[loading] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* No QR codes available message styles */
+#noQRCodeMessage {
+    color: red; /* Adjust the color to your preference */
+    font-weight: bold;
+}
+
+/* Additional styles for your existing CSS */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.card {
+    border-radius: 10px;
+    background-color: lightblue;
+    padding: 20px;
+    color: white;
+    width: 200px;
+}
+
+.qr-code-card {
+    margin: 10px;
+}
+
+.reservation-number {
+    font-size: 25px; /* Prilagodite veličinu fonta prema želji */
+    font-weight: bold; /* Opciono: dodajte podebljanje teksta */
+    margin-top: 10px; /* Opciono: dodajte razmak ispod teksta */
+}
+
+.qr-codes-heading {
+    font-size: 30px; /* Prilagodite veličinu fonta prema želji */
+    font-weight: bold; /* Opciono: dodajte podebljanje teksta */
+    margin-bottom: 20px; /* Opciono: dodajte razmak ispod naslova */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #3498db;
+}
+
+.qr-codes-heading2{
+    font-size: 20px; /* Prilagodite veličinu fonta prema želji */
+    margin-top: -10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #3498db;
+}

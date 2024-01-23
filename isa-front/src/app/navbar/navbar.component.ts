@@ -80,6 +80,10 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/users-penalty-points']);
   }
 
+  redirectToUsersQRCodes() {
+    this.router.navigate(['/users-qr-codes']);
+  }
+
   logout(){
     this.userStateService.clearLoggedInUser();
     this.router.navigate(['/']);

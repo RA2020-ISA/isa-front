@@ -128,10 +128,13 @@ export class WorkCalendarComponent implements OnInit{
     eventContent: (arg, createElement) => {
       const div = document.createElement('div');
       div.innerHTML = `<b>${arg.timeText}</b><br>${arg.event.title}`;
-      div.style.backgroundColor = 'lightgreen'; // Zelena pozadina
-      div.style.color = 'red'; // Crni tekst
-      div.style.border = '2px solid black'; // Deblja granica
+      div.style.backgroundColor = 'yellow'; // Zelena pozadina
+      div.style.color = 'darkgreen'; // Crni tekst
+      div.style.border = '2px solid darkgreen'; // Deblja granica
       div.style.borderRadius = '5px'; // Zaobljeni ivici
+      div.style.padding = '4px'; // Dodajte padding za povećanje veličine
+      div.style.fontWeight = 'bold';
+      div.style.fontSize = '14px';
       return { domNodes: [div] };
     }
   };

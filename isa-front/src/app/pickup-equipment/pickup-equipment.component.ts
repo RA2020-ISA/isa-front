@@ -39,7 +39,7 @@ export class PickupEquipmentComponent {
       this.reservationService.readQrCodeImage(this.selectedFile)
         .subscribe((response) => {
         
-          const reservationNumberMatch = response.match(/Reservation number: (\d+)/);
+          const reservationNumberMatch = response.match(/Reservation number: (\d+)/); //iz isictanog qr koda uzmi ReservationID
           
           if (reservationNumberMatch && reservationNumberMatch.length > 1) {
             const reservationNumberString = reservationNumberMatch[1];
@@ -63,7 +63,7 @@ export class PickupEquipmentComponent {
     });
   }
 
-  onPickupOrder(): void{
+  onPickupOrder(): void{     //button 
     if(this.reservation?.status?.toLocaleLowerCase().includes('taken')){
       alert('Reservacija je vec preuzeta');
     }else if(this.reservation?.status?.toLocaleLowerCase().includes('expired')){
@@ -72,7 +72,7 @@ export class PickupEquipmentComponent {
       const isAbleToPickupOrder = this.checkAppointmentDateTime();
       if(isAbleToPickupOrder){
         if (this.reservation !== null){
-          this.reservationService.takeOverReservation(this.reservation)
+          this.reservationService.takeOverReservation(this.reservation) //pick_up order
           .subscribe((response : Reservation) => {
             if(response != null){
                 this.showReservation = true;
@@ -82,7 +82,7 @@ export class PickupEquipmentComponent {
         }
       }else{
         if (this.reservation !== null){
-          this.reservationService.expireReservation(this.reservation)
+          this.reservationService.expireReservation(this.reservation) //expired
           .subscribe((response : Reservation) => {
             if(response != null){
                 this.showReservation = true;

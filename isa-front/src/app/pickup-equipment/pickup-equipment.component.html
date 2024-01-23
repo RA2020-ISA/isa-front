@@ -1,11 +1,33 @@
-<div>
-    <h1>Pickup your order!</h1>
+<div class="pickup_order_div">
+    <h2>Uploud reservation QR-code!</h2>
     <form #uploadForm="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-        <input type="file" name="image" id="imageInput" (change)="onFileSelected($event)" accept="image/*" required>
-        <button type="submit" id="uploadButton" [disabled]="!selectedFile">Read image</button>
+        <label for="imageInput" class="custom-file-input">Choose File</label>
+        <input  type="file" name="image" id="imageInput" (change)="onFileSelected($event)" accept="image/*">
+        <button type="submit" id="uploadButton" [disabled]="!selectedFile"  class="buttons">Read image</button>
     </form>
       
     <div id="imagePreview" *ngIf="imageUrl" style="max-width: 300px; margin-top: 20px;">
         <img [src]="imageUrl" alt="Uploaded Image" style="width: 100%;">
+    </div>
+
+    <div *ngIf="selectedFile" class="selected-file-name">
+        Selected Image: {{ selectedFile.name }}
+    </div>
+
+    <div class="reservation_div"  *ngIf="showReservation">
+        <h3>Reservation Details:</h3>
+        <p *ngIf="reservation">Reservation number: {{ reservation.id }}</p>
+        <p *ngIf="reservation">Order by: {{ reservation.user?.firstName }} {{ reservation.user?.lastName }}</p>
+        <p>Appoinmtnet Date: {{ reservation?.appointment?.appointmentDate | date:'dd-MM-yyyy' }}</p>
+        <p>Appoinmtnet start time: {{ reservation?.appointment?.appointmentTime }} hour</p>
+        <p>Appoinmtnet duration: {{ reservation?.appointment?.appointmentDuration }} minutes</p>
+        <h3>Items:</h3>
+        <div *ngFor="let item of reservation?.items">
+            <p *ngIf="item?.equipment">Equipment Name: {{ item.equipment.name }}</p>
+            <p *ngIf="item">Quantity: {{ item.quantity }}</p>
+        </div>
+    </div>
+    <div *ngIf="showReservation">
+        <button [disabled]="!isAbleToPickupOrder" (click)="onPickupOrder()"  class="buttons">Pickup order</button>
     </div>
 </div>

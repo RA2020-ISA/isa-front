@@ -1,0 +1,76 @@
+.pickup_order_div{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f8f8f8;
+}
+
+.pickup_order_div h2{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 20px;
+    color: #3498db;
+}
+
+.reservation_div{
+    border-radius: 10px; 
+    background-color: lightblue; 
+    padding: 20px; 
+    color: white; 
+    width: 400px;
+}
+
+.reservation_div h3 {
+    color: #3498db;
+    font-size: 1.5em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.buttons {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+  
+.buttons:hover {
+    background-color: #2980b9;
+}
+
+/* Stil za file input */
+input[type="file"] {
+    display: none; /* Sakrij stvarni input */
+}
+
+/* Stil za stilizovani prikaz inputa */
+.custom-file-input {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.custom-file-input:hover {
+    background-color: #2980b9; 
+}
+
+.selected-file-name{
+    margin: 3px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ReservationService } from '../services/reservation.service';
+import { Reservation } from '../model/reservation.model';
 
 @Component({
   selector: 'app-pickup-equipment',
@@ -10,6 +11,9 @@ export class PickupEquipmentComponent {
 
   selectedFile: File | null = null;
   imageUrl: string | null = null;
+  reservation: Reservation | null = null;
+  showReservation: boolean = false;
+  isAbleToPickupOrder: boolean = true;
 
   constructor(private reservationService: ReservationService) { }
 
@@ -33,8 +37,70 @@ export class PickupEquipmentComponent {
     if (this.selectedFile) {
       this.reservationService.readQrCodeImage(this.selectedFile)
         .subscribe((response) => {
-          console.log('Ovo je procitan qr', response); // Handle the response from the server, if needed
-        });
+        
+          const reservationNumberMatch = response.match(/Reservation number: (\d+)/);
+          
+          if (reservationNumberMatch && reservationNumberMatch.length > 1) {
+            const reservationNumberString = reservationNumberMatch[1];
+            const reservationNumber = parseInt(reservationNumberString, 10);
+            this.findUserReservation(reservationNumber);
+          } else {
+            console.error('Broj rezervacije nije pronađen u response stringu.');
+          }
+      });
     }
+  }
+
+  findUserReservation(reservationNumber: number): void{
+    this.reservationService.findReservation(reservationNumber)
+    .subscribe((response : Reservation) => {
+       if(response != null){
+          this.showReservation = true;
+          this.reservation = response;
+          
+       }
+    });
+  }
+
+  onPickupOrder(): void{
+    const isAbleToPickupOrder = this.checkAppointmentDateTime();
+    //logika za update rezervacije
+    //false => update user 2 penala 
+    //true => promeni status rezervacije, send email, smanji quantity za equipment????????
+  }
+
+  checkAppointmentDateTime(): boolean{
+    const currentDateTime: Date = new Date();
+    const appointmentDate: Date = new Date(this.reservation?.appointment?.appointmentDate!!); 
+    console.log('appointmentDate from reservation',this.reservation?.appointment?.appointmentDate); //datum
+    const appointmentStartTime: string | undefined = this.reservation?.appointment?.appointmentTime; //14:15
+    const appointmentDuration: number | undefined = this.reservation?.appointment?.appointmentDuration; //60 minutes
+
+    if (appointmentStartTime !== undefined && appointmentDuration !== undefined) {
+      const [hour, minute] = appointmentStartTime.split(':').map(Number);
+      const appointmentStartDateTime = new Date(appointmentDate);
+      appointmentStartDateTime.setHours(hour, minute);
+      const appointmentEndDateTime = new Date(appointmentStartDateTime.getTime() + appointmentDuration * 60000);
+      console.log('current time:', currentDateTime);
+      console.log('start date time:', appointmentStartDateTime);
+      console.log('end date time:', appointmentEndDateTime);
+      if(currentDateTime <= appointmentStartDateTime){
+        if (currentDateTime >= appointmentStartDateTime && currentDateTime <= appointmentEndDateTime) {
+          console.log('Termin je aktivan.');
+          alert('Termin je aktivan.');
+          this.isAbleToPickupOrder = true;
+          return true;
+        } else {
+            console.log('Termin je istekao.');
+            alert('Termin je istekao.');
+            this.isAbleToPickupOrder = false;
+            return false;
+        }
+      }else{
+        console.log('Termin je u budućnosti.');
+        return true;
+      } 
+    }
+    return false;
   }
 }

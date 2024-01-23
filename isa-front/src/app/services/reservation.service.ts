@@ -59,11 +59,11 @@ export class ReservationService {
   readQrCodeImage(selectedFile: File): Observable<String>{
     let formData = new FormData();
     formData.append("file", selectedFile);
-    //return this.http.post<String>(`http://localhost:8080/api/registration/readQrCodeImage`, formData);
-   //return this.http.post<String>(`http://localhost:8080/api/qr-code/readQrCodeImage`, selectedFile);
-    //return this.http.get<String>(`http://localhost:8080/api/qr-code/proba`);
     return this.http.post(`http://localhost:8080/api/registration/readQrCodeImage`, formData, { responseType: 'text' });
   }
 
+  findReservation(reservationNumber: number): Observable<Reservation>{
+    return this.http.get<Reservation>(`http://localhost:8080/api/reservations/findReservationById/`+ reservationNumber);
+  }
   
 }

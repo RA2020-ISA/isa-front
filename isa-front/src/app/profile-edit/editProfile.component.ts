@@ -109,7 +109,7 @@ export class EditProfileComponent implements OnInit{
             occupation: this.userForm.value.occupation || '',
             companyInfo: '', //ovde fali is user first loged 
         };
-    
+        console.log(updatedUser);
         if (this.user) {
             updatedUser.id = this.user.id;
         }

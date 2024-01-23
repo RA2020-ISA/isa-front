@@ -55,5 +55,9 @@ export class ReservationService {
   getAllReservations(): Observable<Reservation[]> {
     return this.http.get<Reservation[]>('http://localhost:8080/api/reservations/all');
   } 
+  cancelReservation(reservation: Reservation): Observable<string> {
+    const url = `http://localhost:8080/api/reservations/cancel`;
+    return this.http.put(url, reservation, { responseType: 'text' });
+  }
   
 }

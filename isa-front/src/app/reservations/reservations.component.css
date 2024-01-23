@@ -79,3 +79,9 @@ button:hover {
   margin: 4px 2px;
   cursor: pointer;
 }
+button:disabled {
+  background-color: #ddd; /* Siva pozadina za onemogućeno dugme */
+  color: #666; /* Tamnosiva boja teksta za onemogućeno dugme */
+  cursor: not-allowed; /* Promenite kursor na not-allowed za onemogućeno dugme */
+}
+

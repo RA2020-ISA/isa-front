@@ -17,56 +17,83 @@ import { Reservation } from '../model/reservation.model';
   styleUrls: ['./work-calendar.component.css']
 })
 export class WorkCalendarComponent implements OnInit{
+  datePipe: any;
 
   
   constructor(private companyService: CompanyService, public userService: UserStateService, public reservationService: ReservationService) {}
   calendarAppointments: Appointment[] = [];
+  companyReservations: Reservation[] = [];
   events: any[] = [];
   loggedUser?: User;
 
    
   ngOnInit(): void {
     this.loggedUser = this.userService.getLoggedInUser();
-    console.log(this.loggedUser);
-    this.reservationService.getAdminsAppointmentReservation(this.loggedUser?.id || 0).subscribe(
-      /* (result: Appointment[]) => {
-          this.calendarAppointments = result;
-          //console.log("Ispisi OVDE")
-          console.log(this.calendarAppointments);
+    console.log('Ulogovan admin', this.loggedUser);
+    this.reservationService.getAdminsAppointmentReservation(this.loggedUser?.id || 0)
+    .subscribe((result: Reservation[]) => {
+          this.companyReservations = result;
+          console.log('Reservations:', this.companyReservations);
+          this.addCalendarAppointments();
           this.createCalendarEvents();
-      }, */
-      (error) => {
-        console.error('Greška', error);
       }
     );
   }
 
-  createCalendarEvents() {
-    this.calendarAppointments.forEach(appointment => {
-      const dateArray = appointment.appointmentDate;
-      
-      // Check if dateArray is defined
-      if (Array.isArray(dateArray) && dateArray.length >= 7) {
-        // Convert the array to a LocalDateTime object
-        const localDateTime = new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4], dateArray[5], dateArray[6] / 1000000);
-        
-        // Convert LocalDateTime to JavaScript Date
-        const date = new Date(localDateTime);
-        
-        // Start time
-        const startTime = new Date(`${date.toISOString().slice(0, 10)}T${appointment.appointmentTime}:00`);
-  
-        // Add duration to the startTime
-        const endTime = new Date(startTime.getTime() + (appointment.appointmentDuration || 0) * 60000);
-  
-        const formattedStartTime = this.formatToISOString(startTime);
-        const formattedEndTime = this.formatToISOString(endTime);
+  addCalendarAppointments(): void{
+    
+    /*for (const reservation of this.companyReservations) {
+      if(reservation.appointment != null){
+        this.calendarAppointments.push(reservation.appointment);
+      }
+    }*/
+    for (const reservation of this.companyReservations) {
+      if(reservation.appointment != null){
+        this.findCalendarEvent(reservation);
+      }
+    }
+    this.calendarOptions.events = this.events;
+  }
+
+  findCalendarEvent(reservation: Reservation): void {
+    if(reservation.appointment != null){
+      const appointmentDate: Date = new Date(reservation.appointment.appointmentDate ?? new Date());
+      const appointmentStartTime: string | undefined = reservation.appointment.appointmentTime;
+      const appointmentDuration: number | undefined = reservation.appointment.appointmentDuration;
+      if (appointmentStartTime !== undefined && appointmentDuration !== undefined) {
+        const [hour, minute] = appointmentStartTime.split(':').map(Number);
+        const appointmentStartDateTime = new Date(appointmentDate);
+        appointmentStartDateTime.setHours(hour, minute);
+        const appointmentEndDateTime = new Date(appointmentStartDateTime.getTime() + appointmentDuration * 60000);
   
         // Create event object
         const event = {
-          //title: appointment.user?.firstName + ' ' + appointment.user?.lastName,
-          start: formattedStartTime,
-          end: formattedEndTime
+          title: `User: ${reservation.user?.firstName} ${reservation.user?.lastName ?? 'Unknown'}`,
+          start: appointmentStartDateTime,
+          end: appointmentEndDateTime,
+        };
+        this.events.push(event);
+      }
+    }
+  }
+
+  createCalendarEvents(): void {
+    this.calendarAppointments.forEach(appointment => {
+      const appointmentDate: Date = new Date(appointment.appointmentDate ?? new Date());
+      const appointmentStartTime: string | undefined = appointment.appointmentTime;
+      const appointmentDuration: number | undefined = appointment.appointmentDuration;
+  
+      if (appointmentStartTime !== undefined && appointmentDuration !== undefined) {
+        const [hour, minute] = appointmentStartTime.split(':').map(Number);
+        const appointmentStartDateTime = new Date(appointmentDate);
+        appointmentStartDateTime.setHours(hour, minute);
+        const appointmentEndDateTime = new Date(appointmentStartDateTime.getTime() + appointmentDuration * 60000);
+  
+        // Create event object
+        const event = {
+          title: 'Rezervacije od-do:', 
+          start: appointmentStartDateTime,
+          end: appointmentEndDateTime,
         };
   
         this.events.push(event);
@@ -78,17 +105,6 @@ export class WorkCalendarComponent implements OnInit{
     console.log(this.events);
   }
   
-  formatToISOString(date: Date): string {
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + date.getDate()).slice(-2);
-    const hours = ('0' + date.getHours()).slice(-2);
-    const minutes = ('0' + date.getMinutes()).slice(-2);
-    const seconds = ('0' + date.getSeconds()).slice(-2);
-  
-    const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-    return formattedDate;
-  }
   
 
   calendarOptions: CalendarOptions = {

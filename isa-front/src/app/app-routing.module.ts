@@ -22,6 +22,7 @@ import { ManageAdministratorsComponent } from './manage-administrators/manage-ad
 import { NavbarComponent } from './navbar/navbar.component';
 import { UsersPenaltyPoints } from './users-penalty-points/users-penalty-points.component';
 import { UsersQRCodesComponent } from './users-qr-codes/users-qr-codes.component';
+import { UsersTakeoverHistory } from './users-takeover-history/users-takeover-history.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -45,7 +46,9 @@ const routes: Routes = [
   { path: 'manage-administrators', component: ManageAdministratorsComponent},
   { path: 'navbar', component: NavbarComponent},
   { path: 'users-penalty-points', component: UsersPenaltyPoints},
-  { path: 'users-qr-codes', component: UsersQRCodesComponent}
+  { path: 'users-qr-codes', component: UsersQRCodesComponent},
+  { path: 'users-takeover-history', component: UsersTakeoverHistory}
+
 ];
 
 @NgModule({

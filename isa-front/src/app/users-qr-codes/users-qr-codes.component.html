@@ -9,13 +9,13 @@
 
         <form>
             <label>
-              <input type="radio" name="status" value="null" (change)="filteredStatus = null; filterQRCodeImages()"> All
+                <input type="radio" name="status" value="All" (change)="filteredStatus = 'All'; filterQRCodeImages()" [checked]="filteredStatus === 'All'"> All
             </label>
             <label>
               <input type="radio" name="status" value="PENDING" (change)="filteredStatus = 'PENDING'; filterQRCodeImages()"> Pending
             </label>
             <label>
-              <input type="radio" name="status" value="TAKEN_OVER" (change)="filteredStatus = 'TAKEN_OVER'; filterQRCodeImages()"> Taken Over
+              <input type="radio" name="status" value="TAKEN" (change)="filteredStatus = 'TAKEN'; filterQRCodeImages()"> Taken
             </label>
             <label>
               <input type="radio" name="status" value="EXPIRED" (change)="filteredStatus = 'EXPIRED'; filterQRCodeImages()"> Expired

@@ -53,8 +53,6 @@ export class ReservationsComponent implements OnInit{
     }
   }
 
-
-
   formatTime(timeString: string): string {
     if (timeString.includes(':')) {
       return timeString;

@@ -1,0 +1,31 @@
+<div *ngIf="reservations.length > 0; else noReservations" class="container">
+    <div *ngIf="userStateService.getLoggedInUser(); else sorryMessage">
+      <h2>Takeover History for {{ username }}</h2>
+      <ul>
+        <li *ngFor="let reservation of reservations" class="reservation-item">
+          <div *ngIf="userStateService.getLoggedInUser()?.email === reservation.user?.email">
+            <p><strong>Date:</strong> {{ reservation.appointment?.appointmentDate | date:'dd.MM.yyyy'}}</p>
+            <p><strong>Time:</strong> {{ reservation.appointment?.appointmentTime}}</p>
+            <p><strong>Duration:</strong> {{ reservation.appointment?.appointmentDuration}}</p>
+            <p><strong>Items:</strong></p>
+            <ul class="item-list">
+              <li *ngFor="let item of reservation.items" class="item">
+                <p>Name: {{ item.equipment.name }}, Quantity: {{ item.quantity }}</p>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <ng-template #noReservations>
+    <p class="no-reservations">No reservations found for {{ username }}</p>
+  </ng-template>
+  
+  <ng-template #sorryMessage>
+    <div class="sorry-message">
+      <p>Unauthorized</p>
+    </div>
+  </ng-template>
+  

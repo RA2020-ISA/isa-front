@@ -43,6 +43,16 @@ export class ReservationService {
     return this.http.get<Array<Reservation>>(url,{params});
   }
 
+  getAllTakenUsersReservations(username: string) {
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
+    const url = `http://localhost:8080/api/reservations/getAllTakenUsersReservations/${username}`;
+    return this.http.get<Array<Reservation>>(url,{params});
+  }
+
   getAllOrders(): Observable<Array<Reservation>> {
     return this.http.get<Array<Reservation>>(`http://localhost:8080/api/reservations/all`);
   }

@@ -84,6 +84,10 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/users-qr-codes']);
   }
 
+  redirectToTakeoverHistory() {
+    this.router.navigate(['/users-takeover-history']);
+  }
+
   logout(){
     this.userStateService.clearLoggedInUser();
     this.router.navigate(['/']);

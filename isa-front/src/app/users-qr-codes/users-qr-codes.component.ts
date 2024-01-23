@@ -21,7 +21,7 @@ export class UsersQRCodesComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   //reservationStatuses: (ReservationStatus | undefined)[] = [];
   //filteredQRCodeImages: string[] = [];
-  filteredStatus: string | undefined | null;
+  filteredStatus: string | undefined | null = 'All'; // Initialize filteredStatus to 'All'
   private subscription: Subscription = new Subscription();
 
   // Modify the reservationStatuses and userQRCodeImages arrays to use the QRCodeInfo model
@@ -45,6 +45,8 @@ export class UsersQRCodesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const user = this.userStateService.getLoggedInUser();
+    this.filteredStatus = 'All'
+    this.filteredQRCodeImages = this.userQRCodeImages;
 
     if (user) {
       this.subscription.add(
@@ -89,7 +91,7 @@ export class UsersQRCodesComponent implements OnInit, OnDestroy {
   }
 
   filterQRCodeImages() {
-    if (this.filteredStatus === null) {
+    if (this.filteredStatus === 'All' || this.filteredStatus === null) {
       // If All is selected, show all QR code images
       this.filteredQRCodeImages = this.userQRCodeImages;
     } else {

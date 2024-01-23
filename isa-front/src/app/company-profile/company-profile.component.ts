@@ -17,6 +17,7 @@ import { Appointment } from '../model/appointment.model';
 import { Reservation } from '../model/reservation.model';
 import { eq } from '@fullcalendar/core/internal-common';
 import { QRCodeService } from '../services/qr-code.service';
+import { User } from '../model/user-model';
 
 @Component({
   selector: 'app-company-profile',
@@ -54,6 +55,7 @@ export class CompanyProfileComponent implements OnInit {
   foundAdminId: number | undefined; 
   extraAppointment: boolean | undefined =  false;
   noAvailableAdmin: boolean | undefined = false;
+  user: User | undefined;
 
   constructor(private route: ActivatedRoute, 
     private service: CompanyService,
@@ -66,6 +68,7 @@ export class CompanyProfileComponent implements OnInit {
     private qrCodeService: QRCodeService) {}
 
   ngOnInit(): void {
+    this.user = this.userStateService.getLoggedInUser();
     console.log(this.userStateService.getLoggedInUser());
     this.route.params.subscribe(params => {
       this.companyId = +params['id']; 
@@ -93,12 +96,17 @@ export class CompanyProfileComponent implements OnInit {
     console.log('USAO U CREATE RESERVATION');
     console.log('IZABRANI EXTRA DATE: ', this.selectedDate);
     console.log('IZABRANI EXTRA TIME: ', this.selectedTimeSlot);
-    
-    if (this.extraAppointment) {
-      this.checkAppointmentAvailability()
-    }
+
+    if (this.user && this.user.penaltyPoints >= 3) {
+      alert('Unfortunately, you have 3 penalty points and it is not possible to make a reservation.');
+    } 
     else {
-      this.createNewReservation();
+      if (this.extraAppointment) {
+        this.checkAppointmentAvailability()
+      }
+      else {
+        this.createNewReservation();
+      }
     }
   }
 
@@ -314,8 +322,8 @@ export class CompanyProfileComponent implements OnInit {
   const appointment = {
     adminId: -1,
     appointmentDate: this.selectedDate,
-    appointmentTime: this.selectedTimeSlot,
-    appointmentDuration: 1
+    appointmentTime: this.selectedTimeSlot+":00",
+    appointmentDuration: 60
   };
 
   this.selectedAppointment = appointment;

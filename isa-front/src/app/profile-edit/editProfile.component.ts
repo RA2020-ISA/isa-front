@@ -99,7 +99,7 @@ export class EditProfileComponent implements OnInit{
             lastName: this.userForm.value.lastName || '',
             email: this.user?.email || '',
             password: (this.passwordForm.value.newPassword as unknown as string) || '',
-            isLocked: false,
+            locked: false,
             enabled: false,
             userRole: UserRole.USER,
             penaltyPoints: 0.0,

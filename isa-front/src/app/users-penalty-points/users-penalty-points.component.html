@@ -1,0 +1,8 @@
+<h1>Penalty Points</h1>
+<div>
+    <p>Your penalty points: <span id="penaltyPoints">{{ penaltyPoints }}</span></p>
+    <div *ngIf = "penaltyPoints !== 0">
+        <p>Current date: <span id="currentDateTime"> {{ formattedCurrentDate }}</span></p>
+        <p>Valid until: <span id="validUntilDate"> {{ formattedValidUntilDate }}</span></p>
+    </div>
+</div>

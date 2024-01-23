@@ -46,20 +46,7 @@ export class ProfileComponent implements OnInit{
     editProfile() {
         this.router.navigate(['/editProfile/', this.username]);
     }
-    viewReservations() {
-        if (this.username) {
-          this.resService.getByUser(this.username).subscribe(
-            (reservations) => {
-              // Ovde možete dodati logiku za prikaz rezervacija, npr. prikazivanje na novoj stranici ili dijalogu
-              console.log('Reservations:', reservations);
-              this.router.navigate(['/reservations', this.username]);
-            },
-            (error) => {
-              console.log('Error fetching reservations:', error);
-            }
-          );
-        }
-    }
+  
     redirectToAllCompanies(){
         this.router.navigate(['/companies']);
       }

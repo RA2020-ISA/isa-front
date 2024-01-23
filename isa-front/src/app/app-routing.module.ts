@@ -20,6 +20,7 @@ import { CompanyCalendarComponent } from './company-calendar/company-calendar.co
 import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
 import { ManageAdministratorsComponent } from './manage-administrators/manage-administrators.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { UsersPenaltyPoints } from './users-penalty-points/users-penalty-points.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -41,7 +42,8 @@ const routes: Routes = [
   { path: 'see-company-calendar', component: CompanyCalendarComponent},
   { path: 'reservation-details/:id', component: ReservationDetailsComponent },
   { path: 'manage-administrators', component: ManageAdministratorsComponent},
-  { path: 'navbar', component: NavbarComponent}
+  { path: 'navbar', component: NavbarComponent},
+  { path: 'users-penalty-points', component: UsersPenaltyPoints}
 ];
 
 @NgModule({

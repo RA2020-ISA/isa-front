@@ -7,6 +7,7 @@ import { Equipment } from '../model/equipment.model';
 import { environment } from '../../env/environment';
 import { UserStateService } from './user-state.service';
 import { Reservation } from '../model/reservation.model';
+import { Appointment } from '../model/appointment.model';
 
 @Injectable({
   providedIn: 'root',
@@ -77,4 +78,9 @@ export class ReservationService {
   takeOverReservation(reservation: Reservation): Observable<Reservation> {
     return this.http.put<Reservation>(`http://localhost:8080/api/reservations/takeOver`, reservation);
   }
+
+  getCompanyAvailableAppointments(adminId: number): Observable<Array<Appointment>> {
+    return this.http.get<Array<Appointment>>(`http://localhost:8080/api/appointments/companyAvailableAppointments/` + adminId);
+  }
+
 }

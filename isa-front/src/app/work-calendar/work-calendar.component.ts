@@ -23,6 +23,7 @@ export class WorkCalendarComponent implements OnInit{
   constructor(private companyService: CompanyService, public userService: UserStateService, public reservationService: ReservationService) {}
   calendarAppointments: Appointment[] = [];
   companyReservations: Reservation[] = [];
+  availableAppointments: Appointment[] = [];
   events: any[] = [];
   loggedUser?: User;
 
@@ -34,25 +35,40 @@ export class WorkCalendarComponent implements OnInit{
     .subscribe((result: Reservation[]) => {
           this.companyReservations = result;
           console.log('Reservations:', this.companyReservations);
+          this.getAvailableAppointments();
+         
+      }
+    );
+  }
+
+  getAvailableAppointments():void{
+    this.reservationService.getCompanyAvailableAppointments(this.loggedUser?.id || 0)
+    .subscribe((result: Appointment[]) => {
+          console.log('AVAILABLE', result);
+          this.availableAppointments = result;
           this.addCalendarAppointments();
-          this.createCalendarEvents();
       }
     );
   }
 
   addCalendarAppointments(): void{
-    
-    /*for (const reservation of this.companyReservations) {
-      if(reservation.appointment != null){
-        this.calendarAppointments.push(reservation.appointment);
-      }
-    }*/
     for (const reservation of this.companyReservations) {
       if(reservation.appointment != null){
         this.findCalendarEvent(reservation);
       }
     }
+    for (const appointemnt of this.availableAppointments) {
+      this.findCalendarAvailableAEvent(appointemnt);
+    }
+    /*const calendarEvents: any[] = [];
+
+    for(const event of this.events){
+      if (event != null) {
+        calendarEvents.push(event);
+      }  
+    }*/
     this.calendarOptions.events = this.events;
+    //this.calendarOptions.events = calendarEvents;
   }
 
   findCalendarEvent(reservation: Reservation): void {
@@ -68,21 +84,24 @@ export class WorkCalendarComponent implements OnInit{
   
         // Create event object
         const event = {
-          title: `User: ${reservation.user?.firstName} ${reservation.user?.lastName ?? 'Unknown'}`,
+          title: `RESERVED APPOINTMENT User info: ${reservation.user?.firstName} ${reservation.user?.lastName ?? 'Unknown'}`,
           start: appointmentStartDateTime,
           end: appointmentEndDateTime,
+          color: 'lightcoral',
+          textColor: 'black', 
+          borderColor: 'black'
         };
         this.events.push(event);
       }
     }
   }
 
-  createCalendarEvents(): void {
-    this.calendarAppointments.forEach(appointment => {
+  findCalendarAvailableAEvent(appointment: Appointment): void {
+    //console.log( 'wtff', appointment)
+    if(appointment != null){
       const appointmentDate: Date = new Date(appointment.appointmentDate ?? new Date());
       const appointmentStartTime: string | undefined = appointment.appointmentTime;
       const appointmentDuration: number | undefined = appointment.appointmentDuration;
-  
       if (appointmentStartTime !== undefined && appointmentDuration !== undefined) {
         const [hour, minute] = appointmentStartTime.split(':').map(Number);
         const appointmentStartDateTime = new Date(appointmentDate);
@@ -91,21 +110,17 @@ export class WorkCalendarComponent implements OnInit{
   
         // Create event object
         const event = {
-          title: 'Rezervacije od-do:', 
+          title: `AVAILABLE APPOINMENT`,
           start: appointmentStartDateTime,
           end: appointmentEndDateTime,
+          color: 'lightgreen',
+          textColor: 'black', 
+          borderColor: 'black'
         };
-  
         this.events.push(event);
       }
-    });
-  
-    this.calendarOptions.events = this.events;
-    console.log('Generated Events:');
-    console.log(this.events);
+    }
   }
-  
-  
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {
@@ -127,14 +142,23 @@ export class WorkCalendarComponent implements OnInit{
     events: [], 
     eventContent: (arg, createElement) => {
       const div = document.createElement('div');
+      const isAvailable = arg.event.title.includes('AVAILABLE')
       div.innerHTML = `<b>${arg.timeText}</b><br>${arg.event.title}`;
-      div.style.backgroundColor = 'yellow'; // Zelena pozadina
-      div.style.color = 'darkgreen'; // Crni tekst
-      div.style.border = '2px solid darkgreen'; // Deblja granica
-      div.style.borderRadius = '5px'; // Zaobljeni ivici
-      div.style.padding = '4px'; // Dodajte padding za povećanje veličine
+      
+      div.style.borderRadius = '5px'; 
+      div.style.padding = '4px'; 
       div.style.fontWeight = 'bold';
-      div.style.fontSize = '14px';
+      div.style.fontSize = '12px';
+      div.style.whiteSpace = 'wrap'; // Tekst neće prelaziti u novi red
+     // div.style.overflow = 'hidden'; // Ako tekst ne stane, biće skriven
+      if (isAvailable) {
+        div.style.backgroundColor = 'lightgreen';
+        div.style.border = '2px solid darkgreen';
+      } else {
+        div.style.backgroundColor = 'lightcoral';
+        div.style.border = '2px solid red'; 
+      }
+
       return { domNodes: [div] };
     }
   };

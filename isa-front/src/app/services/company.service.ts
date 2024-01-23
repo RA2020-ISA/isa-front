@@ -29,6 +29,10 @@ export class CompanyService {
     return this.http.get<Company[]>('http://localhost:8080/api/companies/all');
   } 
 
+  getAllAppointments(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>('http://localhost:8080/api/appointments/all');
+  } 
+
   getEquipmentForCompany(id : number): Observable<Equipment[]> {
     return this.http.get<Equipment[]>('http://localhost:8080/api/equipment/getEquipmentForCompany/' + id);
   }

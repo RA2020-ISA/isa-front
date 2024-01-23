@@ -21,6 +21,7 @@
         <p>Appoinmtnet Date: {{ reservation?.appointment?.appointmentDate | date:'dd-MM-yyyy' }}</p>
         <p>Appoinmtnet start time: {{ reservation?.appointment?.appointmentTime }} hour</p>
         <p>Appoinmtnet duration: {{ reservation?.appointment?.appointmentDuration }} minutes</p>
+        <p>Status: {{ reservation?.status}}</p>
         <h3>Items:</h3>
         <div *ngFor="let item of reservation?.items">
             <p *ngIf="item?.equipment">Equipment Name: {{ item.equipment.name }}</p>

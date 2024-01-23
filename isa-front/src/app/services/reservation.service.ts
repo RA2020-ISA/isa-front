@@ -70,4 +70,11 @@ export class ReservationService {
     return this.http.get<Reservation>(`http://localhost:8080/api/reservations/findReservationById/`+ reservationNumber);
   }
   
+  expireReservation(reservation: Reservation): Observable<Reservation> {
+    return this.http.put<Reservation>(`http://localhost:8080/api/reservations/expired`, reservation);
+  }
+
+  takeOverReservation(reservation: Reservation): Observable<Reservation> {
+    return this.http.put<Reservation>(`http://localhost:8080/api/reservations/takeOver`, reservation);
+  }
 }

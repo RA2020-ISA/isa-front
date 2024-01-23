@@ -3,7 +3,7 @@ button {
     padding: 10px 15px;
     margin: 5px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     background-color: #3498db; /* Blue color, you can change it */
     color: #fff; /* White text color */
@@ -30,6 +30,8 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-right: 60px;
+    width: 90px;
   }
   
   /* Dropdown content (hidden by default) */
@@ -41,6 +43,8 @@ button {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
     right: 0; /* Align the dropdown to the right */
+    border: none;
+    border-radius: 8px;
   }
   
   /* Ensure buttons in the dropdown have the same width */
@@ -60,6 +64,18 @@ button {
     display: flex;
     justify-content: flex-end; /* Align items to the right */
     align-items: center;
+    width: 100%;
+    margin: 0;
+    /*OVO SAM DODALA ZA MENI*/
+    position: fixed; /* Fiksni položaj kako bi se protezao preko celog ekrana */
+    top: 0; /* Podešavanje gornje ivice na 0 da se postavi na vrh ekrana */
+    left: 0; /* Podešavanje leve ivice na 0 da se postavi na početak ekrana */
+    z-index: 1000; /* Postavljanje visokog indeksa z-steka kako bi bio iznad drugih elemenata */
+    
+  }
+
+  body {
+    margin-top: 80px; /* Prilagodite visinu menija prema potrebi */
   }
   
   /* Sorry message styling */

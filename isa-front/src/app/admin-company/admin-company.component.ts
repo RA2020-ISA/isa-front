@@ -8,9 +8,11 @@ import { Router } from '@angular/router';
 import { UserStateService } from '../services/user-state.service';
 import { User } from '../model/user-model';
 import { EquipmentService } from '../services/equipment.service';
+import { ReservationService } from '../services/reservation.service';
 import { Location } from '@angular/common';
 import { Appointment } from '../model/appointment.model';
 import * as L from 'leaflet';
+import { Reservation } from '../model/reservation.model';
 
 @Component({
   selector: 'app-admin-company',
@@ -20,6 +22,7 @@ import * as L from 'leaflet';
 export class AdminCompanyComponent implements OnInit {
   company?: Company;
   equipments: Equipment[] = [];
+  reservations: Reservation[] = [];
   loggedUser?: User;
   showMore: boolean = false;
   moreEquipments?: Equipment[];
@@ -35,6 +38,7 @@ export class AdminCompanyComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
     private router: Router, private userService: UserStateService, private equipmentService: EquipmentService,
+    private reservationService: ReservationService,
     private location: Location) {}
 
   ngOnInit(): void {
@@ -43,9 +47,23 @@ export class AdminCompanyComponent implements OnInit {
       console.log("Ulogovani korisnik je sad:");
       console.log(this.loggedUser);
       this.getAdminCompany();
+      this.getAllReservations();
     } else {
       console.log('Nije ulogovan nijedan korisnik!');
     }
+  }
+
+  getAllReservations(): void{
+    this.reservationService.getAllReservations().subscribe(
+      (result: Reservation[]) => {
+        this.reservations = result;
+        console.log("Sve rezervacije:");
+        console.log(this.reservations);
+      },
+      (error) => {
+        console.error('Greška prilikom dobavljanja svih rezervacija', error);
+      }
+    );
   }
 
   private initMap(): void {
@@ -224,11 +242,16 @@ export class AdminCompanyComponent implements OnInit {
     );
   }
 
-  canDelete(id: number): boolean {
-    /*if(this.allAppointments){
-      const canDelete = !this.allAppointments.some(appointment => appointment.equipmentId === id);
-      return canDelete;
-    }*/
+  canDelete(equipmentId: number): boolean {
+    for (const reservation of this.reservations) {
+      for (const item of reservation.items) {
+        if (item.equipment?.id === equipmentId) {
+          if (reservation.status === 'PENDING') {
+            return false;
+          }
+        }
+      }
+    }
     return true;
   }
 

@@ -46,9 +46,9 @@
             <p *ngIf="item?.equipment">Equipment Name: {{ item.equipment.name }}</p>
             <p *ngIf="item">Quantity: {{ item.quantity }}</p>
         </div>
-    </div>
-    <div *ngIf="showReservation">
-        <button [disabled]="!isAbleToPickupOrder" (click)="onPickupOrder()"  class="buttons">Pickup order</button>
+        <div *ngIf="showReservation">
+            <button [disabled]="!isAbleToPickupOrder" (click)="onPickupOrder()"  class="buttons">Pickup order</button>
+        </div>
     </div>
 </div>
 </div>

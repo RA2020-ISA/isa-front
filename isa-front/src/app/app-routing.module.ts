@@ -24,6 +24,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { UsersPenaltyPoints } from './users-penalty-points/users-penalty-points.component';
 import { UsersQRCodesComponent } from './users-qr-codes/users-qr-codes.component';
 import { UsersTakeoverHistory } from './users-takeover-history/users-takeover-history.component';
+import { UserReservationsAdminComponent } from './user-reservations-admin/user-reservations-admin.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -49,7 +50,8 @@ const routes: Routes = [
   { path: 'navbar', component: NavbarComponent},
   { path: 'users-penalty-points', component: UsersPenaltyPoints},
   { path: 'users-qr-codes', component: UsersQRCodesComponent},
-  { path: 'users-takeover-history', component: UsersTakeoverHistory}
+  { path: 'users-takeover-history', component: UsersTakeoverHistory},
+  { path: 'user-reservations-admin', component: UserReservationsAdminComponent}
 
 ];
 

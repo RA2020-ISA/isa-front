@@ -99,4 +99,8 @@ export class NavbarComponent implements OnInit {
   redirectToPickupEquipment(){
     this.router.navigate(['/pickup-equipment']);
   }
+
+  redirectToUserReservations(): void{
+    this.router.navigate(['user-reservations-admin']);
+  }
 }

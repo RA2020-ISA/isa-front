@@ -1,0 +1,162 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.search-fields {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Dodaj margin ispod search polja */
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap; /* Omogući da kartice prelaze u novi red ako nema dovoljno prostora */
+    justify-content: center;
+    margin-top: 2px;
+}
+
+.card-and-filter {
+  display: flex;
+  flex-direction: row; /* Postavite filter i karticu jedno pored drugog */
+}
+
+.filter {
+  margin-right: 10px; /* Prilagodite ovu vrednost prema potrebi, kako bi se postigao željeni razmak između filtera i kartice */
+}
+
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Postavi filter opcije sa leve strane */
+    margin-left: 100px; /* Dodaj margin sa leve strane filter opcijama */
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.card {
+    border-radius: 10px; 
+    background-color: lightblue; 
+    padding: 20px; 
+    color: white; 
+    width: 300px;
+    margin-bottom: 10px; /* Dodaj margin između kartica */
+}
+
+.heading {
+    font-size: 24px; 
+    font-weight: bold; 
+}
+
+input[type="text"] {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #3498db;
+    border-radius: 3px;
+    font-size: 1em;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #2980b9;
+}
+
+.small-button {
+    background-color: transparent;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 5px;
+
+    background-color: #3498db;
+    color: white;
+    margin: 5px;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+  }
+  
+  .small-button:hover {
+    background-color: lightblue;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    font-size: 18px; /* Povećaj veličinu fonta prema želji */
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 5px;
+    cursor: pointer;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #3498db;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+  }
+  
+  input[type="checkbox"]:checked {
+    background-color: #3498db;
+    border-color: #3498db;
+  }
+  
+  input[type="checkbox"]::before {
+    content: '\2713';
+    font-size: 14px;
+    color: white;
+    display: block;
+    text-align: center;
+    line-height: 18px;
+  }
+
+  .separator {
+    border-bottom: 1px solid #ccc; /* Boja i debljina granice */
+    margin-bottom: 10px; /* Opciono, dodavanje malog odstojanja ispod granice */
+  }
+
+  .small-button.active {
+    background-color: grey; /* Možeš prilagoditi boju po želji */
+  }
+
+  .company-card{
+    border-radius: 10px; 
+    background-color: #3396FF; 
+    padding: 5px; 
+    color: white; 
+    width: auto;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.equipment-detail-card {
+  border-radius: 10px; 
+  background-color: lightblue; 
+  padding: 20px; 
+  color: white; 
+  width: 300px;
+  margin-bottom: 10px;
+}

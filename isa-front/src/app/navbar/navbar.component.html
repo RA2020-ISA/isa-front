@@ -16,6 +16,7 @@
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'" (click)="redirectToTakeoverHistory()">Takeover History</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'" (click)="redirectToUsersPenaltyPoints()">Penalty Points</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToCreateAppointment()">Create appointment</button>
+          <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToUserReservations()">User reservations</button>
           <button *ngIf="userStateService.getLoggedInUser()" (click)="logout()">Logout</button>
         </div>
       </div>

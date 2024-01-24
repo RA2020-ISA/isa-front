@@ -1,0 +1,7 @@
+<div *ngIf="users && users.length > 0" >
+      <div *ngFor="let user of users" class="equipment-detail-card">
+        <div class="heading"><p>{{ user.firstName }} {{ user.lastName }} </p></div>
+        <div class="equipment-description"><p>{{ user.email }}</p></div>
+        <div class="equipment-price"><p>Phone number: {{ user.phoneNumber }}</p></div>
+      </div>
+    </div>

@@ -21,6 +21,9 @@ import { ReservationDetailsComponent } from './reservation-details/reservation-d
 import { ManageAdministratorsComponent } from './manage-administrators/manage-administrators.component';
 import { PickupEquipmentComponent } from './pickup-equipment/pickup-equipment.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { UsersPenaltyPoints } from './users-penalty-points/users-penalty-points.component';
+import { UsersQRCodesComponent } from './users-qr-codes/users-qr-codes.component';
+import { UsersTakeoverHistory } from './users-takeover-history/users-takeover-history.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -36,14 +39,18 @@ const routes: Routes = [
   { path: 'all-equipment', component: AllEquipmentComponent },
   { path: 'reservations/:username', component: ReservationsComponent }, 
   { path: 'admin-company', component: AdminCompanyComponent},
-  { path: 'appointment-form/:id/:comid', component: AppointmentFormComponent},
+  { path: 'appointment-form', component: AppointmentFormComponent},
   { path: 'work-calendar', component: WorkCalendarComponent},
   { path: 'edit-equipment/:id', component: EquipmentEditFormComponent},
   { path: 'see-company-calendar', component: CompanyCalendarComponent},
   { path: 'reservation-details/:id', component: ReservationDetailsComponent },
   { path: 'manage-administrators', component: ManageAdministratorsComponent}, 
   { path: 'pickup-equipment', component: PickupEquipmentComponent},
-  { path: 'navbar', component: NavbarComponent}
+  { path: 'navbar', component: NavbarComponent},
+  { path: 'users-penalty-points', component: UsersPenaltyPoints},
+  { path: 'users-qr-codes', component: UsersQRCodesComponent},
+  { path: 'users-takeover-history', component: UsersTakeoverHistory}
+
 ];
 
 @NgModule({

@@ -3,14 +3,19 @@
       <div class="dropdown">
         <button class="dropbtn">Menu</button>
         <div class="dropdown-content">
-          <button (click)="redirectToAllCompanies()">Companies</button>
-          <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToCompanyForm()">Create company</button>
-          <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToAllEquipments()">All equipments</button>
           <button (click)="redirectToProfile()">Profile</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToAdminCompany()">My company</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToWorkCalendar()">Work calendar</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToManageAdmins()">Manage administrations</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToPickupEquipment()">Pickup order</button>
+          <button (click)="redirectToAllCompanies()">Companies</button>
+          <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToCompanyForm()">Create Company</button>
+          <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToAllEquipments()">All Equipments</button>
+          <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'" (click)="redirectToUsersReservations()">Reservations</button>
+          <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'" (click)="redirectToUsersQRCodes()">Reservations - QR Codes</button>
+          <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'" (click)="redirectToTakeoverHistory()">Takeover History</button>
+          <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'" (click)="redirectToUsersPenaltyPoints()">Penalty Points</button>
+          <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToCreateAppointment()">Create appointment</button>
           <button *ngIf="userStateService.getLoggedInUser()" (click)="logout()">Logout</button>
         </div>
       </div>
@@ -21,6 +26,5 @@
         <p>Unauthorized</p>
       </div>
     </ng-template>
-    
-    
+
     <!-- NAPOMENA::: za all equipment sam dodala COMPANY ADMIN , ne znam kome to treba, pa nek izmeni  -->

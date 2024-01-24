@@ -60,4 +60,8 @@ export class UserService {
   updateUsersPassword(password: string, userId: number): Observable<User> {
     return this.http.get<User>('http://localhost:8080/api/users/updateUsersPassword/' + password + '/' + userId); 
   }
+
+  resetPenaltyPoints(user: User) {
+    return this.http.put<User>('http://localhost:8080/api/users/resetPenaltyPoints', user);
+  }
 }

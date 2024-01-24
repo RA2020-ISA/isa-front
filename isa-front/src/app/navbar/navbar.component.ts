@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserStateService } from '../services/user-state.service';
+import { ReservationService } from '../services/reservation.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,11 @@ import { UserStateService } from '../services/user-state.service';
 export class NavbarComponent implements OnInit {
   user!: User;
   
-  constructor(private router: Router, private userService: UserService, public userStateService: UserStateService) {
+  constructor(
+    private router: Router, 
+    private userService: UserService, 
+    public userStateService: UserStateService,
+    public resService: ReservationService) {
   }
 
   ngOnInit():void{
@@ -54,6 +59,39 @@ export class NavbarComponent implements OnInit {
   redirectToManageAdmins(){
     this.router.navigate(['/manage-administrators']);
   }
+
+  redirectToUsersReservations() {
+    const username = this.userStateService.getLoggedInUser()?.email;
+    if (username) {
+      this.resService.getByUser(username).subscribe(
+        (reservations) => {
+          // Ovde možete dodati logiku za prikaz rezervacija, npr. prikazivanje na novoj stranici ili dijalogu
+          console.log('Reservations:', reservations);
+          this.router.navigate(['/reservations', username]);
+        },
+        (error) => {
+          console.log('Error fetching reservations:', error);
+        }
+      );
+    }
+  }
+
+  redirectToUsersPenaltyPoints() {
+    this.router.navigate(['/users-penalty-points']);
+  }
+
+  redirectToUsersQRCodes() {
+    this.router.navigate(['/users-qr-codes']);
+  }
+
+  redirectToTakeoverHistory() {
+    this.router.navigate(['/users-takeover-history']);
+  }
+
+  redirectToCreateAppointment(){
+    this.router.navigate(['/appointment-form']);
+  }
+
   logout(){
     this.userStateService.clearLoggedInUser();
     this.router.navigate(['/']);

@@ -4,6 +4,9 @@ import { CompanyService } from '../services/company.service';
 import { Router } from '@angular/router';
 import { UserStateService } from '../services/user-state.service';
 import { User } from '../model/user-model';
+import { EquipmentService } from '../services/equipment.service';
+import { Appointment } from '../model/appointment.model';
+import { Location } from '@angular/common';
 import { UserService } from '../services/user.service';
 import { UserRole } from '../model/user-role-enum';
 

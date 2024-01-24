@@ -17,6 +17,8 @@ import { Appointment } from '../model/appointment.model';
 import { Reservation } from '../model/reservation.model';
 import { eq } from '@fullcalendar/core/internal-common';
 import { QRCodeService } from '../services/qr-code.service';
+import { User } from '../model/user-model';
+import * as L from 'leaflet'; 
 
 @Component({
   selector: 'app-company-profile',
@@ -40,6 +42,7 @@ export class CompanyProfileComponent implements OnInit {
   selectedItems : Item[] = []
   proveraReservation: Reservation | undefined;
   reservationId: number | undefined;
+  map: L.Map | undefined; // mapa
   
   selectedEquipmentQuantities: Map<Equipment, number> = new Map<Equipment, number>();
 
@@ -54,6 +57,7 @@ export class CompanyProfileComponent implements OnInit {
   foundAdminId: number | undefined; 
   extraAppointment: boolean | undefined =  false;
   noAvailableAdmin: boolean | undefined = false;
+  user: User | undefined;
 
   constructor(private route: ActivatedRoute, 
     private service: CompanyService,
@@ -66,6 +70,7 @@ export class CompanyProfileComponent implements OnInit {
     private qrCodeService: QRCodeService) {}
 
   ngOnInit(): void {
+    this.user = this.userStateService.getLoggedInUser();
     console.log(this.userStateService.getLoggedInUser());
     this.route.params.subscribe(params => {
       this.companyId = +params['id']; 
@@ -80,6 +85,7 @@ export class CompanyProfileComponent implements OnInit {
             console.log("Opreme:");
             console.log(this.equipments);
           })
+          this.initMap();
           this.findAvailableAppointments();
         },
         (error) => {
@@ -93,12 +99,17 @@ export class CompanyProfileComponent implements OnInit {
     console.log('USAO U CREATE RESERVATION');
     console.log('IZABRANI EXTRA DATE: ', this.selectedDate);
     console.log('IZABRANI EXTRA TIME: ', this.selectedTimeSlot);
-    
-    if (this.extraAppointment) {
-      this.checkAppointmentAvailability()
-    }
+
+    if (this.user && this.user.penaltyPoints >= 3) {
+      alert('Unfortunately, you have 3 penalty points and it is not possible to make a reservation.');
+    } 
     else {
-      this.createNewReservation();
+      if (this.extraAppointment) {
+        this.checkAppointmentAvailability()
+      }
+      else {
+        this.createNewReservation();
+      }
     }
   }
 
@@ -322,8 +333,8 @@ export class CompanyProfileComponent implements OnInit {
   const appointment = {
     adminId: -1,
     appointmentDate: this.selectedDate,
-    appointmentTime: this.selectedTimeSlot,
-    appointmentDuration: 1
+    appointmentTime: this.selectedTimeSlot+":00",
+    appointmentDuration: 60
   };
 
   this.selectedAppointment = appointment;
@@ -435,5 +446,46 @@ export class CompanyProfileComponent implements OnInit {
         console.error("Error creating item", error);
       }
     ); 
+  }
+
+  // funkcije za mapu - Milica dodala
+  private initMap(): void {
+    const companyAddress = this.company?.address || 'Default Company Address';
+    console.log('adresa u mapi:');
+    console.log(companyAddress);
+    L.Icon.Default.imagePath = 'assets/images/';
+
+    // Poziv Geocoding API-ja da dobijete koordinate za adresu
+    this.getGeocodeCoordinates(companyAddress).then(coordinates => {
+      if (coordinates) {
+        // Postavljanje mape i markera sa dobijenim koordinatama
+        const initialCoordinates: [number, number] = [coordinates.lat, coordinates.lng];
+        console.log('koordinate mape:');
+        console.log(initialCoordinates);
+        this.map = L.map('map').setView(initialCoordinates, 15);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(this.map);
+
+        const companyMarker = L.marker([coordinates.lat, coordinates.lng]).addTo(this.map);
+        companyMarker.bindPopup(this.company?.address || 'adresa').openPopup();
+      }
+    });
+  }
+
+  private async getGeocodeCoordinates(address: string): Promise<{ lat: number, lng: number } | null> {
+    // Koristimo Nominatim servis za pretragu adrese i dobijanje koordinata
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+    const data = await response.json();
+    console.log('usao je i evo data:');
+    console.log(data);
+  
+    if (data && data.length > 0) {
+      const location = data[0];
+      return { lat: parseFloat(location.lat), lng: parseFloat(location.lon) };
+    }
+  
+    return null;
   }
 }

@@ -26,6 +26,7 @@ import { ReservationDetailsComponent } from './reservation-details/reservation-d
 import { ManageAdministratorsComponent } from './manage-administrators/manage-administrators.component';
 import { PickupEquipmentComponent } from './pickup-equipment/pickup-equipment.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -59,9 +60,10 @@ import { NavbarComponent } from './navbar/navbar.component';
     FormsModule, 
     ReactiveFormsModule,
     MatIconModule, 
+    CommonModule,
     FullCalendarModule // register FullCalendar with your app
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

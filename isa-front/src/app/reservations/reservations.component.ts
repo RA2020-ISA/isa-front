@@ -33,21 +33,26 @@ export class ReservationsComponent implements OnInit{
     this.route.params.subscribe((params) => {
       this.username = params['username'];
 
-      if (this.username) {
-        this.resService.getByUser(this.username).subscribe(
-          
-          (reservations) => {
-            console.log(this.username);
-            this.reservations = reservations;
-            console.log('Reservations:', reservations);
-          },
-          (error) => {
-            console.log('Error fetching reservations:', error);
-          }
-        );
-      }
+     this.displayUsersReservations();
     });
   }
+
+  displayUsersReservations() {
+    if (this.username) {
+      this.resService.getByUser(this.username).subscribe(
+        
+        (reservations) => {
+          console.log(this.username);
+          this.reservations = reservations;
+          console.log('Reservations:', reservations);
+        },
+        (error) => {
+          console.log('Error fetching reservations:', error);
+        }
+      );
+    }
+  }
+
   formatTime(timeString: string): string {
     if (timeString.includes(':')) {
       return timeString;
@@ -81,6 +86,7 @@ export class ReservationsComponent implements OnInit{
       console.log(response); // Ispisivanje odgovora sa servera
       // Ažurirajte listu rezervacija na osnovu potreba
       this.cdr.detectChanges();
+      this.displayUsersReservations();
       
     }, error => {
       console.error(error); // Ispisivanje greške ako je došlo do problema na serveru

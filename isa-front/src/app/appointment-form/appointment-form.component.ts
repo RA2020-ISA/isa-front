@@ -4,23 +4,25 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyService } from '../services/company.service';
 import { Company } from '../model/company.model';
 import { UserService } from '../services/user.service';
-import { EquipmentAppointment } from '../model/equipment-appointment.model';
+import { Appointment } from '../model/appointment.model';
 import { UserStateService } from '../services/user-state.service';
 import { User } from '../model/user-model';
 import { Time } from '@angular/common';
+import { DatePipe } from '@angular/common';
+//import { ex } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-appointment-form',
   templateUrl: './appointment-form.component.html',
-  styleUrls: ['./appointment-form.component.css']
+  styleUrls: ['./appointment-form.component.css'], 
+  providers: [DatePipe]
 })
 export class AppointmentFormComponent implements OnInit {
   appointmentForm: FormGroup;
-  equipmentId?: number;
   loggedUser?: User;
-  companyId?: number;
   company?: Company;
   message?: string = '';
+  allAppointments: Appointment[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,7 +30,8 @@ export class AppointmentFormComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private userStateService: UserStateService
+    private userStateService: UserStateService,
+    private datePipe: DatePipe
   ) {
     // Inicijalizujemo formu u konstruktoru
     this.appointmentForm = this.formBuilder.group({
@@ -39,35 +42,45 @@ export class AppointmentFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.equipmentId = +params['id'];
-    });
-    this.route.params.subscribe(params => {
-      this.companyId = +params['comid'];
-      this.getCompany();
-    });
     this.loggedUser = this.userStateService.getLoggedInUser();
     if (this.loggedUser) {
       console.log("Ulogovani korisnik termin:");
       console.log(this.loggedUser);
+      this.getCompany();
     } else {
       console.log('Nije ulogovan nijedan korisnik!');
     }
   }
 
   getCompany(): void{
-    if (this.companyId) {
-      this.service.getCompany(this.companyId).subscribe(
+    if(this.loggedUser && this.loggedUser.id){
+      this.service.getCompanyByAdmin(this.loggedUser.id).subscribe(
         (result: Company) => {
           console.log('Kompanija:');
           console.log(result);
+          console.log('Id usera:');
+          console.log(this.loggedUser?.id);
           this.company = result;  // Postavi vrednost company ovde
+          this.getAllAppointments();
         },
         (error) => {
-          console.error('Greška prilikom dobavljanja kompanije', error);
+          console.error('Greška prilikom dobavljanja kompanije za admina!', error);
         }
       );
     }
+  }
+
+  getAllAppointments(): void{
+    this.service.getAllAppointments().subscribe(
+      (result: Appointment[]) => {
+        console.log('Svi definisani termini za preuzimanje:');
+        console.log(result);
+        this.allAppointments = result;  // Postavi vrednost company ovde
+      },
+      (error) => {
+        console.error('Greška prilikom dobavljanja svih definisanih termina za preuzimanje opreme!', error);
+      }
+    );
   }
 
   createAppointment(): void {
@@ -98,21 +111,32 @@ export class AppointmentFormComponent implements OnInit {
         this.isTimeWithinRange(this.addMinutes(appointmentTime, durationInMinutes), workTimeBegin, workTimeEnd);
     
       if (isWithinWorkTimeRange && isEndTimeWithinWorkTimeRange) {
-        const newAppointment: EquipmentAppointment = {
-          equipmentId: this.equipmentId || 0,
+        const newAppointment: Appointment = {
           adminId: this.loggedUser?.id || 0,
-          adminName: this.loggedUser?.firstName || '',
-          adminSurname: this.loggedUser?.lastName || '',
           appointmentDate: datum,
           appointmentTime: vreme,
           appointmentDuration: trajanje
         };
+
+        if (this.existsSameAppointment(newAppointment))
+        {
+          console.error('Vec postoji isti ovaj termin za preuzimanje.');
+          this.message = 'Vec ste definisali ovaj termin za preuzimanje opreme.';
+          return;
+        }
+
+        if (this.doesNewAppointmentOverlap(newAppointment))
+        {
+          console.error('Novi termin za preuzimanje opreme se preklapa sa vec postojecim.');
+          this.message = 'Novi termin za preuzimanje opreme se preklapa sa vec postojecim.';
+          return;
+        }
     
         console.log('Napravljeni termin za preuzimanje:');
         console.log(newAppointment);
     
         this.service.createAppointment(newAppointment).subscribe(
-          (result: EquipmentAppointment) => {
+          (result: Appointment) => {
             console.log('New appointment:');
             console.log(result);
             this.router.navigate(['/admin-company']);
@@ -127,6 +151,75 @@ export class AppointmentFormComponent implements OnInit {
       }
   
   }
+
+  
+  existsSameAppointment(newAppointment: Appointment): boolean {
+    return this.allAppointments.some(existingAppointment => {
+      const formattedExistingDate = this.formatAppointmentDate(existingAppointment.appointmentDate);
+      const formattedNewDate = this.formatAppointmentDate(newAppointment.appointmentDate);
+  
+      return (
+        formattedExistingDate === formattedNewDate &&
+        existingAppointment.appointmentTime === newAppointment.appointmentTime &&
+        existingAppointment.appointmentDuration === newAppointment.appointmentDuration &&
+        existingAppointment.adminId === newAppointment.adminId
+      );
+    });
+  }
+  
+  doesNewAppointmentOverlap(newAppointment: Appointment): boolean {
+    const formattedNewDate = this.formatAppointmentDate(newAppointment.appointmentDate);
+  
+    // Provera preklapanja sa svakim postojećim terminom
+    return this.allAppointments.some(existingAppointment => {
+      const formattedExistingDate = this.formatAppointmentDate(existingAppointment.appointmentDate);
+  
+      if (
+        existingAppointment.adminId === newAppointment.adminId &&
+        formattedExistingDate === formattedNewDate &&
+        existingAppointment.appointmentTime !== undefined &&
+        existingAppointment.appointmentDuration !== undefined &&
+        newAppointment.appointmentTime !== undefined &&
+        newAppointment.appointmentDuration !== undefined
+      ) {
+        const existingStartTime = this.parseTimeStringToTime(existingAppointment.appointmentTime);
+        const existingEndTime = this.addMinutes(existingStartTime, existingAppointment.appointmentDuration);
+  
+        const newStartTime = this.parseTimeStringToTime(newAppointment.appointmentTime);
+        const newEndTime = this.addMinutes(newStartTime, newAppointment.appointmentDuration);
+  
+        // Provera preklapanja vremena
+        if (
+          (this.compareTimes(newStartTime, existingEndTime) <= 0 && this.compareTimes(newEndTime, existingStartTime) >= 0) ||
+          (this.compareTimes(existingStartTime, newEndTime) <= 0 && this.compareTimes(existingEndTime, newStartTime) >= 0)
+        ) {
+          return true; // Postoje preklapanja
+        }
+      }
+  
+      return false; // Nema preklapanja za trenutni existingAppointment
+    });
+  }
+  
+  
+  
+  // Funkcija za formatiranje datuma
+  formatAppointmentDate(date: Date | number | undefined): string {
+    console.log(' U FORMATIRANJU DATUM: ');
+    console.log(date);
+  
+    if (date instanceof Date) {
+      return this.datePipe.transform(date, 'yyyy-MM-dd HH:mm') || '';
+    } else if (typeof date === 'number') {
+      const dateObject = new Date(date);
+      return this.datePipe.transform(dateObject, 'yyyy-MM-dd HH:mm') || '';
+    }
+  
+    return '';
+  }
+  
+  
+
   parseTimeStringToTime(timeString: string): Time {
     const [hours, minutes] = timeString.split(':').map(Number);
     return { hours, minutes };

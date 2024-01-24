@@ -97,6 +97,7 @@ export class CompanyProfileComponent implements OnInit {
 
   createReservation() {
     console.log('USAO U CREATE RESERVATION');
+    console.log('USER KOJI KRERIA REZ: ', this.user);
     console.log('IZABRANI EXTRA DATE: ', this.selectedDate);
     console.log('IZABRANI EXTRA TIME: ', this.selectedTimeSlot);
 

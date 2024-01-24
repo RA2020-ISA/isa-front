@@ -81,12 +81,6 @@ export class ReservationService {
     const url = `http://localhost:8080/api/reservations/cancel`;
     return this.http.put(url, reservation, { responseType: 'text' });
   }
-  
-  readQrCodeImage(selectedFile: File): Observable<String>{
-    let formData = new FormData();
-    formData.append("file", selectedFile);
-    return this.http.post(`http://localhost:8080/api/registration/readQrCodeImage`, formData, { responseType: 'text' });
-  }
 
   findReservation(reservationNumber: number): Observable<Reservation>{
     return this.http.get<Reservation>(`http://localhost:8080/api/reservations/findReservationById/`+ reservationNumber);

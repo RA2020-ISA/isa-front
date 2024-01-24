@@ -149,7 +149,7 @@ export class WorkCalendarComponent implements OnInit{
       div.style.padding = '4px'; 
       div.style.fontWeight = 'bold';
       div.style.fontSize = '12px';
-      div.style.whiteSpace = 'wrap'; // Tekst neće prelaziti u novi red
+      div.style.whiteSpace = 'normal'; // Tekst neće prelaziti u novi red
      // div.style.overflow = 'hidden'; // Ako tekst ne stane, biće skriven
       if (isAvailable) {
         div.style.backgroundColor = 'lightgreen';

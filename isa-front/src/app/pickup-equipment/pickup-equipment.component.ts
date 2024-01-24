@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ReservationService } from '../services/reservation.service';
 import { Reservation } from '../model/reservation.model';
+import { QRCodeService } from '../services/qr-code.service';
 
 @Component({
   selector: 'app-pickup-equipment',
@@ -15,7 +16,7 @@ export class PickupEquipmentComponent {
   showReservation: boolean = false;
   isAbleToPickupOrder: boolean = true;
 
-  constructor(private reservationService: ReservationService) { }
+  constructor(private reservationService: ReservationService, private qrCodeService: QRCodeService) { }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
@@ -36,8 +37,10 @@ export class PickupEquipmentComponent {
   onSubmit(): void {
     console.log(this.selectedFile);
     if (this.selectedFile) {
-      this.reservationService.readQrCodeImage(this.selectedFile)
+      this.qrCodeService.readQrCodeImage(this.selectedFile)
         .subscribe((response) => {
+
+          console.log('QR CODE: ', response);
         
           const reservationNumberMatch = response.match(/Reservation number: (\d+)/); //iz isictanog qr koda uzmi ReservationID
           

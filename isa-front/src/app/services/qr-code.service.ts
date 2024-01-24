@@ -26,4 +26,11 @@ export class QRCodeService {
     return this.http.get(url, { responseType: 'arraybuffer' });
   }
 
+  readQrCodeImage(selectedFile: File): Observable<String>{
+    let formData = new FormData();
+    formData.append("file", selectedFile);
+    return this.http.post(`http://localhost:8080/api/qr-code/readQrCodeImage`, formData, { responseType: 'text' });
+  }
+
+
 }

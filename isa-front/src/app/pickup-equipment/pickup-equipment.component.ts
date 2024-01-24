@@ -1,22 +1,79 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReservationService } from '../services/reservation.service';
 import { Reservation } from '../model/reservation.model';
 import { QRCodeService } from '../services/qr-code.service';
+import { User } from '../model/user-model';
+import { UserStateService } from '../services/user-state.service';
+import { Company } from '../model/company.model';
+import { CompanyService } from '../services/company.service';
 
 @Component({
   selector: 'app-pickup-equipment',
   templateUrl: './pickup-equipment.component.html',
   styleUrls: ['./pickup-equipment.component.css']
 })
-export class PickupEquipmentComponent {
+export class PickupEquipmentComponent implements OnInit{
 
   selectedFile: File | null = null;
   imageUrl: string | null = null;
   reservation: Reservation | null = null;
   showReservation: boolean = false;
   isAbleToPickupOrder: boolean = true;
+  pickUpReservations: Reservation[] = [];
+  loggedUser?: User;
+  company?: Company;
 
-  constructor(private reservationService: ReservationService, private qrCodeService: QRCodeService) { }
+  constructor(private reservationService: ReservationService, private qrCodeService: QRCodeService,
+    private userService: UserStateService, private companyService: CompanyService) { }
+
+  ngOnInit(): void {
+    this.loggedUser = this.userService.getLoggedInUser();
+      if (this.loggedUser) {
+        console.log("Ulogovani korisnik je sad:");
+        console.log(this.loggedUser);
+        this.getAdminCompany();
+      } else {
+        console.log('Nije ulogovan nijedan korisnik!');
+      }
+  }
+
+  getAdminCompany(): void{
+    this.companyService.getCompanyByAdmin(this.loggedUser?.id || 0).subscribe(
+      (company: Company) => {
+        this.company = company;
+        console.log("Kompanija:");
+        console.log(this.company);
+        this.getAllPickUpReservations();
+      },
+      (error) => {
+        console.error('Greška prilikom dobavljanja kompanije', error);
+      }
+    );
+  }
+
+  getAllPickUpReservations(): void {
+    if (this.loggedUser?.id) {
+      console.log('Id admina koji saljem u servis:');
+      console.log(this.loggedUser?.id);
+      this.reservationService.getAdminsAppointmentReservation(this.loggedUser.id).subscribe(
+        (result: Reservation[]) => {
+          this.pickUpReservations = result.filter(reservation =>
+            reservation.status === 'PENDING' &&
+            reservation.appointment?.appointmentDate &&
+            new Date(reservation.appointment.appointmentDate) >= new Date()
+          );
+  
+          console.log("Sve rezervacije za adminovu kompaniju sa statusom PENDING i budućim datumima:");
+          console.log(this.pickUpReservations);
+        },
+        (error) => {
+          console.error('Greška prilikom dobavljanja kompanije', error);
+        }
+      );
+    }
+  }
+  
+  
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
@@ -64,6 +121,15 @@ export class PickupEquipmentComponent {
           
        }
     });
+  }
+
+  pickUpOrderAdmin(reservation: Reservation): void{
+    this.reservationService.takeOverReservation(reservation) //pick_up order
+          .subscribe((response : Reservation) => {
+            if(response != null){
+              this.pickUpReservations = this.pickUpReservations.filter(pickUpReservation => pickUpReservation.id !== reservation.id);
+            }
+          });
   }
 
   onPickupOrder(): void{     //button 

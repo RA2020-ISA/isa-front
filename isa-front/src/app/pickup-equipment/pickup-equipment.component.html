@@ -1,3 +1,22 @@
+<div class="container">
+<div class="pickup_order_1">
+    <div class="reservation_div" *ngFor="let reservation of pickUpReservations">
+        <p>Reservation number: {{ reservation.id }}</p>
+        <p>Order by: {{ reservation.user?.firstName }} {{ reservation.user?.lastName }}</p>
+        <p>Appoinmtnet Date: {{ reservation?.appointment?.appointmentDate | date:'dd-MM-yyyy' }}</p>
+        <p>Appointment start time: {{ reservation?.appointment?.appointmentTime }} hour</p>
+        <p>Appointment duration: {{ reservation?.appointment?.appointmentDuration }} minutes</p>
+        <p>Status: {{ reservation?.status}}</p>
+        <h3>Items:</h3>
+        <div *ngFor="let item of reservation?.items">
+            <p *ngIf="item?.equipment">Equipment Name: {{ item.equipment.name }}</p>
+            <p *ngIf="item">Quantity: {{ item.quantity }}</p>
+        </div>
+        <div>
+            <button (click)="pickUpOrderAdmin(reservation)"  class="buttons">Pickup order</button>
+        </div>
+    </div>
+</div>
 <div class="pickup_order_div">
     <h2>Uploud reservation QR-code!</h2>
     <form #uploadForm="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
@@ -31,4 +50,5 @@
     <div *ngIf="showReservation">
         <button [disabled]="!isAbleToPickupOrder" (click)="onPickupOrder()"  class="buttons">Pickup order</button>
     </div>
+</div>
 </div>

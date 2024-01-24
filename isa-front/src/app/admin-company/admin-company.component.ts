@@ -8,8 +8,9 @@ import { Router } from '@angular/router';
 import { UserStateService } from '../services/user-state.service';
 import { User } from '../model/user-model';
 import { EquipmentService } from '../services/equipment.service';
-import { EquipmentAppointment } from '../model/equipment-appointment.model';
 import { Location } from '@angular/common';
+import { Appointment } from '../model/appointment.model';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-admin-company',
@@ -23,13 +24,14 @@ export class AdminCompanyComponent implements OnInit {
   showMore: boolean = false;
   moreEquipments?: Equipment[];
   allEquipments?: Equipment[];
-  allAppointments?: EquipmentAppointment[];
+  allAppointments?: Appointment[];
   searchName: string = '';
   searchPriceFrom: string = '';
   searchPriceTo: string = '';
   filteredEquipments: Equipment[] = [];
   companyEquipments: Equipment[] = [];
   otherAdministrators: User[] = [];
+  map: L.Map | undefined; // mapa
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
     private router: Router, private userService: UserStateService, private equipmentService: EquipmentService,
@@ -45,6 +47,46 @@ export class AdminCompanyComponent implements OnInit {
       console.log('Nije ulogovan nijedan korisnik!');
     }
   }
+
+  private initMap(): void {
+    const companyAddress = this.company?.address || 'Default Company Address';
+    console.log('adresa u mapi:');
+    console.log(companyAddress);
+    L.Icon.Default.imagePath = 'assets/images/';
+
+    // Poziv Geocoding API-ja da dobijete koordinate za adresu
+    this.getGeocodeCoordinates(companyAddress).then(coordinates => {
+      if (coordinates) {
+        // Postavljanje mape i markera sa dobijenim koordinatama
+        const initialCoordinates: [number, number] = [coordinates.lat, coordinates.lng];
+        console.log('koordinate mape:');
+        console.log(initialCoordinates);
+        this.map = L.map('map').setView(initialCoordinates, 15);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(this.map);
+
+        const companyMarker = L.marker([coordinates.lat, coordinates.lng]).addTo(this.map);
+        companyMarker.bindPopup(this.company?.address || 'adresa').openPopup();
+      }
+    });
+  }
+
+  private async getGeocodeCoordinates(address: string): Promise<{ lat: number, lng: number } | null> {
+    // Koristimo Nominatim servis za pretragu adrese i dobijanje koordinata
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+    const data = await response.json();
+    console.log('usao je i evo data:');
+    console.log(data);
+  
+    if (data && data.length > 0) {
+      const location = data[0];
+      return { lat: parseFloat(location.lat), lng: parseFloat(location.lon) };
+    }
+  
+    return null;
+  }  
 
   getMoreEquipments(): void{
     this.equipmentService.getEq().subscribe(
@@ -71,15 +113,12 @@ export class AdminCompanyComponent implements OnInit {
         console.log(this.company);
         this.companyEquipments = this.company.equipments;
         this.getMoreEquipments();
+        this.initMap(); // inicijalizuj mapu
       },
       (error) => {
         console.error('Greška prilikom dobavljanja kompanije', error);
       }
     );
-  }
-
-  createAppointment(equipmentId: number): void{
-    this.router.navigate(['/appointment-form/' + equipmentId + '/' + this.company?.id]);
   }
 
   removeEquipment(equipment: Equipment): void{
@@ -97,12 +136,14 @@ export class AdminCompanyComponent implements OnInit {
         }
         this.moreEquipments?.push(equipment);
         this.router.navigate(['/admin-company']);
+        this.recalculateAverageGrade();
       },
       (error) => {
         console.error('Error updating company', error);
       }
     );
   }
+
 
   refreshPage() {
     window.location.reload();
@@ -118,12 +159,30 @@ export class AdminCompanyComponent implements OnInit {
         if (index !== undefined && this.moreEquipments) {
           this.moreEquipments.splice(index, 1);
         }
+        this.recalculateAverageGrade();
       },
       (error) => {
         console.error('Error updating company', error);
       }
     );
     this.showMore = false;
+  }
+
+  recalculateAverageGrade(): void {
+    if(this.company){
+      if (this.company.equipments.length === 0) {
+        // Opciono: Postavi prosečnu ocenu na 0 ili neku podrazumevanu vrednost ako nema opreme.
+        this.company.averageGrade = 0;
+      } else {
+        const totalGrade = this.company.equipments.reduce((sum, equipment) => sum + equipment.grade, 0);
+  
+        // Izračunaj novu prosečnu ocenu
+        const newAverageGrade = totalGrade / this.company.equipments.length;
+  
+        // Postavi novu prosečnu ocenu u kompaniju
+        this.company.averageGrade = newAverageGrade;
+      }
+    }
   }
 
   addMoreEquipment(): void{
@@ -136,7 +195,7 @@ export class AdminCompanyComponent implements OnInit {
 
   getAllAppointments(): void{
     this.equipmentService.getAllAppointments().subscribe(
-      (result: EquipmentAppointment[]) => {
+      (result: Appointment[]) => {
         this.allAppointments = result;
   
         console.log("Svi termini za preuzimanje:");
@@ -166,10 +225,10 @@ export class AdminCompanyComponent implements OnInit {
   }
 
   canDelete(id: number): boolean {
-    if(this.allAppointments){
+    /*if(this.allAppointments){
       const canDelete = !this.allAppointments.some(appointment => appointment.equipmentId === id);
       return canDelete;
-    }
+    }*/
     return true;
   }
 
@@ -196,5 +255,9 @@ export class AdminCompanyComponent implements OnInit {
 
   seeCompanyCalendarClick(){
     this.router.navigate(['/see-company-calendar']);
+  }
+
+  editCompany(): void{
+    this.router.navigate(['/edit-company/' + this.company?.id || 0]);
   }
 }

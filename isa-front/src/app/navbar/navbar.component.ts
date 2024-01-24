@@ -88,6 +88,10 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/users-takeover-history']);
   }
 
+  redirectToCreateAppointment(){
+    this.router.navigate(['/appointment-form']);
+  }
+
   logout(){
     this.userStateService.clearLoggedInUser();
     this.router.navigate(['/']);

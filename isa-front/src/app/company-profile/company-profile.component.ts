@@ -19,6 +19,7 @@ import { eq } from '@fullcalendar/core/internal-common';
 import { QRCodeService } from '../services/qr-code.service';
 import { User } from '../model/user-model';
 import * as L from 'leaflet'; 
+import { AppointmentStatus } from '../model/appointment-status';
 
 @Component({
   selector: 'app-company-profile',
@@ -114,9 +115,24 @@ export class CompanyProfileComponent implements OnInit {
     }
   }
 
+  updateAppointment(appointment: Appointment): void{
+    this.appointmentService.updateAppointment(appointment).subscribe(
+      (response: Appointment) => {
+        this.selectedAppointment = response;
+        console.log('Uspesno update-ovan appointment:');
+        console.log(this.selectedAppointment);
+      },
+      (error: any) => {
+        console.error('Greska pri update-ovanju appointmenta!', error);
+      });
+  }
+
   createNewReservation() {
     console.log('ULOGOVANI USER:', this.userStateService.getLoggedInUser() )
-  
+    if(this.selectedAppointment){
+      this.updateAppointment(this.selectedAppointment);
+    }
+      
       const newReservation: Reservation = {
         appointment: this.selectedAppointment,      
         user: this.userStateService.getLoggedInUser(),        
@@ -335,7 +351,8 @@ export class CompanyProfileComponent implements OnInit {
     adminId: -1,
     appointmentDate: this.selectedDate,
     appointmentTime: this.selectedTimeSlot+":00",
-    appointmentDuration: 60
+    appointmentDuration: 60,
+    status: AppointmentStatus.RESERVED
   };
 
   this.selectedAppointment = appointment;

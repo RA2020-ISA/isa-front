@@ -9,6 +9,7 @@ import { UserStateService } from '../services/user-state.service';
 import { User } from '../model/user-model';
 import { Time } from '@angular/common';
 import { DatePipe } from '@angular/common';
+import { AppointmentStatus } from '../model/appointment-status';
 //import { ex } from '@fullcalendar/core/internal-common';
 
 @Component({
@@ -115,7 +116,8 @@ export class AppointmentFormComponent implements OnInit {
           adminId: this.loggedUser?.id || 0,
           appointmentDate: datum,
           appointmentTime: vreme,
-          appointmentDuration: trajanje
+          appointmentDuration: trajanje,
+          status: AppointmentStatus.FREE
         };
 
         if (this.existsSameAppointment(newAppointment))

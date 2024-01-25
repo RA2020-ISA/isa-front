@@ -36,4 +36,8 @@ export class AppointmentService {
   addAdminToAppointment(companyId: number, selectedAppointment: Appointment): Observable<Appointment> {
     return this.http.post<Appointment>('http://localhost:8080/api/appointments/addAdminToAppointment/' + companyId, selectedAppointment);
   }
+
+  updateAppointment(appointment: Appointment): Observable<Appointment>{
+    return this.http.put<Appointment>('http://localhost:8080/api/appointments/update', appointment);
+  }
 }

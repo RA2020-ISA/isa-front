@@ -9,11 +9,13 @@ import { Observable } from 'rxjs';
 import { UserStateService } from '../services/user-state.service';
 import { Reservation } from '../model/reservation.model';
 import { User } from '../model/user-model';
+import { FormsModule } from '@angular/forms';
+import { parseISO } from 'date-fns';
 
 @Component({
   selector: 'users-takeover-history',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './users-takeover-history.component.html',
   styleUrls: ['./users-takeover-history.component.css']
 })
@@ -22,6 +24,14 @@ export class UsersTakeoverHistory implements OnInit{
     equipmentDetails: { [key: number]: string } = {};
     user: User | undefined;
     username: string | undefined;
+
+    selectedSortOption: string = 'date';
+    selectedSortOrder: string = 'asc';
+
+    get sortedReservations(): Reservation[] {
+      // Funkcija koja primenjuje sortiranje na rezervacije
+      return this.sortReservations(this.reservations);
+    }
   
     constructor(private route: ActivatedRoute, private resService: ReservationService,
       private equipmentService: EquipmentService,
@@ -52,9 +62,7 @@ export class UsersTakeoverHistory implements OnInit{
         );
       }
     }
-  
-  
-  
+
     formatTime(timeString: string): string {
       if (timeString.includes(':')) {
         return timeString;
@@ -94,6 +102,46 @@ export class UsersTakeoverHistory implements OnInit{
   
     return appointmentDateTime < currentDate;
   }
+
+  sortReservations(reservations: Reservation[]): Reservation[] {
+    return reservations.sort((a, b) => {
+      if (this.selectedSortOption === 'date') {
+        const dateA = new Date(a.appointment?.appointmentDate || '');
+        const dateB = new Date(b.appointment?.appointmentDate || '');
+    
+        if (dateA.getTime() !== dateB.getTime()) {
+          return (this.selectedSortOrder === 'asc' ? dateA.getTime() - dateB.getTime() : dateB.getTime() - dateA.getTime());
+        } 
+        else {
+          const timeA = a.appointment?.appointmentTime || '';
+          const timeB = b.appointment?.appointmentTime || '';
+          return (this.selectedSortOrder === 'asc' ? timeA.localeCompare(timeB) : timeB.localeCompare(timeA));
+        }
+      }          
+      else if (this.selectedSortOption === 'price') {
+        const priceA = a.totalPrice || 0;
+        const priceB = b.totalPrice || 0;
+        return (this.selectedSortOrder === 'asc' ? priceA - priceB : priceB - priceA);
+      }
+      else if (this.selectedSortOption === 'duration') {
+        const durationA = a.appointment?.appointmentDuration || 0;
+        const durationB = b.appointment?.appointmentDuration || 0;
+        return (this.selectedSortOrder === 'asc' ? durationA - durationB : durationB - durationA);
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  formatDate(date: string | undefined): string {
+    if (!date) {
+      return '';
+    }
   
+    const parts = date.split('-');
+    const formattedDate = parts.reverse().join('/');
+    return formattedDate;
+  }
+
 }
   

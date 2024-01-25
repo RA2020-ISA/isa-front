@@ -121,6 +121,7 @@ export class CompanyProfileComponent implements OnInit {
         appointment: this.selectedAppointment,      
         user: this.userStateService.getLoggedInUser(),        
         items: this.selectedItems,
+        totalPrice: 0.0
       };
   
       console.log(this.selectedItems);
@@ -146,6 +147,8 @@ export class CompanyProfileComponent implements OnInit {
                   console.log(this.reservationId);
                   if (i == selectedItemsNum) {
                     if (this.reservationId)
+                    this.updateReservationPrice(this.reservationId);
+                    if (this.reservationId)
                     this.qrCodeService.generateQRCodeSendMail(this.reservationId).subscribe(
                       (response) => {
                         console.log(response);
@@ -167,6 +170,17 @@ export class CompanyProfileComponent implements OnInit {
           console.error("Error creating reservation", error);
         }
       ); 
+  }
+
+  updateReservationPrice(reservationId: number) {
+      this.reservationService.updateReservationPrice(reservationId).subscribe(
+        (response) => {
+          console.log('Uspesno updatetovana nova cena: ', response.totalPrice);
+        },
+        (error) => {
+          console.error('Greska prilikom update cene rezervacije: ', error);
+        }
+      )
   }
   //////////////////////////////////////
   setExtraAppointment() {

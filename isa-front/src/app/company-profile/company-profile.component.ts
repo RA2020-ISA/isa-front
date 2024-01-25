@@ -129,9 +129,9 @@ export class CompanyProfileComponent implements OnInit {
 
   createNewReservation() {
     console.log('ULOGOVANI USER:', this.userStateService.getLoggedInUser() )
-    if(this.selectedAppointment){
+    /*if(this.selectedAppointment){
       this.updateAppointment(this.selectedAppointment);
-    }
+    }*/
       
       const newReservation: Reservation = {
         appointment: this.selectedAppointment,      

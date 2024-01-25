@@ -57,11 +57,10 @@ import { CommonModule, DatePipe } from '@angular/common';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    FormsModule, 
     ReactiveFormsModule,
     MatIconModule, 
     CommonModule,
-    FullCalendarModule // register FullCalendar with your app
+    FullCalendarModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

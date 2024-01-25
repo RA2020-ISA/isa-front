@@ -98,4 +98,8 @@ export class ReservationService {
     return this.http.get<Array<Appointment>>(`http://localhost:8080/api/appointments/companyAvailableAppointments/` + adminId);
   }
 
+  updateReservationPrice(reservationId: number): Observable<Reservation> {
+    return this.http.put<Reservation>(`http://localhost:8080/api/reservations/setPrice/`, reservationId);
+  }
+
 }

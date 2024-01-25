@@ -13,13 +13,13 @@
               <p>Name: {{ item.equipment.name }}, Quantity: {{ item.quantity }}</p>
             </li>
           </ul>
+          <p><strong>Total price:</strong> {{ reservation.totalPrice}}</p>
           <button (click)="cancelReservation(reservation)"  class="cancel-button" [disabled]="isPastDate(reservation.appointment?.appointmentDate)">Cancel Reservation</button>
         </div>
       </li>
     </ul>
   </div>
 </div>
-
 <ng-template #noReservations>
   <p class="no-reservations">No reservations found for {{ username }}</p>
 </ng-template>

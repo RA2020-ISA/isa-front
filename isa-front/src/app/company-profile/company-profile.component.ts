@@ -24,7 +24,7 @@ import { AppointmentStatus } from '../model/appointment-status';
 @Component({
   selector: 'app-company-profile',
   templateUrl: './company-profile.component.html',
-  styleUrls: ['./company-profile.component.css']
+  styleUrls: ['./company-profile.component.css'],
 })
 export class CompanyProfileComponent implements OnInit {
   companyId?: number;
@@ -94,6 +94,10 @@ export class CompanyProfileComponent implements OnInit {
         }
       );
     });
+  }
+
+  isButtonDisabled(equipment: Equipment): boolean {
+    return equipment.maxQuantity === 0;
   }
 
   createReservation() {
@@ -438,6 +442,7 @@ export class CompanyProfileComponent implements OnInit {
 
   acquireEquipment(selectedEquipment: Equipment) {
       this.selectedEquipments.push(selectedEquipment)
+      console.log(selectedEquipment)
       this.quantity = 1;
   }
 
@@ -446,24 +451,30 @@ export class CompanyProfileComponent implements OnInit {
     console.log(`Quantity for Equipment ID ${equipment}: ${quantity}`);
     this.selectedEquipmentQuantities.set(equipment, quantity);
     console.log(this.selectedEquipmentQuantities);
+
+    if (equipment.maxQuantity - quantity < 0) {
+        alert('Unfortunately, there is not much equipment available, please try again.');
+    }
+    else {
+      const newItem: Item = {
+        equipment: equipment,
+        quantity: quantity,
+        reservation: null,
+      };
   
-    const newItem: Item = {
-      equipment: equipment,
-      quantity: quantity,
-      reservation: null,
-    };
-
-    console.log('new item eq:::', newItem.equipment);
-
-    this.itemService.createItem(newItem).subscribe(
-      response => {
-        console.log("Item created successfully", response);
-        this.selectedItems.push(response);
-      },
-      error => {
-        console.error("Error creating item", error);
-      }
-    ); 
+      console.log('new item eq:::', newItem.equipment);
+  
+      this.itemService.createItem(newItem).subscribe(
+        response => {
+          console.log("Item created successfully", response);
+          this.selectedItems.push(response);
+          console.log('SELEKTOVANI ITEMI: ', this.selectedItems)
+        },
+        error => {
+          console.error("Error creating item", error);
+        }
+      ); 
+    }
   }
 
   // funkcije za mapu - Milica dodala

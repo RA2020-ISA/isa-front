@@ -124,3 +124,11 @@ input[type="text"]:focus {
 .add-button:hover {
     background-color: #2980b9; /* Tamnija nijansa plave prilikom hover-a */
 }
+
+button.add-button[disabled] {
+    pointer-events: none;
+    background-color: #ccc; /* Siva boja */
+    color: #666; /* Tamnosiva boja teksta */
+    border: 1px solid #999; /* Obrub sa tamnosivom bojom */
+    cursor: not-allowed;
+  }

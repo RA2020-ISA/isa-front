@@ -170,6 +170,7 @@ export class CompanyProfileComponent implements OnInit {
                       (response) => {
                         console.log(response);
                         console.log('Upsesno generisanje qr koda i poslat mail');
+                        alert('You have successfully created a reservation. Check your mail');
                       },
                       (error) => {
                         console.error(error);
@@ -304,14 +305,14 @@ export class CompanyProfileComponent implements OnInit {
   
     // Dobijanje vremenskih slotova za odabrani datum
     const existingAppointmentTimes = this.getAppointmentTimesForSelectedDate();
-    console.log('Existing appointment times:', existingAppointmentTimes);
-    console.log('All time slots:', allTimeSlots);
+    //console.log('Existing appointment times:', existingAppointmentTimes);
+    //console.log('All time slots:', allTimeSlots);
 
-    console.log(this.company?.workTimeBegin, this.company?.workTimeEnd);
+    //console.log(this.company?.workTimeBegin, this.company?.workTimeEnd);
 
     // Filtriranje vremenskih slotova kako bismo izbacili one koji nisu u okviru radnog vremena
     const foundSlots = allTimeSlots.filter(timeSlot => {
-      console.log('Checking time slot:', timeSlot.value);
+      //console.log('Checking time slot:', timeSlot.value);
 
       // Pretvorba vrednosti u integer
       const slotValueAsInt = parseInt(timeSlot.value, 10);
@@ -332,7 +333,7 @@ export class CompanyProfileComponent implements OnInit {
     });
 
 
-    console.log('Found slots after filtering:', foundSlots);
+    //console.log('Found slots after filtering:', foundSlots);
 
     return foundSlots;
   }

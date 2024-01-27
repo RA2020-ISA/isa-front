@@ -257,7 +257,7 @@ export class CompanyProfileComponent implements OnInit {
   
   getAppointmentTimesForSelectedDate(): string[] {
     const appointmentsForSelectedDate = this.getAppointmentsForSelectedDate();
-    console.log('Appointments for selected date:', appointmentsForSelectedDate);  
+    //console.log('Appointments for selected date:', appointmentsForSelectedDate);  
     
     // Koristite map da biste izdvojili samo appointmentTime
     const appointmentTimesForSelectedDate = appointmentsForSelectedDate
@@ -272,7 +272,7 @@ export class CompanyProfileComponent implements OnInit {
     
     // Set the minimum date as today's date in the local time zone
     today.setHours(0, 0, 0, 0);
-    console.log(today);
+    //console.log(today);
     const minDate = today.toLocaleDateString('en-CA');
     return minDate;
 }
@@ -348,8 +348,8 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   // Dodajte ispis za proveru
-  console.log('Selected date:', this.selectedDate);
-  console.log('Selected time slot:', this.selectedTimeSlot);
+  //console.log('Selected date:', this.selectedDate);
+  //console.log('Selected time slot:', this.selectedTimeSlot);
 
   // Kreiranje objekta appointment
   const appointment = {
@@ -465,7 +465,7 @@ export class CompanyProfileComponent implements OnInit {
   
       console.log('new item eq:::', newItem.equipment);
   
-      this.itemService.createItem(newItem).subscribe(
+      this.itemService.createItem2(newItem).subscribe(
         response => {
           console.log("Item created successfully", response);
           this.selectedItems.push(response);

@@ -67,6 +67,10 @@ export class AdminCompanyComponent implements OnInit {
     );
   }
 
+  cancel(): void{
+    this.showMore = false;
+  }
+
   private initMap(): void {
     const companyAddress = this.company?.address || 'Default Company Address';
     console.log('adresa u mapi:');

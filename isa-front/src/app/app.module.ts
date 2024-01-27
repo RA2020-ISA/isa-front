@@ -27,6 +27,7 @@ import { ManageAdministratorsComponent } from './manage-administrators/manage-ad
 import { PickupEquipmentComponent } from './pickup-equipment/pickup-equipment.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CommonModule, DatePipe } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { CommonModule, DatePipe } from '@angular/common';
     ReactiveFormsModule,
     MatIconModule, 
     CommonModule,
-    FullCalendarModule // register FullCalendar with your app
+    FullCalendarModule,
+    BrowserAnimationsModule // register FullCalendar with your app
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

@@ -25,6 +25,7 @@ import { UsersPenaltyPoints } from './users-penalty-points/users-penalty-points.
 import { UsersQRCodesComponent } from './users-qr-codes/users-qr-codes.component';
 import { UsersTakeoverHistory } from './users-takeover-history/users-takeover-history.component';
 import { UserReservationsAdminComponent } from './user-reservations-admin/user-reservations-admin.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -56,7 +57,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), MatSnackBarModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

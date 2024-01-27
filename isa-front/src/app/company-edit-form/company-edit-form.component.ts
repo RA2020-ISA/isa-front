@@ -10,6 +10,7 @@ import 'leaflet-control-geocoder';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { ViewChild } from '@angular/core';
 import { UserStateService } from '../services/user-state.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-company-edit-form',
@@ -27,7 +28,8 @@ export class CompanyEditFormComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
     private router: Router,
-    public userStateService: UserStateService) {}
+    public userStateService: UserStateService,
+    private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -140,6 +142,10 @@ export class CompanyEditFormComponent implements OnInit {
       this.service.updateCompany(this.company).subscribe(
         (updatedCompany: Company) => {
           console.log('Company updated successfully:', updatedCompany);
+          this.snackBar.open('Company updated successfully', 'Close', {
+            duration: 3000, // trajanje snackbar-a u milisekundama
+            panelClass: ['success-snackbar'] // opcionalna klasa za stilizaciju
+          });
           this.router.navigate(['/admin-company']);
         },
         (error) => {

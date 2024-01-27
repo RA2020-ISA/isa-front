@@ -470,6 +470,7 @@ export class CompanyProfileComponent implements OnInit {
           console.log("Item created successfully", response);
           this.selectedItems.push(response);
           console.log('SELEKTOVANI ITEMI: ', this.selectedItems)
+          alert('Quantity submitted successfully!');
         },
         error => {
           console.error("Error creating item", error);

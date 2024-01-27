@@ -33,7 +33,7 @@ export class ManageAdministratorsComponent{
 
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
-    private router: Router, private userService: UserService) {}
+    private router: Router, private userService: UserService, public userStateService: UserStateService) {}
 
   makeSystemAdmin(): void {
     if (this.password !== this.confirmPassword) {

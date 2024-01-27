@@ -5,6 +5,7 @@ import { CompanyService } from '../services/company.service';
 import { Company } from '../model/company.model';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user-model';
+import { UserStateService } from '../services/user-state.service';
 
 @Component({
   selector: 'app-company-form',
@@ -21,7 +22,8 @@ export class CompanyFormComponent implements OnInit{
     private route: ActivatedRoute,
     private service: CompanyService,
     private router: Router, 
-    private userService: UserService
+    private userService: UserService,
+    public userStateService: UserStateService
   ) {
 
     this.companyForm = this.formBuilder.group({

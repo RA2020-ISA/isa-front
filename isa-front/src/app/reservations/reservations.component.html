@@ -1,3 +1,5 @@
+<div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' ; else sorryMessage">
+
 <div *ngIf="reservations.length > 0; else noReservations" class="container">
   <div *ngIf="userStateService.getLoggedInUser(); else sorryMessage">
     <h2>Reservations for {{ username }}</h2>
@@ -19,6 +21,12 @@
     </ul>
   </div>
 </div>
+</div>
+<ng-template #sorryMessage>
+    <div class="sorry-message">
+      <p>unauthorized</p>
+    </div>
+  </ng-template>
 
 <ng-template #noReservations>
   <p class="no-reservations">No reservations found for {{ username }}</p>

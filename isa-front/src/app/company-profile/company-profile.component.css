@@ -10,6 +10,12 @@ body {
     height: 100vh;
 }
 
+.error-message {
+    color: red;
+    font-size: 14px;
+}
+
+
 button {
     background-color: #3498db;
     color: white;
@@ -83,7 +89,7 @@ select option {
     padding: 5px; 
     color: white; 
     width: 200px;
-    height: 320px;
+    height: 330px;
     margin-top: 20px;
 }
 

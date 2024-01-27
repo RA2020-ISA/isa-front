@@ -1,4 +1,5 @@
 import { User } from "./user-model";
+import { AppointmentStatus } from "./appointment-status";
 
 export interface Appointment {
     id?: number;
@@ -6,4 +7,5 @@ export interface Appointment {
     appointmentDate?: Date;
     appointmentTime?: string;
     appointmentDuration?: number;
+    status: AppointmentStatus;
 }

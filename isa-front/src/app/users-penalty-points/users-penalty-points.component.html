@@ -1,3 +1,5 @@
+<div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' ; else sorryMessage">
+
 <h1>Penalty Points</h1>
 <div>
     <p>Your penalty points: <span id="penaltyPoints">{{ penaltyPoints }}</span></p>
@@ -6,3 +8,9 @@
         <p>Valid until: <span id="validUntilDate"> {{ formattedValidUntilDate }}</span></p>
     </div>
 </div>
+</div>
+<ng-template #sorryMessage>
+    <div class="sorry-message">
+      <p>unauthorized</p>
+    </div>
+  </ng-template>

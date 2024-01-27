@@ -1,3 +1,4 @@
+<div *ngIf="userService.getLoggedInUser() && userService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
 <div *ngIf="users && users.length > 0" >
       <div *ngFor="let user of users" class="equipment-detail-card">
         <div class="heading"><p>{{ user.firstName }} {{ user.lastName }} </p></div>
@@ -5,3 +6,9 @@
         <div class="equipment-price"><p>Phone number: {{ user.phoneNumber }}</p></div>
       </div>
     </div>
+  </div>
+  <ng-template #sorryMessage>
+      <div class="sorry-message">
+        <p>unauthorized</p>
+      </div>
+    </ng-template>

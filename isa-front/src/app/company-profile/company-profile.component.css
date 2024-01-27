@@ -10,6 +10,12 @@ body {
     height: 100vh;
 }
 
+.error-message {
+    color: red;
+    font-size: 14px;
+}
+
+
 button {
     background-color: #3498db;
     color: white;
@@ -83,7 +89,7 @@ select option {
     padding: 5px; 
     color: white; 
     width: 200px;
-    height: 320px;
+    height: 330px;
     margin-top: 20px;
 }
 
@@ -124,3 +130,11 @@ input[type="text"]:focus {
 .add-button:hover {
     background-color: #2980b9; /* Tamnija nijansa plave prilikom hover-a */
 }
+
+button.add-button[disabled] {
+    pointer-events: none;
+    background-color: #ccc; /* Siva boja */
+    color: #666; /* Tamnosiva boja teksta */
+    border: 1px solid #999; /* Obrub sa tamnosivom bojom */
+    cursor: not-allowed;
+  }

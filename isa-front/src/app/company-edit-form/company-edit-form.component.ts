@@ -9,6 +9,7 @@ import * as esri from 'esri-leaflet';
 import 'leaflet-control-geocoder';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { ViewChild } from '@angular/core';
+import { UserStateService } from '../services/user-state.service';
 
 @Component({
   selector: 'app-company-edit-form',
@@ -25,7 +26,8 @@ export class CompanyEditFormComponent implements OnInit {
   @ViewChild('addressInput') addressInput: any; // Dodajte ovu liniju
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
-    private router: Router) {}
+    private router: Router,
+    public userStateService: UserStateService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

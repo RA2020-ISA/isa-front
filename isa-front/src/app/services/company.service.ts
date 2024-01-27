@@ -94,15 +94,30 @@ export class CompanyService {
   }
 
   updateEquipment(equipment: Equipment): Observable<Equipment>{
-    return this.http.put<Equipment>('http://localhost:8080/api/equipment/update/' + equipment.id, equipment);
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
+    return this.http.put<Equipment>('http://localhost:8080/api/equipment/update/' + equipment.id, equipment, {params});
   }
 
   removeEqFromCom(companyId: number, equipmentId: number): Observable<Company>{
-    return this.http.get<Company>('http://localhost:8080/api/companies/removeFrom/' + companyId + '/' + equipmentId);
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
+    return this.http.get<Company>('http://localhost:8080/api/companies/removeFrom/' + companyId + '/' + equipmentId, {params});
   }
 
   addEqToCom(companyId: number, equipmentId: number): Observable<Company>{
-    return this.http.get<Company>('http://localhost:8080/api/companies/addTo/' + companyId + '/' + equipmentId);
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
+    return this.http.get<Company>('http://localhost:8080/api/companies/addTo/' + companyId + '/' + equipmentId, {params});
   }
 
   getFreeCompanyAppoinments(): Observable<Appointment[]>{

@@ -16,6 +16,11 @@ export class ItemService {
   private readonly apiUrl = `${environment.apiHost}`;
 
   constructor(private http: HttpClient,private userStateService: UserStateService) {}
+
+  createItem2(item: Item): Observable<Item> {
+    return this.http.post<Item>('http://localhost:8080/api/item/create', item);
+  }
+
   createItem(item: Item): Observable<Item> {
     const loggedInUser = this.userStateService.getLoggedInUser();
     const userParams: { [param: string]: string | number | boolean } = {

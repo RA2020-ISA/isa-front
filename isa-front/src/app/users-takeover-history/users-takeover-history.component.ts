@@ -10,7 +10,6 @@ import { UserStateService } from '../services/user-state.service';
 import { Reservation } from '../model/reservation.model';
 import { User } from '../model/user-model';
 import { FormsModule } from '@angular/forms';
-import { parseISO } from 'date-fns';
 
 @Component({
   selector: 'users-takeover-history',

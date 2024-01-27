@@ -22,7 +22,7 @@ export class ReservationService {
     };
     const params = new HttpParams({ fromObject: userParams });
     //return this.http.post<Reservation>('http://localhost:8080/api/reservations/create', reservation,{params});
-    return this.http.post<Reservation>('http://localhost:8080/api/reservations/create', reservation);
+    return this.http.post<Reservation>('http://localhost:8080/api/reservations/create', reservation,{params});
   }
   getByUser(username: string): Observable<Array<Reservation>> {
     const loggedInUser = this.userStateService.getLoggedInUser();
@@ -79,7 +79,12 @@ export class ReservationService {
   } 
   cancelReservation(reservation: Reservation): Observable<string> {
     const url = `http://localhost:8080/api/reservations/cancel`;
-    return this.http.put(url, reservation, { responseType: 'text' });
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
+    return this.http.put(url, reservation, { responseType: 'text',params });
   }
 
   findReservation(reservationNumber: number): Observable<Reservation>{

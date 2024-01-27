@@ -24,7 +24,7 @@ export class PickupEquipmentComponent implements OnInit{
   company?: Company;
 
   constructor(private reservationService: ReservationService, private qrCodeService: QRCodeService,
-    private userService: UserStateService, private companyService: CompanyService) { }
+    public userService: UserStateService, private companyService: CompanyService) { }
 
   ngOnInit(): void {
     this.loggedUser = this.userService.getLoggedInUser();

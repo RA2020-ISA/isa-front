@@ -65,7 +65,6 @@ export class NavbarComponent implements OnInit {
     if (username) {
       this.resService.getByUser(username).subscribe(
         (reservations) => {
-          // Ovde možete dodati logiku za prikaz rezervacija, npr. prikazivanje na novoj stranici ili dijalogu
           console.log('Reservations:', reservations);
           this.router.navigate(['/reservations', username]);
         },
@@ -100,7 +99,7 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/pickup-equipment']);
   }
 
-  redirectToUserReservations(): void{
+  redirectToUserReservationsAdminView(): void{
     this.router.navigate(['user-reservations-admin']);
   }
 }

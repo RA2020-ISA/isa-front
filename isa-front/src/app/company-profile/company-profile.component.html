@@ -19,7 +19,8 @@
                 <div class="heading">
                     <p>{{ equipment.name }}</p>
                     <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
-                    (click)="acquireEquipment(equipment)" class="add-button">
+                        [attr.disabled]="isButtonDisabled(equipment) ? true : null"
+                        (click)="acquireEquipment(equipment)" class="add-button">
                         <mat-icon>add</mat-icon>
                     </button>
                 </div>
@@ -27,6 +28,7 @@
                 <div class="equipment-price"><p>Price: {{ equipment.price }}</p></div>
                 <div class="equipment-grade"><p>Grade: {{ equipment.grade }}</p></div>
                 <div class="equipment-type"><p>Type: {{ equipment.type }}</p></div>
+                <div class="equipment-maxQuantity"><p>In stock: {{ equipment.maxQuantity }}</p></div>
             </div>
         </div>
     </div>
@@ -45,11 +47,15 @@
             <form (ngSubmit)="selectedEquipment && submitQuantity(selectedEquipment, quantityForm.value.quantity)" #quantityForm="ngForm">
                 <div class="quantity-input">
                     <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" name="quantity" ngModel required>
+                    <input type="number" id="quantity" name="quantity" ngModel required min="1" pattern="[1-9]*">
+                    <div *ngIf="quantityForm.controls['quantity']">
+                    <div *ngIf="quantityForm.controls['quantity'].hasError('pattern') && quantityForm.controls['quantity'].touched" class="error-message">
+                        Please enter a valid quantity.
+                    </div>
                 </div>
-                <button type="submit">Submit Quantity</button>
+                </div>
+                <button type="submit" [disabled]="!quantityForm.form.valid">Submit Quantity</button>
             </form>
-
         </div>
     </div>
       <div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'">

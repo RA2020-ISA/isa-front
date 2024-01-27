@@ -30,7 +30,7 @@ export class UsersQRCodesComponent implements OnInit, OnDestroy {
     filteredQRCodeImages: QRCodeInfo[] = [];
 
   constructor(
-    private userStateService: UserStateService,
+    public userStateService: UserStateService,
     private reservationService: ReservationService,
     private qrCodeService: QRCodeService,
     private cdr: ChangeDetectorRef

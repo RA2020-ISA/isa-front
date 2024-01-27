@@ -19,11 +19,12 @@ import { eq } from '@fullcalendar/core/internal-common';
 import { QRCodeService } from '../services/qr-code.service';
 import { User } from '../model/user-model';
 import * as L from 'leaflet'; 
+import { AppointmentStatus } from '../model/appointment-status';
 
 @Component({
   selector: 'app-company-profile',
   templateUrl: './company-profile.component.html',
-  styleUrls: ['./company-profile.component.css']
+  styleUrls: ['./company-profile.component.css'],
 })
 export class CompanyProfileComponent implements OnInit {
   companyId?: number;
@@ -95,6 +96,10 @@ export class CompanyProfileComponent implements OnInit {
     });
   }
 
+  isButtonDisabled(equipment: Equipment): boolean {
+    return equipment.maxQuantity === 0;
+  }
+
   createReservation() {
     console.log('USAO U CREATE RESERVATION');
     console.log('USER KOJI KRERIA REZ: ', this.user);
@@ -114,9 +119,24 @@ export class CompanyProfileComponent implements OnInit {
     }
   }
 
+  updateAppointment(appointment: Appointment): void{
+    this.appointmentService.updateAppointment(appointment).subscribe(
+      (response: Appointment) => {
+        this.selectedAppointment = response;
+        console.log('Uspesno update-ovan appointment:');
+        console.log(this.selectedAppointment);
+      },
+      (error: any) => {
+        console.error('Greska pri update-ovanju appointmenta!', error);
+      });
+  }
+
   createNewReservation() {
     console.log('ULOGOVANI USER:', this.userStateService.getLoggedInUser() )
-  
+    /*if(this.selectedAppointment){
+      this.updateAppointment(this.selectedAppointment);
+    }*/
+      
       const newReservation: Reservation = {
         appointment: this.selectedAppointment,      
         user: this.userStateService.getLoggedInUser(),        
@@ -153,6 +173,7 @@ export class CompanyProfileComponent implements OnInit {
                       (response) => {
                         console.log(response);
                         console.log('Upsesno generisanje qr koda i poslat mail');
+                        alert('You have successfully created a reservation. Check your mail');
                       },
                       (error) => {
                         console.error(error);
@@ -250,7 +271,7 @@ export class CompanyProfileComponent implements OnInit {
   
   getAppointmentTimesForSelectedDate(): string[] {
     const appointmentsForSelectedDate = this.getAppointmentsForSelectedDate();
-    console.log('Appointments for selected date:', appointmentsForSelectedDate);  
+    //console.log('Appointments for selected date:', appointmentsForSelectedDate);  
     
     // Koristite map da biste izdvojili samo appointmentTime
     const appointmentTimesForSelectedDate = appointmentsForSelectedDate
@@ -265,7 +286,7 @@ export class CompanyProfileComponent implements OnInit {
     
     // Set the minimum date as today's date in the local time zone
     today.setHours(0, 0, 0, 0);
-    console.log(today);
+    //console.log(today);
     const minDate = today.toLocaleDateString('en-CA');
     return minDate;
 }
@@ -298,14 +319,14 @@ export class CompanyProfileComponent implements OnInit {
   
     // Dobijanje vremenskih slotova za odabrani datum
     const existingAppointmentTimes = this.getAppointmentTimesForSelectedDate();
-    console.log('Existing appointment times:', existingAppointmentTimes);
-    console.log('All time slots:', allTimeSlots);
+    //console.log('Existing appointment times:', existingAppointmentTimes);
+    //console.log('All time slots:', allTimeSlots);
 
-    console.log(this.company?.workTimeBegin, this.company?.workTimeEnd);
+    //console.log(this.company?.workTimeBegin, this.company?.workTimeEnd);
 
     // Filtriranje vremenskih slotova kako bismo izbacili one koji nisu u okviru radnog vremena
     const foundSlots = allTimeSlots.filter(timeSlot => {
-      console.log('Checking time slot:', timeSlot.value);
+      //console.log('Checking time slot:', timeSlot.value);
 
       // Pretvorba vrednosti u integer
       const slotValueAsInt = parseInt(timeSlot.value, 10);
@@ -326,7 +347,7 @@ export class CompanyProfileComponent implements OnInit {
     });
 
 
-    console.log('Found slots after filtering:', foundSlots);
+    //console.log('Found slots after filtering:', foundSlots);
 
     return foundSlots;
   }
@@ -341,15 +362,16 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   // Dodajte ispis za proveru
-  console.log('Selected date:', this.selectedDate);
-  console.log('Selected time slot:', this.selectedTimeSlot);
+  //console.log('Selected date:', this.selectedDate);
+  //console.log('Selected time slot:', this.selectedTimeSlot);
 
   // Kreiranje objekta appointment
   const appointment = {
     adminId: -1,
     appointmentDate: this.selectedDate,
     appointmentTime: this.selectedTimeSlot+":00",
-    appointmentDuration: 60
+    appointmentDuration: 60,
+    status: AppointmentStatus.RESERVED
   };
 
   this.selectedAppointment = appointment;
@@ -435,6 +457,7 @@ export class CompanyProfileComponent implements OnInit {
 
   acquireEquipment(selectedEquipment: Equipment) {
       this.selectedEquipments.push(selectedEquipment)
+      console.log(selectedEquipment)
       this.quantity = 1;
   }
 
@@ -443,24 +466,31 @@ export class CompanyProfileComponent implements OnInit {
     console.log(`Quantity for Equipment ID ${equipment}: ${quantity}`);
     this.selectedEquipmentQuantities.set(equipment, quantity);
     console.log(this.selectedEquipmentQuantities);
+
+    if (equipment.maxQuantity - quantity < 0) {
+        alert('Unfortunately, there is not much equipment available, please try again.');
+    }
+    else {
+      const newItem: Item = {
+        equipment: equipment,
+        quantity: quantity,
+        reservation: null,
+      };
   
-    const newItem: Item = {
-      equipment: equipment,
-      quantity: quantity,
-      reservation: null,
-    };
-
-    console.log('new item eq:::', newItem.equipment);
-
-    this.itemService.createItem(newItem).subscribe(
-      response => {
-        console.log("Item created successfully", response);
-        this.selectedItems.push(response);
-      },
-      error => {
-        console.error("Error creating item", error);
-      }
-    ); 
+      console.log('new item eq:::', newItem.equipment);
+  
+      this.itemService.createItem2(newItem).subscribe(
+        response => {
+          console.log("Item created successfully", response);
+          this.selectedItems.push(response);
+          console.log('SELEKTOVANI ITEMI: ', this.selectedItems)
+          alert('Quantity submitted successfully!');
+        },
+        error => {
+          console.error("Error creating item", error);
+        }
+      ); 
+    }
   }
 
   // funkcije za mapu - Milica dodala

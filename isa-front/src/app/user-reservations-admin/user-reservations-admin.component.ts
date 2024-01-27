@@ -27,7 +27,7 @@ export class UserReservationsAdminComponent implements OnInit{
   allReservations: Reservation[] = [];
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
-    private router: Router, private userService: UserStateService,
+    private router: Router, public userService: UserStateService,
     private location: Location, private reservationService: ReservationService) {}
 
   ngOnInit(): void {

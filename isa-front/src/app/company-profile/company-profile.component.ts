@@ -479,7 +479,7 @@ export class CompanyProfileComponent implements OnInit {
   
       console.log('new item eq:::', newItem.equipment);
   
-      this.itemService.createItem2(newItem).subscribe(
+      this.itemService.createItem(newItem).subscribe(
         response => {
           console.log("Item created successfully", response);
           this.selectedItems.push(response);

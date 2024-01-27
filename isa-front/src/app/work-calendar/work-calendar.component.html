@@ -1,6 +1,13 @@
+<div *ngIf="userService.getLoggedInUser() && userService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
 <div class="capture_div">
     <h1>My companie's work calendar</h1>
     <div class="calendar_div">
         <full-calendar [options]="calendarOptions"></full-calendar>
     </div> 
 </div>
+</div>
+<ng-template #sorryMessage>
+    <div class="sorry-message">
+      <p>unauthorized</p>
+    </div>
+  </ng-template>

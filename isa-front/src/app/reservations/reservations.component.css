@@ -25,13 +25,7 @@
   color: #888;
 }
 
-/* Style for the sorry message */
-.sorry-message {
-  background-color: #ff9999; /* Light red background for sorry message */
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 20px;
-}
+
 
 /* Style for the header */
 h2 {

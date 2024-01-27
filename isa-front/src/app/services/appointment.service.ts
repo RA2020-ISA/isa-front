@@ -1,4 +1,3 @@
-// registration.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
@@ -34,7 +33,12 @@ export class AppointmentService {
   }
 
   addAdminToAppointment(companyId: number, selectedAppointment: Appointment): Observable<Appointment> {
-    return this.http.post<Appointment>('http://localhost:8080/api/appointments/addAdminToAppointment/' + companyId, selectedAppointment);
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
+    return this.http.post<Appointment>('http://localhost:8080/api/appointments/addAdminToAppointment/' + companyId, selectedAppointment, {params});
   }
 
   updateAppointment(appointment: Appointment): Observable<Appointment>{

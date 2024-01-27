@@ -1,3 +1,4 @@
+<div *ngIf="userService.getLoggedInUser() && userService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
 <div class="container">
 <div class="pickup_order_1">
     <div class="reservation_div" *ngFor="let reservation of pickUpReservations">
@@ -52,3 +53,9 @@
     </div>
 </div>
 </div>
+</div>
+<ng-template #sorryMessage>
+    <div class="sorry-message">
+      <p>unauthorized</p>
+    </div>
+  </ng-template>

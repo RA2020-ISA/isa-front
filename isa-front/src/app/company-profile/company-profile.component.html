@@ -47,11 +47,15 @@
             <form (ngSubmit)="selectedEquipment && submitQuantity(selectedEquipment, quantityForm.value.quantity)" #quantityForm="ngForm">
                 <div class="quantity-input">
                     <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" name="quantity" ngModel required>
+                    <input type="number" id="quantity" name="quantity" ngModel required min="1" pattern="[1-9]*">
+                    <div *ngIf="quantityForm.controls['quantity']">
+                    <div *ngIf="quantityForm.controls['quantity'].hasError('pattern') && quantityForm.controls['quantity'].touched" class="error-message">
+                        Please enter a valid quantity.
+                    </div>
                 </div>
-                <button type="submit">Submit Quantity</button>
+                </div>
+                <button type="submit" [disabled]="!quantityForm.form.valid">Submit Quantity</button>
             </form>
-
         </div>
     </div>
       <div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'">

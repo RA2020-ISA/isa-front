@@ -31,7 +31,7 @@ export class AppointmentFormComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private userStateService: UserStateService,
+    public userStateService: UserStateService,
     private datePipe: DatePipe
   ) {
     // Inicijalizujemo formu u konstruktoru

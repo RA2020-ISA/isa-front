@@ -39,7 +39,8 @@ export class AdminCompanyComponent implements OnInit {
   constructor(private route: ActivatedRoute, private service: CompanyService,
     private router: Router, private userService: UserStateService, private equipmentService: EquipmentService,
     private reservationService: ReservationService,
-    private location: Location) {}
+    private location: Location,
+    public userStateService: UserStateService) {}
 
   ngOnInit(): void {
     this.loggedUser = this.userService.getLoggedInUser();

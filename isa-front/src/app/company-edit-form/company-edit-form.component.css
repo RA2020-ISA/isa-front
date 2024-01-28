@@ -10,14 +10,6 @@ h2 {
   }
   
 
-  .success-snackbar {
-    background-color: #4CAF50; /* Zelena boja */
-  }
-  
-  /* Dodajte ovu klasu za stilizaciju poruka o grešci */
-  .error-snackbar {
-    background-color: #f44336; /* Crvena boja */
-  }
 
   label {
     margin-bottom: 8px; /* Razmak između labele i polja za unos */

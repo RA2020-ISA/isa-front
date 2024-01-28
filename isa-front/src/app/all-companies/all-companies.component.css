@@ -1,6 +1,6 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f8f8;
+    background-color: #c0e2f7;
     margin: 0;
     padding: 20px;
     display: flex;
@@ -68,7 +68,8 @@ button:hover {
 
 .heading {
     font-size: 24px; 
-    font-weight: bold; 
+    font-weight: bold;
+    color: #3498db;
 }
 
 input[type="text"] {
@@ -141,4 +142,10 @@ input[type="text"]:focus {
 
   .small-button.active {
     background-color: grey; /* Možeš prilagoditi boju po želji */
+  }
+
+  .bold{
+    font-weight: bold;
+    font-size: large;
+    color: #3498db;
   }

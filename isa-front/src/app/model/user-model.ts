@@ -13,7 +13,6 @@ export interface User{
     city: string, 
     country: string, 
     phoneNumber: string, 
-    occupation: string, 
-    companyInfo: string, 
+    occupation: string,  
     userFirstLogged?: boolean
 }

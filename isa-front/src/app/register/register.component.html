@@ -40,10 +40,6 @@
       <label>Occupation</label>
       <input type="text" [(ngModel)]="occupation" [ngModelOptions]="{standalone:true}" id="occupation" class="form-control" placeholder="Enter occupation">
     </div>
-    <div class="form-group">
-      <label>Company Info</label>
-      <input type="text" [(ngModel)]="companyInfo" [ngModelOptions]="{standalone:true}" id="companyInfo" class="form-control" placeholder="Enter company info">
-    </div>
     <!-- End of New Fields -->
     <div *ngIf="errorMessage" class="error-message">
       Error: {{ errorMessage }}

@@ -5,7 +5,6 @@ export interface Company {
     address: string, 
     description: string,
     averageGrade: number,
-    adminId: number,
     equipments: Equipment[],
     workTimeBegin: string,
     workTimeEnd: string

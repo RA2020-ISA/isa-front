@@ -18,7 +18,6 @@ export class RegisterComponent {
   country: string = '';
   phoneNumber: string = '';
   occupation: string = '';
-  companyInfo: string = '';
 
   errorMessage: string | null = null;
   successMessage: string | null = null;
@@ -38,8 +37,7 @@ export class RegisterComponent {
       city: this.city,
       country: this.country,
       phoneNumber: this.phoneNumber,
-      occupation: this.occupation,
-      companyInfo: this.companyInfo,
+      occupation: this.occupation
     };
 
     this.userService.registerUser(bodyData).subscribe(
@@ -71,7 +69,6 @@ export class RegisterComponent {
     this.country = '';
     this.phoneNumber = '';
     this.occupation = '';
-    this.companyInfo = '';
     this.errorMessage='';
   }
 }

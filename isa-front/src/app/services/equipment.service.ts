@@ -15,8 +15,8 @@ export class EquipmentService {
 
   constructor(private http: HttpClient) {}
 
-  getAllEquipments(): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>('http://localhost:8080/api/equipment/getAllEquipmentWithCompanies');
+  getAllEquipments(adminId: number): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>('http://localhost:8080/api/equipment/getAllEquipmentForCompany/' + adminId);
   } 
 
   getEq(): Observable<Equipment[]> {

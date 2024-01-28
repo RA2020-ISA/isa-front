@@ -219,6 +219,11 @@ export class AppointmentFormComponent implements OnInit {
   
     return '';
   }
+
+  seeCalendar(): void
+  {
+    this.router.navigate(['/see-company-calendar']);
+  }
   
   
 

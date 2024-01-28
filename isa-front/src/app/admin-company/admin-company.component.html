@@ -61,7 +61,7 @@
 <div class="oprema1" *ngFor="let equipment of companyEquipments">
     <div class="equipment-card">
         <div class="heading">
-            <p>{{ equipment.name }}</p>
+            <p>{{ equipment.name }}, {{ equipment.maxQuantity}} pieces</p>
         </div>
         <div class="equipment-description"><p>{{ equipment.description }}</p></div>
         <div class="equipment-price"><p>{{ equipment.price }} EUR</p></div>

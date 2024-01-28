@@ -1,8 +1,82 @@
-button {
-    background-color: #3498db;
-    color: white;
+h2 {
+    margin-bottom: 20px; /* Razmak između naslova i forme */
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px; /* Postavite širinu forme prema vašim potrebama */
+    color: #0066cc;
+  }
+  
+  label {
+    margin-bottom: 8px; /* Razmak između labele i polja za unos */
+  }
+  
+  input,
+  textarea,
+  button {
+    margin-bottom: 16px; /* Razmak između polja za unos i dugmeta */
+    padding: 8px; /* Dodajte ovo kako biste poboljšali izgled elementa */
+    border-radius: 5px;
+  }
+
+  .forma
+  {
+    border-color: #0066cc;
+    padding: 10px; 
+    border-radius: 5px;
+    border-style: solid;
+    width: 300px;
+    margin-left: 550px;
+    margin-top: 100px;
+  }
+
+  #maxQuantity
+  {
+    width: 50px;
+  }
+  
+  /* Dodajte dodatne stilove prema potrebi */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    /* Ako je CSS fajl u 'appointment-form/' direktorijumu, a slika je u 'assets/images/' direktorijumu */
+    /* Putanja do slike iz CSS fajla u src/app/appointment-form/ direktorijumu */
+    background-image: url('../../assets/images/oprema.png');
+    background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Fiksiraj pozadinu */
+}
+
+.heading
+{
+    color: #0066cc;
+    font-size: 30px;
+    margin-left: 400px;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
+.heading2 
+{
+    color: #0066cc;
+    font-size: 22px;
+    margin-left: 500px;
+    margin-bottom: 20px;
+}
+
+.dugmence
+{
+    background-color: white;
+    color: #3498db;
     border: none;
-    padding: 10px;
+    padding: 10px 20px;
     margin: 5px;
     font-size: 22px;
     cursor: pointer;
@@ -10,48 +84,23 @@ button {
     transition: background-color 0.3s;
 }
 
-.card{
-    border-radius: 10px; 
-    background-color: lightblue; 
-    padding: 20px; 
-    color: white; 
-    width: 370px;
+.input1
+{
+    margin-left: 7px;
 }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f8f8;
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s;
 }
-
+  
 button:hover {
     background-color: #2980b9;
-}
-
-.polje{
-    margin-bottom: 7px;
-    font-size: 18px;
-}
-
-.polje input{
-    border-radius: 3px;
-}
-
-.input1{
-    margin-left: 2px;
-}
-
-.input2{
-    margin-left: 5px;
-}
-
-.poruka{
-    color: red;
-    font-size: 15px;
-}
+}  

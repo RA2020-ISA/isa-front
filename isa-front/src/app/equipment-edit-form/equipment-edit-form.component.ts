@@ -56,4 +56,20 @@ export class EquipmentEditFormComponent implements OnInit {
     }
   }
 
+  decreaseQuantity() {
+    if(this.equipment)
+    {
+      if (this.equipment.maxQuantity > 0) {
+        this.equipment.maxQuantity--;
+      }
+    }
+  }
+
+  increaseQuantity() {
+    if(this.equipment)
+    {
+      this.equipment.maxQuantity++;
+    }
+  }
+
 }

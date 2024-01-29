@@ -4,6 +4,7 @@ import { UserService } from '../services/user.service';
 import { User } from '../model/user-model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserRole } from '../model/user-role-enum';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'edit-Profile',
@@ -36,7 +37,8 @@ export class EditProfileComponent implements OnInit{
         confirmPassword: new FormControl('', Validators.required),
     })
 
-    constructor(private route: ActivatedRoute, private userService : UserService, private router: Router) {}
+    constructor(private route: ActivatedRoute, private userService : UserService, private router: Router,
+        private toastr: ToastrService) {}
 
     ngOnInit(): void {
         this.route.params.subscribe(params => {
@@ -62,11 +64,11 @@ export class EditProfileComponent implements OnInit{
         if (this.passwordForm.valid) {
             if (this.passwordForm.value.newPassword === this.passwordForm.value.confirmPassword) {
                 console.log('Password changed successfully!');
-                alert('Password changed successfully!');
+                this.toastr.success('Password changed successfully!');
                 this.showPasswordForm = false;
             } else {
                 console.error('New Password and Confirm Password must match.');
-                alert('New Password and Confirm Password must match.');                    
+                this.toastr.error('New Password and Confirm Password must match.');                    
             }
             //const newPasswordValue: any = this.passwordForm.value.newPassword; // Eksplicitno određivanje tipa
             /*this.userService.validatePassword(newPasswordValue, this.username).subscribe(
@@ -89,7 +91,7 @@ export class EditProfileComponent implements OnInit{
         }
         else {
             console.error('Password change form is invalid.');
-            alert('Password change form is invalid.');
+            this.toastr.error('Password change form is invalid.');
         }
     }
 

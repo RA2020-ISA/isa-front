@@ -15,6 +15,7 @@ import { Reservation } from '../model/reservation.model';
 import { User } from '../model/user-model';
 import * as L from 'leaflet'; 
 import { AppointmentStatus } from '../model/appointment-status';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-company-profile',
@@ -55,7 +56,8 @@ export class CompanyProfileComponent implements OnInit {
     private equipmentService: EquipmentService,
     public userStateService: UserStateService,
     private reservationService: ReservationService,
-    private appointmentService: AppointmentService) {}
+    private appointmentService: AppointmentService,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.user = this.userStateService.getLoggedInUser();
@@ -89,7 +91,7 @@ export class CompanyProfileComponent implements OnInit {
 
   createReservation() {
     if (this.user && this.user.penaltyPoints >= 3) {
-      alert('Unfortunately, you have 3 penalty points and it is not possible to make a reservation.');
+      this.toastr.error('Unfortunately, you have 3 penalty points and it is not possible to make a reservation.');
     } 
     else {
       if (this.extraAppointment) {
@@ -128,7 +130,7 @@ export class CompanyProfileComponent implements OnInit {
       this.reservationService.createReservation(newReservation).subscribe(
         response => {
           console.log("Reservation created successfully", response);
-          alert('You have successfully created a reservation. Check your mail');
+          this.toastr.success('You have successfully created a reservation. Check your email.');
           this.selectedItems = [];  
           this.selectedEquipments = [];
           this.selectedAppointment = undefined;
@@ -137,6 +139,7 @@ export class CompanyProfileComponent implements OnInit {
 
         },
         error => {
+          this.toastr.error('Error creating reservation. Please try again.');
           console.error("Error creating reservation", error);
         }
       ); 
@@ -280,7 +283,7 @@ export class CompanyProfileComponent implements OnInit {
   // Provera da li su odabrani datum i termin
   if (!this.selectedDate || !this.selectedTimeSlot) {
     console.error('Selected date or time slot is undefined or null.');
-    alert('Please select a date and time slot before checking availability.');
+    this.toastr.error('Please select a date and time slot before checking availability.');
     return;
   }
 
@@ -301,7 +304,7 @@ export class CompanyProfileComponent implements OnInit {
     this.appointmentService.addAdminToAppointment(this.companyId, this.selectedAppointment).subscribe(
       (response: Appointment) => {
         if (response.adminId == -1) {
-          alert('There is no available admin for this appointment, please choose another one.');
+          this.toastr.error('There is no available admin for this appointment, please choose another one.');
           console.log('ako nije nadjen slobodan: ', this.selectedAppointment);
         }
         else {
@@ -385,7 +388,7 @@ export class CompanyProfileComponent implements OnInit {
     console.log(`Quantity for Equipment ID ${equipment}: ${quantity}`);
 
     if (equipment.maxQuantity - quantity < 0) {
-        alert('Unfortunately, there is not much equipment available, please try again.');
+        this.toastr.warning('Unfortunately, there is not much equipment available, please try again.');
     }
     else {
       const newItem: Item = {
@@ -396,7 +399,7 @@ export class CompanyProfileComponent implements OnInit {
   
     console.log('new item eq:::', newItem.equipment);
 
-     alert('Quantity submitted successfully!');
+    this.toastr.success('Quantity submitted successfully');
 
      this.selectedItems.push(newItem);
     }
@@ -449,13 +452,16 @@ export class CompanyProfileComponent implements OnInit {
     this.isSetExtraAppointmentInsteadVisible = true;
   }
   setExtraAppointmentInstead(){
+    this.extraAppointment = true;
     this.setExtraAppointment();
   }
   setExistingAppointmentInstead(){
+    this.extraAppointment =false;
     this.isExtraAppointmentButtonVisible=false;
     this.isSetExtraAppointmentClicked = false;
     this.isSelectExistingDateVisible = false;
     this.showDatePicker = false;
+    this.showTimeSlots = false;
     this.isSetExtraAppointmentInsteadVisible = true;
   }
 }

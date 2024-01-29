@@ -27,6 +27,8 @@ import { ManageAdministratorsComponent } from './manage-administrators/manage-ad
 import { PickupEquipmentComponent } from './pickup-equipment/pickup-equipment.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CommonModule, DatePipe } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,11 @@ import { CommonModule, DatePipe } from '@angular/common';
     MatIconModule, 
     CommonModule,
     FullCalendarModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-center', // Change this to the desired position
+      // ... other options
+    }),
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

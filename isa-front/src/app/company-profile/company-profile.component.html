@@ -62,13 +62,12 @@
         <label for="appointmentDate">Select Appointment Date:</label>
         <select id="appointmentDate" name="appointmentDate" [(ngModel)]="selectedAppointment">
             <option *ngFor="let appointment of companyAppointments" [ngValue]="appointment">
-                {{ appointment.appointmentDate | date }} {{ appointment.appointmentTime }} ({{ appointment.appointmentDuration }} hours)
+                {{ appointment.appointmentDate | date }} {{ appointment.appointmentTime }} ({{ appointment.appointmentDuration }} minutes)
             </option>
         </select>
       </div>
 
-<div>
-  
+<div>  
     <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
     title="Use this button to make an appointment to pick up the equipment" (click)="setExtraAppointment()">
        Set Extra Appointment

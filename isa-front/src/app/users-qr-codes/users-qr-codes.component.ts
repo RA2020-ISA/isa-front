@@ -17,17 +17,13 @@ import { QRCodeInfo } from '../model/qr-code.model';
 })
 export class UsersQRCodesComponent implements OnInit, OnDestroy {
 
-  //userQRCodeImages: string[] = [];
   loading: boolean = true;
-  //reservationStatuses: (ReservationStatus | undefined)[] = [];
-  //filteredQRCodeImages: string[] = [];
-  filteredStatus: string | undefined | null = 'All'; // Initialize filteredStatus to 'All'
+  filteredStatus: string | undefined | null = 'All'; 
   private subscription: Subscription = new Subscription();
 
-  // Modify the reservationStatuses and userQRCodeImages arrays to use the QRCodeInfo model
-    reservationStatuses: QRCodeInfo[] = [];
-    userQRCodeImages: QRCodeInfo[] = [];
-    filteredQRCodeImages: QRCodeInfo[] = [];
+  reservationStatuses: QRCodeInfo[] = [];
+  userQRCodeImages: QRCodeInfo[] = [];
+  filteredQRCodeImages: QRCodeInfo[] = [];
 
   constructor(
     public userStateService: UserStateService,
@@ -67,7 +63,7 @@ export class UsersQRCodesComponent implements OnInit, OnDestroy {
               
                   this.loading = false;
                   console.log('USPESNO GENERISANJE QR KODA', this.userQRCodeImages);
-                  this.cdr.detectChanges(); // Update UI
+                  this.cdr.detectChanges(); 
                 },
                 (error) => {
                   console.error('Error fetching QR code images:', error);

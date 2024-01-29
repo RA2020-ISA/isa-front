@@ -33,7 +33,6 @@ export class UsersTakeoverHistory implements OnInit{
     }
   
     constructor(private route: ActivatedRoute, private resService: ReservationService,
-      private equipmentService: EquipmentService,
       private itemService: ItemService,
       public userStateService: UserStateService,
       private reservationService: ReservationService,

@@ -27,6 +27,8 @@ import { ManageAdministratorsComponent } from './manage-administrators/manage-ad
 import { PickupEquipmentComponent } from './pickup-equipment/pickup-equipment.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CommonModule, DatePipe } from '@angular/common';
+import { ContractsComponent } from './all-contracts/all-contracts.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { CommonModule, DatePipe } from '@angular/common';
     ReservationDetailsComponent,
     ManageAdministratorsComponent,
     PickupEquipmentComponent,
-    NavbarComponent
+    NavbarComponent,
+    ContractsComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +64,7 @@ import { CommonModule, DatePipe } from '@angular/common';
     MatIconModule, 
     CommonModule,
     FullCalendarModule,
+    MatTableModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

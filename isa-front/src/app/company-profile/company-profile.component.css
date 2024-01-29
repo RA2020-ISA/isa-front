@@ -138,3 +138,19 @@ button.add-button[disabled] {
     border: 1px solid #999; /* Obrub sa tamnosivom bojom */
     cursor: not-allowed;
   }
+
+/* Style for all disabled buttons */
+button[disabled] {
+    pointer-events: none;
+    background-color: #ccc; /* Disabled background color */
+    color: #666; /* Disabled text color */
+    border: 1px solid #999; /* Disabled border color */
+    cursor: not-allowed;
+}
+
+/* Style for disabled buttons on hover */
+button[disabled]:hover {
+    background-color: #ccc; /* Keep the same background color on hover for consistency */
+    color: #666; /* Keep the same text color on hover for consistency */
+    border: 1px solid #999; /* Keep the same border color on hover for consistency */
+}

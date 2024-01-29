@@ -22,6 +22,7 @@ import { AppointmentStatus } from '../model/appointment-status';
   styleUrls: ['./company-profile.component.css'],
 })
 export class CompanyProfileComponent implements OnInit {
+
   companyId?: number;
   company?: Company;
   equipments: Equipment[] = [];
@@ -33,6 +34,11 @@ export class CompanyProfileComponent implements OnInit {
   selectedItems : Item[] = []
   extraAppointment: boolean | undefined =  false;
   user: User | undefined;
+  appointmentSelected: boolean = false;
+  isExtraAppointmentButtonVisible: boolean = true;
+  isSetExtraAppointmentClicked: boolean = false;
+  isSetExtraAppointmentInsteadVisible: boolean = false;
+  isSelectExistingDateVisible : boolean = false;
 
   map: L.Map | undefined; // mapa
   
@@ -123,7 +129,12 @@ export class CompanyProfileComponent implements OnInit {
         response => {
           console.log("Reservation created successfully", response);
           alert('You have successfully created a reservation. Check your mail');
-          this.selectedItems = [];          
+          this.selectedItems = [];  
+          this.selectedEquipments = [];
+          this.selectedAppointment = undefined;
+          this.isExtraAppointmentButtonVisible = true;
+          this.isSetExtraAppointmentInsteadVisible = false;
+
         },
         error => {
           console.error("Error creating reservation", error);
@@ -135,6 +146,9 @@ export class CompanyProfileComponent implements OnInit {
     this.showDatePicker = true;
     this.extraAppointment = true;
     console.log('EXTRA APPOINTMENT: ', this.extraAppointment);
+    this.isSetExtraAppointmentClicked = true;
+    this.isSetExtraAppointmentInsteadVisible = false;
+    this.isSelectExistingDateVisible = true;
   }
 
   loadAvailableTimeSlots() {
@@ -294,6 +308,9 @@ export class CompanyProfileComponent implements OnInit {
           this.selectedAppointment = response;
           console.log('ako je nadjen slobodan: ', this.selectedAppointment);
           this.createNewReservation();
+          this.selectedDateStr = undefined;
+          this.selectedDate= undefined;
+          this.selectedTimeSlot= undefined;
         }
       },
       (error: any) => {
@@ -425,5 +442,20 @@ export class CompanyProfileComponent implements OnInit {
     }
   
     return null;
+  }
+  onAppointmentChange() {
+    // Ako je izabrana opcija, sakrij dugme
+    this.isExtraAppointmentButtonVisible = false;
+    this.isSetExtraAppointmentInsteadVisible = true;
+  }
+  setExtraAppointmentInstead(){
+    this.setExtraAppointment();
+  }
+  setExistingAppointmentInstead(){
+    this.isExtraAppointmentButtonVisible=false;
+    this.isSetExtraAppointmentClicked = false;
+    this.isSelectExistingDateVisible = false;
+    this.showDatePicker = false;
+    this.isSetExtraAppointmentInsteadVisible = true;
   }
 }

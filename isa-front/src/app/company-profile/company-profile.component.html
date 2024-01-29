@@ -47,7 +47,7 @@
             <form (ngSubmit)="selectedEquipment && submitQuantity(selectedEquipment, quantityForm.value.quantity)" #quantityForm="ngForm">
                 <div class="quantity-input">
                     <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" name="quantity" ngModel required min="1" pattern="[1-9]*">
+                    <input type="number" id="quantity" name="quantity" ngModel required min="1" pattern="[0-9]*">
                     <div *ngIf="quantityForm.controls['quantity']">
                     <div *ngIf="quantityForm.controls['quantity'].hasError('pattern') && quantityForm.controls['quantity'].touched" class="error-message">
                         Please enter a valid quantity.
@@ -58,9 +58,9 @@
             </form>
         </div>
     </div>
-      <div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'">
+      <div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' && !isSetExtraAppointmentClicked">
         <label for="appointmentDate">Select Appointment Date:</label>
-        <select id="appointmentDate" name="appointmentDate" [(ngModel)]="selectedAppointment">
+        <select id="appointmentDate" name="appointmentDate" [(ngModel)]="selectedAppointment" (change)="onAppointmentChange()">
             <option *ngFor="let appointment of companyAppointments" [ngValue]="appointment">
                 {{ appointment.appointmentDate | date }} {{ appointment.appointmentTime }} ({{ appointment.appointmentDuration }} minutes)
             </option>
@@ -68,10 +68,17 @@
       </div>
 
 <div>  
-    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
+    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' && isExtraAppointmentButtonVisible && !isSetExtraAppointmentClicked"
     title="Use this button to make an appointment to pick up the equipment" (click)="setExtraAppointment()">
        Set Extra Appointment
     </button>
+
+    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' && isSetExtraAppointmentInsteadVisible"
+    title="Use this button to make an appointment to pick up the equipment" (click)="setExtraAppointmentInstead()">
+       Set Extra Appointment Instead
+    </button>
+
+    
 
     <div *ngIf="showDatePicker">
         <label>Select a date:</label>
@@ -88,8 +95,14 @@
         (click)="edit(company.id || 0)">
         Edit
     </button>
+
+    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' && isSelectExistingDateVisible"
+    title="Use this button to make an appointment to pick up the equipment" (click)="setExistingAppointmentInstead()">
+       Select Existing Date
+    </button>
+    
     <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
-    (click)="createReservation()" >
+    (click)="createReservation()" [disabled]="selectedItems.length === 0" >
         Create Reservation
     </button>
   </div>

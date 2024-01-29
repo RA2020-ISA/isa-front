@@ -8,6 +8,7 @@ import { ItemService } from '../services/item.service';
 import { Observable } from 'rxjs';
 import { UserStateService } from '../services/user-state.service';
 import { Reservation } from '../model/reservation.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reservations',
@@ -27,7 +28,8 @@ export class ReservationsComponent implements OnInit{
     public userStateService: UserStateService,
     private reservationService: ReservationService,
     private cdr: ChangeDetectorRef,
-    private router: Router) {}
+    private router: Router,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -85,6 +87,7 @@ export class ReservationsComponent implements OnInit{
     this.reservationService.cancelReservation(reservation).subscribe(response => {
       console.log(response); // Ispisivanje odgovora sa servera
       // Ažurirajte listu rezervacija na osnovu potreba
+      this.toastr.success('You have successfully cancelled your reservation!');
       this.cdr.detectChanges();
       this.displayUsersReservations();
       

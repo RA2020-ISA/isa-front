@@ -36,6 +36,7 @@ export class CompanyEditFormComponent implements OnInit {
         (company: Company) => {
           this.company = company;
           this.initMap();
+          console.log('KOMPANIJA NA EDITU: '+ this.company);
         },
         (error) => {
           console.error('Error fetching company', error);
@@ -143,6 +144,7 @@ export class CompanyEditFormComponent implements OnInit {
           this.router.navigate(['/admin-company']);
         },
         (error) => {
+          console.log(this.company)
           console.error('Error updating company', error);
         }
       );

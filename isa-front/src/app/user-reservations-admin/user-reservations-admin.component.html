@@ -1,3 +1,4 @@
+<body>
 <div class="poz" *ngIf="userService.getLoggedInUser() && userService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
   <h1 class="heading">All users who have scheduled equipment pick-up at your company</h1>
 <div *ngIf="users && users.length > 0" class = "veliki">
@@ -13,3 +14,4 @@
         <p>unauthorized</p>
       </div>
     </ng-template>
+    </body>

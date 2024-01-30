@@ -74,21 +74,34 @@ button:hover {
     margin-bottom: 10px; /* Dodaj margin između kartica */
 }
 
-.poz
+body
+{
+  background-image: url('../../assets/images/otkucaji3.png');
+  background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Fiksiraj pozadinu */
+}
+
+/*.poz
 {
   background-image: url('../../assets/images/razno.png');
   background-size: 500px 500px; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
-    background-repeat: no-repeat;
+    /*background-repeat: no-repeat;
     background-attachment: fixed; /* Fiksiraj pozadinu */
-    background-position: 900px 200px;
-}
+    /*background-position: 900px 200px;
+}*/
 
 .heading {
     font-size: 30px; 
     font-weight: bold; 
     color: #2980b9;
-    margin-top: 150px;
-    margin-left: 350px;
+    margin-top: 20px;
+    margin-left: 270px;
+}
+
+.poz
+{
+  margin-bottom: 370px;
 }
 
 .equipment-heading

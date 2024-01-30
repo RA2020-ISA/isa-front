@@ -6,6 +6,10 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
+    background-image: url('../../assets/images/otkucaji3.png');
+    background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Fiksiraj pozadinu */
   }
 
   .pocetak
@@ -29,7 +33,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 500px; 
-    margin-left: 500px; 
+    margin-left: 50px; 
     border-color: #0066cc;
     padding: 15px; 
     border-radius: 5px;

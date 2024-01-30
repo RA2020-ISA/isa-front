@@ -1,3 +1,4 @@
+<body>
 <div *ngIf="userStateService.getLoggedInUser()" class="profile-container">
   <div class="pocetak"><img src="assets/images/prof.png" width="70px" height="55px"><h1 class="naslov">{{ user?.firstName}} {{ user?.lastName}} </h1></div>
   <div class="table-container">
@@ -35,3 +36,4 @@
     <p>unauthorized</p>
   </div>
 </ng-template>
+</body>

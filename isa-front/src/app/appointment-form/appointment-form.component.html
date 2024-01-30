@@ -1,3 +1,4 @@
+<body>
 <div class="poz" *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
 <div class="card">
 <h1 class="heading">Create your own appointment for {{company?.name}} </h1>
@@ -32,3 +33,4 @@
       <p>unauthorized</p>
     </div>
   </ng-template>
+</body>

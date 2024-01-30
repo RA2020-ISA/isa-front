@@ -16,15 +16,23 @@ h2 {
   }
 
 
-  .poz
+ /* .poz
   {
     /* Putanja do slike iz CSS fajla u src/app/appointment-form/ direktorijumu */
-    background-image: url('../../assets/images/pozadina4.png');
+    /*background-image: url('../../assets/images/pozadina4.png');
     /*background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+    /*background-repeat: no-repeat;
+    background-attachment: fixed; /* Fiksiraj pozadinu */
+    /*background-position: 800px 100px;
+
+  }*/
+
+  body
+  {
+    background-image: url('../../assets/images/otkucaji3.png');
+    background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
     background-repeat: no-repeat;
     background-attachment: fixed; /* Fiksiraj pozadinu */
-    background-position: 800px 100px;
-
   }
   
   label {
@@ -52,8 +60,8 @@ h2 {
     border-radius: 5px;
     border-style: solid;
     width: 300px;
-    margin-left: 500px;
-    margin-top: 80px;
+    margin-left: 550px;
+    margin-top: 50px;
   }
 
   #maxQuantity

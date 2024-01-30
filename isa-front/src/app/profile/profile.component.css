@@ -37,8 +37,8 @@ body {
     border-style: solid;
     border-radius: 8px;
     padding: 20px;
-    margin-left: 500px;
-    margin-top: 170px;
+    margin-left: 0px;
+    margin-bottom: 150px;
 }
 
 .table-container {
@@ -62,6 +62,14 @@ body {
 
 h1 {
     color: #3498db;
+}
+
+body
+{
+    background-image: url('../../assets/images/otkucaji3.png');
+    background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Fiksiraj pozadinu */
 }
 
 span {

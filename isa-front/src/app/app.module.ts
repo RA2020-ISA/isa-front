@@ -29,6 +29,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CommonModule, DatePipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { ToastrModule } from 'ngx-toastr';
       positionClass: 'toast-top-center', // Change this to the desired position
       // ... other options
     }),
+    MatSlideToggleModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

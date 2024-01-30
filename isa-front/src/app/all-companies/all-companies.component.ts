@@ -19,6 +19,10 @@ export class AllCompaniesComponent implements OnInit{
   sortByName: boolean = false;
   sortOrderDirectionName: string = 'asc';
   appliedSort: string = '';
+  currentIndex: number = 0;
+  displayedCompanies: Company[] = [];
+  disablePrevButton: boolean = true;
+  disableNextButton: boolean = false;
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
     private router: Router){}
@@ -27,6 +31,7 @@ export class AllCompaniesComponent implements OnInit{
     this.service.getAllCompanies().subscribe(
       (companies: Company[]) => {
         this.companies = companies;
+        this.updateDisplayedCompanies();
         console.log("Kompanije:");
         console.log(this.companies);
       },
@@ -144,4 +149,37 @@ export class AllCompaniesComponent implements OnInit{
       });
     }
   }
+  onToggleChange() {
+    if (!this.showFilterOptions) {
+      this.resetSorting();
+    }
+  }
+  // U vašoj TypeScript komponenti
+getStarArray(averageGrade: number): number[] {
+  return Array(Math.round(averageGrade)).fill(0);
+}
+updateDisplayedCompanies() {
+  this.displayedCompanies = this.companies.slice(this.currentIndex, this.currentIndex + 3);
+  this.updateButtonStates();
+}
+
+// Dodajte funkcije za listanje kompanija
+nextCompany() {
+  if (this.currentIndex + 3 < this.companies.length) {
+    this.currentIndex++;
+    this.updateDisplayedCompanies();
+  }
+}
+
+prevCompany() {
+  if (this.currentIndex > 0) {
+    this.currentIndex--;
+    this.updateDisplayedCompanies();
+  }
+}
+updateButtonStates() {
+  this.disablePrevButton = this.currentIndex === 0;
+  this.disableNextButton = this.currentIndex + 3 >= this.companies.length;
+}
+
 }

@@ -51,6 +51,7 @@ export class AllCompaniesComponent implements OnInit{
         this.companies = companies;
   
         this.showFilterOptions = true;
+        this.updateDisplayedCompanies();
       },
       (error) => {
         console.log('neuspeh prilikom search-a: ', error);
@@ -63,6 +64,8 @@ export class AllCompaniesComponent implements OnInit{
     if (this.sortByRating) {
       this.appliedSort = 'asc';
       this.companies.sort((a, b) => a.averageGrade - b.averageGrade);
+      this.updateDisplayedCompanies();
+
     }
   }
   
@@ -71,6 +74,8 @@ export class AllCompaniesComponent implements OnInit{
     if (this.sortByRating) {
       this.appliedSort = 'des';
       this.companies.sort((a, b) => b.averageGrade - a.averageGrade);
+      this.updateDisplayedCompanies();
+
     }
   }
 
@@ -147,6 +152,8 @@ export class AllCompaniesComponent implements OnInit{
           return nameB.localeCompare(nameA);
         }
       });
+      this.updateDisplayedCompanies();
+
     }
   }
   onToggleChange() {

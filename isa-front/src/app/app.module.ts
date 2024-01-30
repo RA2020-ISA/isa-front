@@ -31,6 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ReservationsComponent } from './reservations/reservations.component';
+import { UsersTakeoverHistory } from './users-takeover-history/users-takeover-history.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { ReservationsComponent } from './reservations/reservations.component';
     ManageAdministratorsComponent,
     PickupEquipmentComponent,
     NavbarComponent,
-    ReservationsComponent
+    ReservationsComponent,
+    UsersTakeoverHistory
   ],
   imports: [
     BrowserModule,

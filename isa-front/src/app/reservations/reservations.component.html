@@ -3,7 +3,7 @@
 
 <div *ngIf="reservations.length > 0; else noReservations" class="container">
   <div *ngIf="userStateService.getLoggedInUser(); else sorryMessage" class="container-inside">
-    <h2>Reservations for {{ userStateService.getLoggedInUser()?.firstName }} {{userStateService.getLoggedInUser()?.lastName}}</h2>
+    <h1>Reservations for {{ userStateService.getLoggedInUser()?.firstName }} {{userStateService.getLoggedInUser()?.lastName}}</h1>
     <div class="ul-container">
       <button class="previous-button" (click)="prevCompany()" [disabled]="disablePrevButton"><mat-icon>navigate_before</mat-icon></button>
 

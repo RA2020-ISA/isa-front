@@ -20,6 +20,10 @@ export class AllEquipmentComponent implements OnInit{
   sortOrderDirectionName: string = 'asc';
   appliedSort: string = '';
   loggedUser?: User;
+  currentIndex: number = 0;
+  displayedEquipment: Equipment[] = [];
+  disablePrevButton: boolean = true;
+  disableNextButton: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private service: EquipmentService,
@@ -33,6 +37,7 @@ export class AllEquipmentComponent implements OnInit{
       this.service.getAllEquipments(this.loggedUser.id).subscribe(
         (equipmentsResult: Equipment[]) => {
           this.equipments = equipmentsResult;
+          this.updateDisplayedEquipment();
           console.log("Oprema sva:");
           console.log(this.equipments);
         },
@@ -147,6 +152,33 @@ export class AllEquipmentComponent implements OnInit{
         }
       });
     }
+  }
+  getStarArray(averageGrade: number): number[] {
+    return Array(Math.round(averageGrade)).fill(0);
+  }
+
+  updateDisplayedEquipment() {
+    this.displayedEquipment = this.equipments.slice(this.currentIndex, this.currentIndex + 5);
+    this.updateButtonStates();
+  }
+  
+  // Dodajte funkcije za listanje kompanija
+  nextEquipment() {
+    if (this.currentIndex + 5 < this.equipments.length) {
+      this.currentIndex++;
+      this.updateDisplayedEquipment();
+    }
+  }
+  
+  prevEquipment() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.updateDisplayedEquipment();
+    }
+  }
+  updateButtonStates() {
+    this.disablePrevButton = this.currentIndex === 0;
+    this.disableNextButton = this.currentIndex + 5 >= this.equipments.length;
   }
   
 }

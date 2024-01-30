@@ -225,7 +225,7 @@ input[type="text"]:focus {
     font-size: 18px;
   }
   .background{
-    background-image: url('../../assets/images/pozadina6.png');
+    background-image: url('../../assets/images/otkucaji3.png');
     background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
     background-repeat: no-repeat;
     background-attachment: fixed; 

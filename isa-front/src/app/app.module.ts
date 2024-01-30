@@ -30,6 +30,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     ReservationDetailsComponent,
     ManageAdministratorsComponent,
     PickupEquipmentComponent,
-    NavbarComponent
+    NavbarComponent,
+    ReservationsComponent
   ],
   imports: [
     BrowserModule,

@@ -13,7 +13,11 @@ body {
 .search-fields {
     display: flex;
     align-items: center;
-    margin-bottom: 20px; /* Dodaj margin ispod search polja */
+    margin-bottom: 20px;
+}
+
+.rounded-input{
+  border-radius: 20px;
 }
 
 .card-container {
@@ -21,15 +25,33 @@ body {
     flex-wrap: wrap; /* Omogući da kartice prelaze u novi red ako nema dovoljno prostora */
     justify-content: center;
     margin-top: 2px;
+    flex-direction: row;
+}
+.equipment-card{
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap; /* Allow equipment cards to wrap to the next line if the container is not wide enough */
+  justify-content: space-around;
+  margin-top: 120px;
 }
 
 .card-and-filter {
   display: flex;
-  flex-direction: row; /* Postavite filter i karticu jedno pored drugog */
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center;
 }
 
 .filter {
-  margin-right: 10px; /* Prilagodite ovu vrednost prema potrebi, kako bi se postigao željeni razmak između filtera i kartice */
+  margin-right: 10px; 
+  display: flex;
+  flex-direction: row;/* Prilagodite ovu vrednost prema potrebi, kako bi se postigao željeni razmak između filtera i kartice */
+}
+.filter1{
+  margin-right: 30px;
+}
+.filter2{
+  margin-left: 30px;
 }
 
 
@@ -52,9 +74,7 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #2980b9;
-}
+
 
 .card {
     border-radius: 10px; 
@@ -66,16 +86,25 @@ button:hover {
 }
 
 .heading {
-    font-size: 24px; 
-    font-weight: bold; 
+  font-size: 30px; 
+  font-weight: bold;
+  color: #3498db;
+  font-family: 'Comic Sans MS', cursive;
+}
+
+.heading-name{
+  margin-top: 10px;
+  margin-bottom: 13px;
 }
 
 input[type="text"] {
     padding: 10px;
     margin: 5px;
-    border: 1px solid #3498db;
-    border-radius: 3px;
-    font-size: 1em;
+    border: 2px solid #2c3e50;
+    border-radius: 20px;
+    font-size: 18px;
+    width: 500px;
+    
 }
 
 input[type="text"]:focus {
@@ -90,16 +119,14 @@ input[type="text"]:focus {
     cursor: pointer;
     padding: 5px;
 
-    background-color: #3498db;
+    background-color: transparent;
     color: white;
     margin: 5px;
     border-radius: 3px;
     transition: background-color 0.3s;
   }
   
-  .small-button:hover {
-    background-color: lightblue;
-  }
+  
 
   label {
     display: flex;
@@ -114,14 +141,14 @@ input[type="text"]:focus {
     appearance: none;
     width: 18px;
     height: 18px;
-    border: 2px solid #3498db;
+    border: 2px solid #2c3e50;
     border-radius: 3px;
     transition: background-color 0.3s;
   }
   
   input[type="checkbox"]:checked {
-    background-color: #3498db;
-    border-color: #3498db;
+    background-color: #2c3e50;
+    border-color: #2c3e50;
   }
   
   input[type="checkbox"]::before {
@@ -158,5 +185,73 @@ input[type="text"]:focus {
   padding: 20px; 
   color: white; 
   width: 300px;
-  margin-bottom: 10px;
+  margin-right: 30px;
+  height: 510px;
+  border: 3px solid #2c3e50;
 }
+
+.search-button{
+  background-color: transparent;
+}
+
+.black-icon {
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+.background{
+  background-image: url('../../assets/images/otkucaji3.png');
+  background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  height: 955px;
+}
+.image-class{
+  border-radius: 10px;
+  height: 240px;
+  width: 295px;
+  border: 3px solid #2c3e50;
+}
+
+.equipment-description{
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  font-size: 18px; 
+  margin-top: -15px;
+}
+.equipment-description mat-icon {
+  margin-right: 5px; /* Opciono, dodaje malu razdaljinu između ikone i teksta */
+}
+.equipment-description p {
+  font-size: 20px;
+}
+.previous-button{
+  background-color: transparent;
+  color: #2c3e50;
+  border-color: transparent;
+}
+.previous-button:disabled{
+  background-color: transparent;
+  border-color: transparent;
+  opacity: 0.5;
+}
+.previous-button:hover {
+  background-color: transparent; /* Darker blue on hover, you can change it */
+}
+.next-button:hover {
+  background-color: transparent;
+  border-color: transparent; /* Darker blue on hover, you can change it */
+}
+.next-button{
+  background-color: transparent;
+  color: #2c3e50;
+  border-color: transparent;
+  margin-left: -35px;
+}
+.next-button:disabled{
+  background-color: transparent;
+  border-color: transparent;
+  opacity: 0.5;
+}
+

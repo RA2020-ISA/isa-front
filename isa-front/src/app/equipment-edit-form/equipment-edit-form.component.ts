@@ -7,6 +7,7 @@ import { Equipment } from '../model/equipment.model';
 import { Router } from '@angular/router';
 import { UserStateService } from '../services/user-state.service';
 import { User } from '../model/user-model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-equipment-edit-form',
@@ -18,7 +19,8 @@ export class EquipmentEditFormComponent implements OnInit {
   equipment?: Equipment;
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
-    private router: Router, private userService: UserStateService) {}
+    private router: Router, private userService: UserStateService,
+    private toastr: ToastrService) {}
   
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -47,12 +49,30 @@ export class EquipmentEditFormComponent implements OnInit {
       this.service.updateEquipment(this.equipment).subscribe(
         (updatetEquipment: Equipment) => {
           console.log('Equipment updated successfully:', updatetEquipment);
+          this.toastr.success('Successfully updated equipment!');
           this.router.navigate(['/admin-company']);
         },
         (error) => {
+          this.toastr.error('Error updating equipment!');
           console.error('Error updating equipment', error);
         }
       );
+    }
+  }
+
+  decreaseQuantity() {
+    if(this.equipment)
+    {
+      if (this.equipment.maxQuantity > 0) {
+        this.equipment.maxQuantity--;
+      }
+    }
+  }
+
+  increaseQuantity() {
+    if(this.equipment)
+    {
+      this.equipment.maxQuantity++;
     }
   }
 

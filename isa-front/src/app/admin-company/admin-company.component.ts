@@ -13,6 +13,7 @@ import { Location } from '@angular/common';
 import { Appointment } from '../model/appointment.model';
 import * as L from 'leaflet';
 import { Reservation } from '../model/reservation.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-company',
@@ -40,7 +41,8 @@ export class AdminCompanyComponent implements OnInit {
     private router: Router, private userService: UserStateService, private equipmentService: EquipmentService,
     private reservationService: ReservationService,
     private location: Location,
-    public userStateService: UserStateService) {}
+    public userStateService: UserStateService,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.loggedUser = this.userService.getLoggedInUser();
@@ -65,6 +67,10 @@ export class AdminCompanyComponent implements OnInit {
         console.error('Greška prilikom dobavljanja svih rezervacija', error);
       }
     );
+  }
+
+  cancel(): void{
+    this.showMore = false;
   }
 
   private initMap(): void {
@@ -147,6 +153,7 @@ export class AdminCompanyComponent implements OnInit {
     this.service.removeEqFromCom(this.company?.id || 0, equipment.id || 0).subscribe(
       (updatedCompany: Company) => {
         console.log("Posle brisanja:");
+        this.toastr.success('Successfully deleted equipment!');
         console.log(updatedCompany);
         const index = this.company?.equipments?.indexOf(equipment);
 
@@ -158,6 +165,7 @@ export class AdminCompanyComponent implements OnInit {
         this.recalculateAverageGrade();
       },
       (error) => {
+        this.toastr.error('Error updating company');
         console.error('Error updating company', error);
       }
     );
@@ -171,6 +179,7 @@ export class AdminCompanyComponent implements OnInit {
   addEquipment(equipment: Equipment): void{
     this.service.addEqToCom(this.company?.id || 0, equipment.id || 0).subscribe(
       (updatedCompany: Company) => {
+        this.toastr.success('Successfully added equipment!');
         this.router.navigate(['/admin-company']);
         this.company?.equipments.push(equipment);
         const index = this.moreEquipments?.indexOf(equipment);

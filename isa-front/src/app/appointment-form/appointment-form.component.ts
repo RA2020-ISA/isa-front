@@ -10,6 +10,7 @@ import { User } from '../model/user-model';
 import { Time } from '@angular/common';
 import { DatePipe } from '@angular/common';
 import { AppointmentStatus } from '../model/appointment-status';
+import { ToastrService } from 'ngx-toastr';
 //import { ex } from '@fullcalendar/core/internal-common';
 
 @Component({
@@ -32,7 +33,8 @@ export class AppointmentFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public userStateService: UserStateService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private toastr: ToastrService
   ) {
     // Inicijalizujemo formu u konstruktoru
     this.appointmentForm = this.formBuilder.group({
@@ -141,9 +143,11 @@ export class AppointmentFormComponent implements OnInit {
           (result: Appointment) => {
             console.log('New appointment:');
             console.log(result);
+            this.toastr.success('Successfully created appointment!');
             this.router.navigate(['/admin-company']);
           },
           (error) => {
+            this.toastr.error('Error creating appointment!');
             console.error('Greška prilikom kreiranja termina preuzimanja', error);
           }
         );
@@ -218,6 +222,11 @@ export class AppointmentFormComponent implements OnInit {
     }
   
     return '';
+  }
+
+  seeCalendar(): void
+  {
+    this.router.navigate(['/see-company-calendar']);
   }
   
   

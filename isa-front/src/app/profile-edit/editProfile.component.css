@@ -8,6 +8,17 @@ body {
     margin: 0;
   }
 
+  .pocetak
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.buttonsi{
+  display: flex;
+  flex-direction: row;
+}
+
   .edit-profile-container {
     display: flex;
     flex-direction: column;
@@ -17,6 +28,12 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    width: 500px; 
+    margin-left: 500px; 
+    border-color: #0066cc;
+    padding: 15px; 
+    border-radius: 5px;
+    border-style: solid;
   }
 
   .table-container {
@@ -29,7 +46,7 @@ body {
   .table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
+
   }
 
   .table th,
@@ -41,6 +58,7 @@ body {
 
   h1 {
     color: #3498db;
+    margin-bottom: 3px;
   }
 
   label {
@@ -55,7 +73,8 @@ body {
     margin-top: 6px;
     width: 300px;
     box-sizing: border-box;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    border-radius: 3px;
   }
 
   .readonly-input {

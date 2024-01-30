@@ -9,6 +9,7 @@ import { UserService } from '../services/user.service';
 import { UserStateService } from '../services/user-state.service';
 import { Appointment } from '../model/appointment.model';
 import { Reservation } from '../model/reservation.model';
+import { Company } from '../model/company.model';
 //import dayGridYearPlugin from '@fullcalendar/daygrid-year';
 
 @Component({
@@ -26,17 +27,32 @@ export class WorkCalendarComponent implements OnInit{
   availableAppointments: Appointment[] = [];
   events: any[] = [];
   loggedUser?: User;
+  company?: Company;
 
    
   ngOnInit(): void {
     this.loggedUser = this.userService.getLoggedInUser();
     console.log('Ulogovan admin', this.loggedUser);
+    this.getAdminCompany();
     this.reservationService.getAdminsAppointmentReservation(this.loggedUser?.id || 0)
     .subscribe((result: Reservation[]) => {
           this.companyReservations = result;
           console.log('Reservations:', this.companyReservations);
           this.getAvailableAppointments();
          
+      }
+    );
+  }
+
+  getAdminCompany(): void{
+    this.companyService.getCompanyByAdmin(this.loggedUser?.id || 0).subscribe(
+      (company: Company) => {
+        this.company = company;
+        console.log("Kompanija:");
+        console.log(this.company);
+      },
+      (error) => {
+        console.error('Greška prilikom dobavljanja kompanije', error);
       }
     );
   }

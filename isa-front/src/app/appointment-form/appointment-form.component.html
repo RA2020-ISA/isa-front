@@ -1,6 +1,10 @@
-<div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
+<div class="poz" *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
 <div class="card">
-<form [formGroup]="appointmentForm">
+<h1 class="heading">Create your own appointment for {{company?.name}} </h1>
+<h2 class="heading2">See your <button class="dugmence" (click)="seeCalendar()">work calendar</button> if you want to</h2>
+<div class="veliki">
+
+<form class="forma" [formGroup]="appointmentForm">
     <div class="polje">
     <label for="datum">Appointmet date:</label>
     <input type="date" formControlName="datum" required class="input1"><br>
@@ -18,7 +22,9 @@
 
     <button type="submit" (click)="createAppointment()">Create</button>
   </form>
+
   <p class="poruka">{{message}}</p>
+  </div>
 </div>
 </div>
 <ng-template #sorryMessage>

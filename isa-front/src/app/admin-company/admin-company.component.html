@@ -1,3 +1,4 @@
+<div class="najveci">
 <div class="veliki" *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
 <div *ngIf="company">
     <div class="card">
@@ -74,6 +75,7 @@
             <mat-icon>edit</mat-icon></button>
         </div>
     </div>
+</div>
 </div>
 <ng-template #sorryMessage>
     <div class="sorry-message">

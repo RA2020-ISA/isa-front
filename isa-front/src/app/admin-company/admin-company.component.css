@@ -92,6 +92,14 @@ input{
     margin-left: 200px;
 }
 
+.najveci
+{
+    background-image: url('../../assets/images/otkucaji3.png');
+    background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Fiksiraj pozadinu */
+}
+
 #map
 {
     margin-left: 50px 

@@ -1,3 +1,4 @@
+<body>
 <div *ngIf="userService.getLoggedInUser() && userService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
 <div class="capture_div">
     <h1>{{company?.name}}'s work calendar</h1>
@@ -11,3 +12,4 @@
       <p>unauthorized</p>
     </div>
   </ng-template>
+  </body>

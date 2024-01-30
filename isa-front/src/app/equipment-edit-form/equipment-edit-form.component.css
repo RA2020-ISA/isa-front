@@ -8,6 +8,14 @@ h2 {
     max-width: 300px; /* Postavite širinu forme prema vašim potrebama */
     color: #0066cc;
   }
+
+  body
+{
+    background-image: url('../../assets/images/otkucaji3.png');
+    background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Fiksiraj pozadinu */
+}
   
   label {
     margin-bottom: 8px; /* Razmak između labele i polja za unos */
@@ -29,7 +37,7 @@ h2 {
     border-style: solid;
     width: 300px;
     margin-left: 550px;
-    margin-top: 170px;
+    margin-top: 100px;
   }
 
   #maxQuantity

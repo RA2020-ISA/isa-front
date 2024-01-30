@@ -14,6 +14,7 @@ div[loading] {
     align-items: center;
     justify-content: center;
     height: 100vh;
+    font-weight: bold;
 }
 
 /* No QR codes available message styles */
@@ -57,6 +58,8 @@ button:hover {
     padding: 20px;
     color: white;
     width: 200px;
+    border-radius: 13px;
+    border: 3.5px solid #2c3e50;
 }
 
 .qr-code-card {
@@ -68,6 +71,7 @@ button:hover {
     font-weight: bold; /* Opciono: dodajte podebljanje teksta */
     margin-top: 10px; /* Opciono: dodajte razmak ispod teksta */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2980b9;
 }
 
 .qr-codes-heading {
@@ -75,7 +79,7 @@ button:hover {
     font-weight: bold; /* Opciono: dodajte podebljanje teksta */
     margin-bottom: 20px; /* Opciono: dodajte razmak ispod naslova */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #3498db;
+    color: #2980b9;
 }
 
 .qr-codes-heading2{
@@ -83,6 +87,7 @@ button:hover {
     margin-top: -10px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #3498db;
+    font-style: italic;
 }
 
 .reservation-status {
@@ -90,6 +95,7 @@ button:hover {
     font-weight: bold; /* Opciono: dodajte podebljanje teksta */
     margin-top: 5px; /* Opciono: dodajte razmak ispod teksta */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2980b9;
 }
 
 form {
@@ -104,9 +110,19 @@ form {
     align-items: center;
     font-size: 20px; /* Adjust the font size as needed */
     margin-right: 15px; /* Adjust the spacing between labels */
-    color: #166aa2;
+    color: #2c3e50;
+    font-weight: bold;
   }
   
   input[type="radio"] {
     margin-right: 5px; /* Adjust the spacing between the radio button and label text */
+  }
+
+  /*Pozadina*/
+  .background{
+    background-image: url('../../assets/images/otkucaji3.png');
+    background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    height: 1500px;
   }

@@ -1,58 +1,80 @@
-<div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
-  <div class="search-fields">  <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
-  <input type="text" placeholder="Search by location" [(ngModel)]="searchLocation">
-  <button (click)="search()"> 
-    <mat-icon>search</mat-icon> 
-  </button>
-  <button (click)="showAll()">
-    <mat-icon>clear</mat-icon>
-  </button>
-</div>
-
-<div class="card-and-filter">
-  <div class="filter" *ngIf="showFilterOptions">
-  
-    <label>
-      <input type="checkbox" [(ngModel)]="sortByRating"> Rating
-    </label>
-  
-    <button class="small-button" (click)="sortAscending()">
-      <mat-icon>keyboard_arrow_up</mat-icon>
+<div class="background">
+  <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+    <div class="search-fields">  
+    <input class="rounded-input" type="text" placeholder="Search by name" [(ngModel)]="searchName">
+    <input class="rounded-input" type="text" placeholder="Search by location" [(ngModel)]="searchLocation">
+    <button class="search-button" (click)="search()"> 
+      <mat-icon class="black-icon">search</mat-icon> 
     </button>
-    <button class="small-button" (click)="sortDescending()">
-      <mat-icon>keyboard_arrow_down</mat-icon>
-    </button>
-  
-    <button class="small-button" (click)="resetSorting()">
-      <mat-icon>refresh</mat-icon>
-    </button>
-  
-    <div class="separator"></div>
-  
-    <label>
-      <input type="checkbox" [(ngModel)]="sortByName"> Name
-    </label>
-  
-    <button class="small-button" (click)="sortByNameAscending()">
-      <mat-icon>keyboard_arrow_up</mat-icon>
-    </button>
-    <button class="small-button" (click)="sortByNameDescending()">
-      <mat-icon>keyboard_arrow_down</mat-icon>
-    </button>
-  
-    <button class="small-button" (click)="resetSortingByName()">
-      <mat-icon>refresh</mat-icon>
+    <button class="search-button" (click)="showAll()">
+      <mat-icon class="black-icon">clear</mat-icon>
     </button>
   </div>
 
-
-  <div class="card-container" style="display: flex; flex-direction: column; align-items: center;">
-    <div *ngFor="let company of companies">
-      <div class="card">
-        <div class="heading"><p>{{ company.name }}</p></div>
-        <div class="address"><p>Address: {{ company.address }}</p></div>
-        <div class="averageRating"><p>Average Rating: {{ company.averageGrade }}</p></div>
-        <button (click)="navigateToCompanyProfile(company.id || 0)">See profile</button>
+  
+    <div class="filter" *ngIf="showFilterOptions" >
+      <div class="filter1">
+      <label class="label-class">
+        <input type="checkbox" [(ngModel)]="sortByRating"> Rating
+      </label>
+    
+      <button class="small-button" (click)="sortAscending()">
+        <mat-icon class="black-icon">keyboard_arrow_up</mat-icon>
+      </button>
+      <button class="small-button" (click)="sortDescending()">
+        <mat-icon class="black-icon">keyboard_arrow_down</mat-icon>
+      </button>
+    
+      <button class="small-button" (click)="resetSorting()">
+        <mat-icon class="black-icon">refresh</mat-icon>
+      </button>
+    </div>
+      <div class="filter2">
+    
+      <label class="label-class">
+        <input type="checkbox" [(ngModel)]="sortByName"> Name
+      </label>
+    
+      <button class="small-button" (click)="sortByNameAscending()">
+        <mat-icon class="black-icon">keyboard_arrow_up</mat-icon>
+      </button>
+      <button class="small-button" (click)="sortByNameDescending()">
+        <mat-icon class="black-icon">keyboard_arrow_down</mat-icon>
+      </button>
+    
+      <button class="small-button" (click)="resetSortingByName()">
+        <mat-icon class="black-icon">refresh</mat-icon>
+      </button>
       </div>
+    </div>
+
+    <div class="card-and-filter">
+    <div class="card-container" >
+      <button class="previous-button" (click)="prevCompany()" [disabled]="disablePrevButton"><mat-icon class="black-icon">navigate_before</mat-icon></button>
+      <div *ngFor="let company of displayedCompanies">
+        <div class="card">
+          <div class="heading">
+            <img class="image-class" src="{{'data:image/jpeg;base64,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' }}" alt="Company Image">
+            <p>{{ company.name }}</p>
+          </div>
+          <div class="address"><mat-icon class="black-icon">location_on</mat-icon> <p> {{ company.address }}</p></div>
+          <div class="address"><mat-icon class="black-icon">description</mat-icon><p> {{ company.description }}</p></div>
+          <div class="address">
+            <mat-icon class="black-icon">access_time</mat-icon>
+            <p>
+              <span class="address">{{ company.workTimeBegin }} - {{ company.workTimeEnd }}</span>
+            </p>
+          </div>  
+          <div class="address">
+            <mat-icon class="black-icon" *ngFor="let _ of getStarArray(company.averageGrade)">star</mat-icon>
+           
+          </div>
+          
+          <button class="button-class" (click)="navigateToCompanyProfile(company.id || 0)">See profile</button>
+        </div>
+        
+        
+    </div>
+    <button class="next-button" (click)="nextCompany()" [disabled]="disableNextButton"><mat-icon class="black-icon">navigate_next</mat-icon></button>
   </div>
 </div>

@@ -33,6 +33,7 @@ h2 {
     background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
     background-repeat: no-repeat;
     background-attachment: fixed; /* Fiksiraj pozadinu */
+    
   }
   
   label {

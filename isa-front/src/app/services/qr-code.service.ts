@@ -17,34 +17,6 @@ export class QRCodeService {
 
   constructor(private http: HttpClient,private userStateService: UserStateService) {}
 
-  /*generateQRCodeSendMail(reservationId: number): Observable<string> {
-    const loggedInUser = this.userStateService.getLoggedInUser();
-    const userParams: { [param: string]: string | number | boolean } = {
-      id: loggedInUser?.id || '',
-    };
-    const params = new HttpParams({ fromObject: userParams });
-    return this.http.post('http://localhost:8080/api/qr-code/generateQrCodeSendMail', reservationId, { responseType: 'text' });
-  }*/
-  generateQRCodeSendMail(reservationId: number): Observable<string> {
-    const loggedInUser = this.userStateService.getLoggedInUser();
-    
-    const userParams: { [param: string]: string | number | boolean } = {
-      id: loggedInUser?.id || '',
-    };
-  
-    const params = new HttpParams({ fromObject: userParams });
-  
-    // Create an object that includes both the reservationId and userParams
-    const requestData = {
-      reservationId: reservationId,
-      userId: userParams['id']
-    };
-  
-    // Pass the requestData as the second parameter
-    return this.http.post('http://localhost:8080/api/qr-code/generateQrCodeSendMail', requestData, { responseType: 'text' });
-  }
-  
-
   getQRCodeImage(reservationId: number): Observable<ArrayBuffer> {
     const loggedInUser = this.userStateService.getLoggedInUser();
     const userParams: { [param: string]: string | number | boolean } = {
@@ -65,6 +37,4 @@ export class QRCodeService {
     formData.append("file", selectedFile);
     return this.http.post(`http://localhost:8080/api/qr-code/readQrCodeImage`, formData, { responseType: 'text', params });
   }
-
-
 }

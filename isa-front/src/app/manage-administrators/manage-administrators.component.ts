@@ -49,7 +49,6 @@ export class ManageAdministratorsComponent{
       country: this.country,
       phoneNumber: this.phoneNumber,
       occupation: this.occupation,
-      companyInfo: this.companyInfo,
     };
 
     this.userService.registerSystemAdmin(bodyData).subscribe(
@@ -75,7 +74,6 @@ export class ManageAdministratorsComponent{
     this.country = '';
     this.phoneNumber = '';
     this.occupation = '';
-    this.companyInfo = '';
     this.errorMessage='';
   }
 }

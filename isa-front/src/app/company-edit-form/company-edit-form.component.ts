@@ -10,6 +10,7 @@ import 'leaflet-control-geocoder';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { ViewChild } from '@angular/core';
 import { UserStateService } from '../services/user-state.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-company-edit-form',
@@ -27,7 +28,8 @@ export class CompanyEditFormComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
     private router: Router,
-    public userStateService: UserStateService) {}
+    public userStateService: UserStateService,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -140,9 +142,11 @@ export class CompanyEditFormComponent implements OnInit {
       this.service.updateCompany(this.company).subscribe(
         (updatedCompany: Company) => {
           console.log('Company updated successfully:', updatedCompany);
+          this.toastr.success('Successfully updated company!');
           this.router.navigate(['/admin-company']);
         },
         (error) => {
+          this.toastr.error('Error updating company!');
           console.error('Error updating company', error);
         }
       );

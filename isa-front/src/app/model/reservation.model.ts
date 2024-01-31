@@ -9,4 +9,5 @@ export interface Reservation {
     user?: User;
     items: Item[];
     status?: ReservationStatus;
+    totalPrice: number;
 }

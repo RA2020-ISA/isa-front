@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Equipment } from '../model/equipment.model';
 import { EquipmentService } from '../services/equipment.service';
+import { UserStateService } from '../services/user-state.service';
+import { User } from '../model/user-model';
 
 @Component({
   selector: 'app-all-equipment',
@@ -17,32 +19,43 @@ export class AllEquipmentComponent implements OnInit{
   sortByName: boolean = false;
   sortOrderDirectionName: string = 'asc';
   appliedSort: string = '';
-
+  loggedUser?: User;
+  currentIndex: number = 0;
+  displayedEquipment: Equipment[] = [];
+  disablePrevButton: boolean = true;
+  disableNextButton: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private service: EquipmentService,
-    private router: Router
+    private router: Router,
+    private userStateService: UserStateService
   ){}
 
   ngOnInit(): void {
-    this.service.getAllEquipments().subscribe(
-      (equipmentsResult: Equipment[]) => {
-        this.equipments = equipmentsResult;
-        console.log("Oprema sva:");
-        console.log(this.equipments);
-        console.log("Kompanije:");
-      },
-      (error) => {
-        console.error('Greška prilikom dobavljanja sve opreme', error);
-      }
-    );
+    this.loggedUser = this.userStateService.getLoggedInUser(); 
+    if (this.loggedUser && this.loggedUser.id) {
+      this.service.getAllEquipments(this.loggedUser.id).subscribe(
+        (equipmentsResult: Equipment[]) => {
+          this.equipments = equipmentsResult;
+          this.updateDisplayedEquipment();
+          console.log("Oprema sva:");
+          console.log(this.equipments);
+        },
+        (error) => {
+          console.error('Greška prilikom dobavljanja sve opreme', error);
+        }
+      );
+    } else {
+      console.log('Nije ulogovan nijedan korisnik!');
+    }
   }
 
   search() {
     this.service.searchEquipmentsByName(this.searchName).subscribe(
       (searchResult: Equipment[]) => {
         this.equipments = searchResult;
-  
+        this.updateDisplayedEquipment();
+
         this.showFilterOptions = true;
       },
       (error) => {
@@ -56,6 +69,8 @@ export class AllEquipmentComponent implements OnInit{
     if (this.sortByRating) {
       this.appliedSort = 'asc';
       this.equipments.sort((a, b) => a.grade - b.grade);
+      this.updateDisplayedEquipment();
+
     }
   }
   
@@ -64,6 +79,8 @@ export class AllEquipmentComponent implements OnInit{
     if (this.sortByRating) {
       this.appliedSort = 'des';
       this.equipments.sort((a, b) => b.grade - a.grade);
+      this.updateDisplayedEquipment();
+
     }
   }
 
@@ -78,6 +95,8 @@ export class AllEquipmentComponent implements OnInit{
     this.service.searchEquipmentsByName(this.searchName).subscribe(
       (searchResult: Equipment[]) => {
         this.equipments = searchResult;
+        this.updateDisplayedEquipment();
+
       },
       (error) => {
         console.log('neuspeh prilikom search-a: ', error);
@@ -105,12 +124,16 @@ export class AllEquipmentComponent implements OnInit{
     this.sortOrderDirectionName = 'asc';
     this.sortByName = true;
     this.sortEquipmentsByName();
+    this.updateDisplayedEquipment();
+
   }
   
   sortByNameDescending() {
     this.sortOrderDirectionName = 'desc';
     this.sortByName = true;
     this.sortEquipmentsByName();
+    this.updateDisplayedEquipment();
+
   }
   
   resetSortingByName() {
@@ -139,7 +162,36 @@ export class AllEquipmentComponent implements OnInit{
           return nameB.localeCompare(nameA);
         }
       });
+      this.updateDisplayedEquipment();
+
     }
+  }
+  getStarArray(averageGrade: number): number[] {
+    return Array(Math.round(averageGrade)).fill(0);
+  }
+
+  updateDisplayedEquipment() {
+    this.displayedEquipment = this.equipments.slice(this.currentIndex, this.currentIndex + 5);
+    this.updateButtonStates();
+  }
+  
+  // Dodajte funkcije za listanje kompanija
+  nextEquipment() {
+    if (this.currentIndex + 5 < this.equipments.length) {
+      this.currentIndex++;
+      this.updateDisplayedEquipment();
+    }
+  }
+  
+  prevEquipment() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.updateDisplayedEquipment();
+    }
+  }
+  updateButtonStates() {
+    this.disablePrevButton = this.currentIndex === 0;
+    this.disableNextButton = this.currentIndex + 5 >= this.equipments.length;
   }
   
 }

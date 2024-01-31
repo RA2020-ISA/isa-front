@@ -51,6 +51,14 @@ export class NavbarComponent implements OnInit {
       console.error("User email is undefined");
     }
   }
+  redirectToLogin() {
+    // Get the redirect URL from the service
+    //const redirectUrl = this.userService.getLoginRedirectUrl();
+
+    // Redirect to the external URL
+    //window.location.href = redirectUrl;
+    this.router.navigate(['/login']);
+  }
 
   redirectToAdminCompany(){
     this.router.navigate(['/admin-company']);
@@ -65,7 +73,6 @@ export class NavbarComponent implements OnInit {
     if (username) {
       this.resService.getByUser(username).subscribe(
         (reservations) => {
-          // Ovde možete dodati logiku za prikaz rezervacija, npr. prikazivanje na novoj stranici ili dijalogu
           console.log('Reservations:', reservations);
           this.router.navigate(['/reservations', username]);
         },
@@ -100,7 +107,7 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/pickup-equipment']);
   }
 
-  redirectToUserReservations(): void{
+  redirectToUserReservationsAdminView(): void{
     this.router.navigate(['user-reservations-admin']);
   }
 }

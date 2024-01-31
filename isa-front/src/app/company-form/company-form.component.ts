@@ -6,6 +6,7 @@ import { Company } from '../model/company.model';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user-model';
 import { UserStateService } from '../services/user-state.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-company-form',
@@ -23,13 +24,16 @@ export class CompanyFormComponent implements OnInit{
     private service: CompanyService,
     private router: Router, 
     private userService: UserService,
-    public userStateService: UserStateService
+    public userStateService: UserStateService,
+    private toastr : ToastrService
   ) {
 
     this.companyForm = this.formBuilder.group({
       name: ['', Validators.required],
       address: ['', Validators.required],
       description: ['', Validators.required],
+      workTimeBegin: ['', Validators.required], 
+      workTimeEnd: ['', Validators.required],
     });
   }
 
@@ -56,21 +60,24 @@ export class CompanyFormComponent implements OnInit{
     const companyName = this.companyForm.value.name;
     const companyAddress = this.companyForm.value.address;
     const companyDescription = this.companyForm.value.description;
+    const companyWorkTimeBegins = this.companyForm.value.workTimeBegin;
+    const companyWorkTimeEnd = this.companyForm.value.workTimeEnd;
   
     const newCompany: Company = {
       name: companyName,
       address: companyAddress,
       description: companyDescription,
-      averageGrade: 0, //ovo izmeniti
-      adminId: 1,
+      averageGrade: 0,
       equipments: [],
-      workTimeBegin: '08:00',
-      workTimeEnd: '16:00'
+      workTimeBegin: companyWorkTimeBegins,
+      workTimeEnd: companyWorkTimeEnd
     };
-  
+    console.log("NOVA KOMPANIJA:", newCompany);
     this.service.createCompany(newCompany).subscribe(
       (result: Company) => {
-        this.createCompanyAdmins(result.id || 0);
+        this.createCompanyAdmins(result.id || 0); 
+        this.clearForm();
+        this.toastr.success("Susccesfuly created company!");
         this.router.navigate(['/companies']);
       },
       (error) => {
@@ -80,7 +87,7 @@ export class CompanyFormComponent implements OnInit{
   }
 
   createCompanyAdmins(companyId: number):void{ 
-
+    console.log("Selektovani company admin:", this.selectedUsersId);
     this.service.createCompanyAdmins(this.selectedUsersId, companyId).subscribe(
       (response: string) => {
         console.log('Uspešno kreirani administratori kompanije.', response); //provera
@@ -89,6 +96,11 @@ export class CompanyFormComponent implements OnInit{
         console.error('Greška prilikom kreiranja administratora kompanije.', error);
       }
     );
+  }
+
+  clearForm(): void{
+    this.companyForm.reset(); // Resetuje vrednosti svih polja forme na njihove početne vrednosti
+    this.selectedUsersId = []; // Resetuje niz selektovanih korisnika
   }
   
 }

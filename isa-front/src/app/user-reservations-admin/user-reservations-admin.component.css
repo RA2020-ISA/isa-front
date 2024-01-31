@@ -203,4 +203,5 @@ input[type="text"]:focus {
   color: white; 
   width: 300px;
   margin-bottom: 10px;
+  margin-left:30px;
 }

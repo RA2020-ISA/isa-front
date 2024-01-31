@@ -1,12 +1,13 @@
 <!-- Search Options -->
+<div class="background">
 <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
 
-    <div class="search-fields">  <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
-    <button (click)="search()"> 
-      <mat-icon>search</mat-icon> 
+    <div class="search-fields">  <input class="rounded-input" type="text" placeholder="Search by name" [(ngModel)]="searchName">
+    <button class="search-button" (click)="search()"> 
+      <mat-icon class="black-icon">search</mat-icon> 
     </button>
-    <button (click)="showAll()">
-      <mat-icon>clear</mat-icon>
+    <button class="search-button" (click)="showAll()">
+      <mat-icon class="black-icon">clear</mat-icon>
     </button>
 
 </div>
@@ -14,50 +15,68 @@
 <!-- Filter Options -->
 <div class="card-and-filter">
     <div class="filter" *ngIf="showFilterOptions">
-        
-          <label>
-            <input type="checkbox" [(ngModel)]="sortByRating"> Rating
-          </label>
-        
-          <button class="small-button" (click)="sortAscending()">
-            <mat-icon>keyboard_arrow_up</mat-icon>
-          </button>
-          <button class="small-button" (click)="sortDescending()">
-            <mat-icon>keyboard_arrow_down</mat-icon>
-          </button>
-        
-          <button class="small-button" (click)="resetSorting()">
-            <mat-icon>refresh</mat-icon>
-          </button>
-        
-          <div class="separator"></div>
-        
-          <label>
-            <input type="checkbox" [(ngModel)]="sortByName"> Name
-          </label>
-        
-          <button class="small-button" (click)="sortByNameAscending()">
-            <mat-icon>keyboard_arrow_up</mat-icon>
-          </button>
-          <button class="small-button" (click)="sortByNameDescending()">
-            <mat-icon>keyboard_arrow_down</mat-icon>
-          </button>
-        
-          <button class="small-button" (click)="resetSortingByName()">
-            <mat-icon>refresh</mat-icon>
-          </button>
-    </div>
-
-    <!-- Equipment Details -->
-    <div *ngIf="equipments && equipments.length > 0" >
-      <div *ngFor="let equipment of equipments" class="equipment-detail-card">
-        <div class="heading"><p>{{ equipment.name }}</p></div>
-        <div class="equipment-description"><p>{{ equipment.description }}</p></div>
-        <div class="equipment-price"><p>Price: {{ equipment.price }}</p></div>
-        <div class="equipment-grade"><p>Grade: {{ equipment.grade }}</p></div>
-        <div class="equipment-type"><p>Type: {{ equipment.type }}</p></div>
+      <div class="filter1">
+        <label class="label-class">
+          <input type="checkbox" [(ngModel)]="sortByRating"> Rating
+        </label>
+      
+        <button class="small-button" (click)="sortAscending()">
+          <mat-icon class="black-icon">keyboard_arrow_up</mat-icon>
+        </button>
+        <button class="small-button" (click)="sortDescending()">
+          <mat-icon class="black-icon">keyboard_arrow_down</mat-icon>
+        </button>
+      
+        <button class="small-button" (click)="resetSorting()">
+          <mat-icon class="black-icon">refresh</mat-icon>
+        </button>
       </div>
+        <div class="filter2">
+      
+        <label class="label-class">
+          <input type="checkbox" [(ngModel)]="sortByName"> Name
+        </label>
+      
+        <button class="small-button" (click)="sortByNameAscending()">
+          <mat-icon class="black-icon">keyboard_arrow_up</mat-icon>
+        </button>
+        <button class="small-button" (click)="sortByNameDescending()">
+          <mat-icon class="black-icon">keyboard_arrow_down</mat-icon>
+        </button>
+      
+        <button class="small-button" (click)="resetSortingByName()">
+          <mat-icon class="black-icon">refresh</mat-icon>
+        </button>
+        </div>
     </div>
+    <div>
+    <!-- Equipment Details -->
+    <div class="equipment-card" *ngIf="equipments && equipments.length > 0" >
+      <button class="previous-button" (click)="prevEquipment()" [disabled]="disablePrevButton"><mat-icon>navigate_before</mat-icon></button>
 
+      <div *ngFor="let equipment of displayedEquipment" class="equipment-detail-card">
+        <div class="heading">
+          <img class="image-class" src="{{'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-vU1QutAWCVXiysiGpcux6c3DxbxcLFFKOw&usqp=CAU' }}" alt="Company Image">
+          <p class="heading-name">{{ equipment.name }}</p>
+        </div>
+        <div class="equipment-description">
+          <mat-icon class="black-icon">description</mat-icon>
+          <p> {{ equipment.description }}</p>
+        </div>
+        <div class="equipment-description">
+          <mat-icon class="black-icon">attach_money</mat-icon>
+          <p>{{ equipment.price }}</p>
+        </div>
+        <div class="equipment-description">
+          <mat-icon class="black-icon"> local_hospital</mat-icon>
+          <p>Grade: {{ equipment.type }}</p></div>
+          <mat-icon class="black-icon" *ngFor="let _ of getStarArray(equipment.grade)">star</mat-icon>
+      </div>
+      <button class="next-button" (click)="nextEquipment()" [disabled]="disableNextButton"><mat-icon>navigate_next</mat-icon></button>
+
+    </div>
+  </div>
+
+</div>
 </div>
   

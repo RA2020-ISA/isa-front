@@ -21,9 +21,6 @@ export class HomeComponent {
     this.router.navigate(['/login']);
   }
 
-  
-
-
   redirectToAdminCompany(){
     this.router.navigate(['/admin-company']);
   }

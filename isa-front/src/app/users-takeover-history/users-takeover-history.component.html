@@ -1,33 +1,47 @@
-<div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' ; else sorryMessage">
-<div *ngIf="reservations.length > 0; else noReservations" class="container">
-    <div *ngIf="userStateService.getLoggedInUser(); else sorryMessage">
-      <h2>Takeover History for {{ username }}</h2>
-      <ul>
-        <li *ngFor="let reservation of reservations" class="reservation-item">
-          <div *ngIf="userStateService.getLoggedInUser()?.email === reservation.user?.email">
-            <p><strong>Date:</strong> {{ reservation.appointment?.appointmentDate | date:'dd.MM.yyyy'}}</p>
-            <p><strong>Time:</strong> {{ reservation.appointment?.appointmentTime}}</p>
-            <p><strong>Duration:</strong> {{ reservation.appointment?.appointmentDuration}}</p>
-            <p><strong>Items:</strong></p>
-            <ul class="item-list">
-              <li *ngFor="let item of reservation.items" class="item">
-                <p>Name: {{ item.equipment.name }}, Quantity: {{ item.quantity }}</p>
-              </li>
-            </ul>
-          </div>
-        </li>
-      </ul>
+<div class="background">
+  <div *ngIf="reservations.length > 0; else noReservations"  class="container">
+    <div class="sort-filter">
+    <label class="sort-label" for="sortBy">Sort by:</label>
+    <select class="sort-select" id="sortBy" [(ngModel)]="selectedSortOption">
+      <option class="sort-option" value="date">Date</option>
+      <option class="sort-option" value="price">Price</option>
+      <option class="sort-option" value="duration">Duration</option>
+    </select>
+    
+    <label class="sort-label" for="sortOrder">Sort order:</label>
+    <select class="sort-select" id="sortOrder" [(ngModel)]="selectedSortOrder">
+      <option class="sort-option" value="asc">Ascending</option>
+      <option class="sort-option" value="desc">Descending</option>
+    </select>
+  </div>
+    <h2>Takeover History for: {{ username }}</h2>
+    <div class="ul-container">
+
+      <div *ngFor="let reservation of sortedReservations" class="reservation-item">
+        <div *ngIf="userStateService.getLoggedInUser()?.email === reservation.user?.email">
+          <p class="res-info"><mat-icon>date_range</mat-icon><strong>Date:</strong> {{ reservation.appointment?.appointmentDate | date:'dd.MM.yyyy'}}</p>
+          <p class="res-info"><mat-icon>watch_later</mat-icon><strong>Time:</strong> {{ reservation.appointment?.appointmentTime}}</p>
+          <p class="res-info"><mat-icon>access_time</mat-icon><strong>Duration:</strong> {{ reservation.appointment?.appointmentDuration}}</p>
+          <p class="res-info"><mat-icon>local_hospital</mat-icon><strong>Items:</strong></p>
+          <ul class="item-list">
+            <li *ngFor="let item of reservation.items" class="item">
+              <p class="item-info"><mat-icon>healing</mat-icon>Name: {{ item.equipment.name }}, Quantity: {{ item.quantity }}</p>
+            </li>
+          </ul>
+          <p class="res-info"><mat-icon>attach_money</mat-icon><strong>Total price:</strong> {{ reservation.totalPrice}}</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
+
+<ng-template #noReservations>
+  <p class="no-reservations">No reservations found for {{ username }}</p>
+</ng-template>
+  
 <ng-template #sorryMessage>
-    <div class="sorry-message">
-      <p>unauthorized</p>
-    </div>
-  </ng-template>
-  
-  <ng-template #noReservations>
-    <p class="no-reservations">No reservations found for {{ username }}</p>
-  </ng-template>
-  
-  
+  <div class="sorry-message">
+    <p>Unauthorized</p>
+  </div>
+</ng-template>

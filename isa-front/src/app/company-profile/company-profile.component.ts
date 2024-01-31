@@ -6,20 +6,16 @@ import { CompanyService } from '../services/company.service';
 import { Equipment } from '../model/equipment.model';
 import { Router } from '@angular/router';
 import { EquipmentService } from '../services/equipment.service';
-import { ItemService } from '../services/item.service';
 import { Item } from '../model/item.model';
 import { UserStateService } from '../services/user-state.service';
 import { ReservationService } from '../services/reservation.service';
-import { HttpParams } from '@angular/common/http';
 import { AppointmentService } from '../services/appointment.service';
-import { Observable, catchError, map } from 'rxjs';
 import { Appointment } from '../model/appointment.model';
 import { Reservation } from '../model/reservation.model';
-import { eq } from '@fullcalendar/core/internal-common';
-import { QRCodeService } from '../services/qr-code.service';
 import { User } from '../model/user-model';
 import * as L from 'leaflet'; 
 import { AppointmentStatus } from '../model/appointment-status';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-company-profile',
@@ -27,48 +23,41 @@ import { AppointmentStatus } from '../model/appointment-status';
   styleUrls: ['./company-profile.component.css'],
 })
 export class CompanyProfileComponent implements OnInit {
+
   companyId?: number;
   company?: Company;
-  companies: Company[] = [];
   equipments: Equipment[] = [];
   searchName: string = '';
   selectedEquipments: Equipment[] = []
   quantity: number = 1; 
   selectedAppointment: Appointment | undefined;
-  createdItems: Item[] = [];
-  reservation: Reservation | undefined;
-  resId: number | undefined;
-  broj: number=0;
   companyAppointments : Appointment[] = [];
   selectedItems : Item[] = []
-  proveraReservation: Reservation | undefined;
-  reservationId: number | undefined;
+  extraAppointment: boolean | undefined =  false;
+  user: User | undefined;
+  appointmentSelected: boolean = false;
+  isExtraAppointmentButtonVisible: boolean = true;
+  isSetExtraAppointmentClicked: boolean = false;
+  isSetExtraAppointmentInsteadVisible: boolean = false;
+  isSelectExistingDateVisible : boolean = false;
+
   map: L.Map | undefined; // mapa
   
-  selectedEquipmentQuantities: Map<Equipment, number> = new Map<Equipment, number>();
-
-  //
   selectedDateStr: string | undefined;
   showDatePicker = false;
   showTimeSlots = false;
   selectedDate: Date | undefined = new Date();
   selectedTimeSlot: string | undefined;
-  availableTimeSlots: any[] | undefined; // Ovde bi trebali dodati stvarne vrednosti
-
-  foundAdminId: number | undefined; 
-  extraAppointment: boolean | undefined =  false;
-  noAvailableAdmin: boolean | undefined = false;
-  user: User | undefined;
+  availableTimeSlots: any[] | undefined;
 
   constructor(private route: ActivatedRoute, 
     private service: CompanyService,
     private router: Router,
     private equipmentService: EquipmentService,
-    private itemService: ItemService,
     public userStateService: UserStateService,
     private reservationService: ReservationService,
     private appointmentService: AppointmentService,
-    private qrCodeService: QRCodeService) {}
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.user = this.userStateService.getLoggedInUser();
@@ -101,13 +90,8 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   createReservation() {
-    console.log('USAO U CREATE RESERVATION');
-    console.log('USER KOJI KRERIA REZ: ', this.user);
-    console.log('IZABRANI EXTRA DATE: ', this.selectedDate);
-    console.log('IZABRANI EXTRA TIME: ', this.selectedTimeSlot);
-
     if (this.user && this.user.penaltyPoints >= 3) {
-      alert('Unfortunately, you have 3 penalty points and it is not possible to make a reservation.');
+      this.toastr.error('Unfortunately, you have 3 penalty points and it is not possible to make a reservation.');
     } 
     else {
       if (this.extraAppointment) {
@@ -133,79 +117,51 @@ export class CompanyProfileComponent implements OnInit {
 
   createNewReservation() {
     console.log('ULOGOVANI USER:', this.userStateService.getLoggedInUser() )
-    /*if(this.selectedAppointment){
-      this.updateAppointment(this.selectedAppointment);
-    }*/
-      
+
       const newReservation: Reservation = {
         appointment: this.selectedAppointment,      
         user: this.userStateService.getLoggedInUser(),        
         items: this.selectedItems,
+        totalPrice: 0.0
       };
   
       console.log(this.selectedItems);
-      console.log('KORISNIK U NEW RESERVATION: ', newReservation.user);
   
       this.reservationService.createReservation(newReservation).subscribe(
         response => {
           console.log("Reservation created successfully", response);
-          this.reservationId = response.id;
+          this.toastr.success('You have successfully created a reservation. Check your email.');
+          this.selectedItems = [];  
+          this.selectedEquipments = [];
+          this.selectedAppointment = undefined;
+          this.isExtraAppointmentButtonVisible = true;
+          this.isSetExtraAppointmentInsteadVisible = false;
 
-          const selectedItemsNum: number = this.selectedItems.length;
-          var i: number = 0;
-          for (const selectedItem of this.selectedItems) {
-            console.log('svi selected items: ', this.selectedItems)
-            if (selectedItem.id)
-            selectedItem.reservation = response;
-            console.log('kakav je sad item koji ide na update: ', selectedItem);
-            this.itemService.update(selectedItem).subscribe(
-                updateResponse => {
-                  i = i + 1;
-                  console.log(`Item ${selectedItem.id} updated successfully`, updateResponse);
-                  console.log('USAO DA GENERISE QR CODE');
-                  console.log(this.reservationId);
-                  if (i == selectedItemsNum) {
-                    if (this.reservationId)
-                    this.qrCodeService.generateQRCodeSendMail(this.reservationId).subscribe(
-                      (response) => {
-                        console.log(response);
-                        console.log('Upsesno generisanje qr koda i poslat mail');
-                        alert('You have successfully created a reservation. Check your mail');
-                      },
-                      (error) => {
-                        console.error(error);
-                      }
-                    );
-                  }
-                },
-                updateError => {
-                  console.error(`Error updating item ${selectedItem.id}`, updateError);
-                }
-              );
-          }
         },
         error => {
+          this.toastr.error('Error creating reservation. Please try again.');
           console.error("Error creating reservation", error);
         }
       ); 
   }
-  //////////////////////////////////////
+
   setExtraAppointment() {
     this.showDatePicker = true;
     this.extraAppointment = true;
     console.log('EXTRA APPOINTMENT: ', this.extraAppointment);
+    this.isSetExtraAppointmentClicked = true;
+    this.isSetExtraAppointmentInsteadVisible = false;
+    this.isSelectExistingDateVisible = true;
   }
 
   loadAvailableTimeSlots() {
-    // Provera da li je this.selectedDateStr definisana i nije prazna
     if (this.selectedDateStr && this.selectedDateStr.trim() !== '') {
       this.selectedDate = new Date(this.selectedDateStr);
     } else {
       console.error('Invalid or undefined selectedDateStr');
-      return; // Dodajte povratnu vrednost kako biste prekinuli izvršavanje u slučaju greške
+      return;
     }
   
-    // Dodajte ispis za proveru
     console.log('Selected date:', this.selectedDate);
   
     this.availableTimeSlots = this.generateRandomTimeSlots();
@@ -213,14 +169,11 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   getAppointmentsForSelectedDate(): Appointment[] {
-    // ...
-
     // Filtrirajte appointmente za odabrani datum
     const appointmentsForSelectedDate = this.companyAppointments
         .filter(appointment => {
             const appointmentDate = appointment.appointmentDate;
 
-            // Provera da li je appointmentDate definisan i tipa number
             if (typeof appointmentDate !== 'number') {
                 console.error('Invalid or undefined appointmentDate.');
                 return false;
@@ -257,7 +210,7 @@ export class CompanyProfileComponent implements OnInit {
   
   getAppointmentTimesForSelectedDate(): string[] {
     const appointmentsForSelectedDate = this.getAppointmentsForSelectedDate();
-    console.log('Appointments for selected date:', appointmentsForSelectedDate);  
+    //console.log('Appointments for selected date:', appointmentsForSelectedDate);  
     
     // Koristite map da biste izdvojili samo appointmentTime
     const appointmentTimesForSelectedDate = appointmentsForSelectedDate
@@ -272,7 +225,7 @@ export class CompanyProfileComponent implements OnInit {
     
     // Set the minimum date as today's date in the local time zone
     today.setHours(0, 0, 0, 0);
-    console.log(today);
+    //console.log(today);
     const minDate = today.toLocaleDateString('en-CA');
     return minDate;
 }
@@ -283,41 +236,32 @@ export class CompanyProfileComponent implements OnInit {
 
     // Svi mogući vremenski slotovi
     const allTimeSlots = [
-      { value: '6', display: '6:00 AM' },
-      { value: '7', display: '7:00 AM' },
-      { value: '8', display: '8:00 AM' },
-      { value: '9', display: '9:00 AM' },
-      { value: '10', display: '10:00 AM' },
-      { value: '11', display: '11:00 AM' },
-      { value: '12', display: '12:00 PM' },
-      { value: '13', display: '1:00 PM' },
-      { value: '14', display: '2:00 PM' },
-      { value: '15', display: '3:00 PM' },
-      { value: '16', display: '4:00 PM' },
-      { value: '17', display: '5:00 PM' },
-      { value: '18', display: '6:00 PM' },
-      { value: '19', display: '7:00 PM' },
-      { value: '20', display: '8:00 PM' },
-      { value: '21', display: '9:00 PM' },
-
-      // Dodajte više termina po potrebi
+      { value: '6', display: '6:00 - 7:00 AM' },
+      { value: '7', display: '7:00 - 8:00 AM' },
+      { value: '8', display: '8:00 - 9:00 AM' },
+      { value: '9', display: '9:00 - 10:00 AM' },
+      { value: '10', display: '10:00 - 11:00 AM' },
+      { value: '11', display: '11:00 - 12:00 AM' },
+      { value: '12', display: '12:00 - 13:00 PM' },
+      { value: '13', display: '1:00 - 2:00 PM' },
+      { value: '14', display: '2:00 - 3:00 PM' },
+      { value: '15', display: '3:00 - 4:00 PM' },
+      { value: '16', display: '4:00 - 5:00 PM' },
+      { value: '17', display: '5:00 - 6:00 PM' },
+      { value: '18', display: '6:00 - 7:00 PM' },
+      { value: '19', display: '7:00 - 8:00 PM' },
+      { value: '20', display: '8:00 - 9:00 PM' },
+      { value: '21', display: '9:00 - 10:00 PM' },
     ];
   
     // Dobijanje vremenskih slotova za odabrani datum
     const existingAppointmentTimes = this.getAppointmentTimesForSelectedDate();
-    //console.log('Existing appointment times:', existingAppointmentTimes);
-    //console.log('All time slots:', allTimeSlots);
-
-    //console.log(this.company?.workTimeBegin, this.company?.workTimeEnd);
 
     // Filtriranje vremenskih slotova kako bismo izbacili one koji nisu u okviru radnog vremena
     const foundSlots = allTimeSlots.filter(timeSlot => {
-      //console.log('Checking time slot:', timeSlot.value);
 
-      // Pretvorba vrednosti u integer
       const slotValueAsInt = parseInt(timeSlot.value, 10);
 
-      // Provera postojanja kompanije i validnosti vrednosti radnog vremena
       if (this.company && this.company.workTimeBegin && this.company.workTimeEnd) {
         const workTimeBeginAsInt = parseInt(this.company.workTimeBegin, 10);
         const workTimeEndAsInt = parseInt(this.company.workTimeEnd, 10);
@@ -328,12 +272,8 @@ export class CompanyProfileComponent implements OnInit {
         );
       }
 
-      // Dodajte povratnu vrednost ako ne ispunjava prethodni uslov
-      return false; // ili nešto drugo u zavisnosti od vaših potreba
+      return false; 
     });
-
-
-    //console.log('Found slots after filtering:', foundSlots);
 
     return foundSlots;
   }
@@ -343,15 +283,10 @@ export class CompanyProfileComponent implements OnInit {
   // Provera da li su odabrani datum i termin
   if (!this.selectedDate || !this.selectedTimeSlot) {
     console.error('Selected date or time slot is undefined or null.');
-    alert('Please select a date and time slot before checking availability.');
+    this.toastr.error('Please select a date and time slot before checking availability.');
     return;
   }
 
-  // Dodajte ispis za proveru
-  console.log('Selected date:', this.selectedDate);
-  console.log('Selected time slot:', this.selectedTimeSlot);
-
-  // Kreiranje objekta appointment
   const appointment = {
     adminId: -1,
     appointmentDate: this.selectedDate,
@@ -369,13 +304,16 @@ export class CompanyProfileComponent implements OnInit {
     this.appointmentService.addAdminToAppointment(this.companyId, this.selectedAppointment).subscribe(
       (response: Appointment) => {
         if (response.adminId == -1) {
-          alert('There is no available admin for this appointment, please choose another one.');
+          this.toastr.error('There is no available admin for this appointment, please choose another one.');
           console.log('ako nije nadjen slobodan: ', this.selectedAppointment);
         }
         else {
           this.selectedAppointment = response;
           console.log('ako je nadjen slobodan: ', this.selectedAppointment);
           this.createNewReservation();
+          this.selectedDateStr = undefined;
+          this.selectedDate= undefined;
+          this.selectedTimeSlot= undefined;
         }
       },
       (error: any) => {
@@ -383,16 +321,15 @@ export class CompanyProfileComponent implements OnInit {
       }
     )   
   }
-  //////////////////////////////////////////////////
   
   deleteAppointment(appointmentId: number): void {
     this.appointmentService.deleteAppointment(appointmentId)
       .subscribe(
         response => {
-          console.log(response); // Handle success
+          console.log(response); 
         },
         error => {
-          console.error(error); // Handle error
+          console.error(error);
         }
       );
   }
@@ -412,7 +349,6 @@ export class CompanyProfileComponent implements OnInit {
     }
   }
   
-
   edit(id: number): void{
     this.router.navigate(['/edit-company/' + id]);
   }
@@ -450,11 +386,9 @@ export class CompanyProfileComponent implements OnInit {
   submitQuantity(equipment: Equipment, quantity: number) {
     console.log('equipment::::', equipment);
     console.log(`Quantity for Equipment ID ${equipment}: ${quantity}`);
-    this.selectedEquipmentQuantities.set(equipment, quantity);
-    console.log(this.selectedEquipmentQuantities);
 
     if (equipment.maxQuantity - quantity < 0) {
-        alert('Unfortunately, there is not much equipment available, please try again.');
+        this.toastr.warning('Unfortunately, there is not much equipment available, please try again.');
     }
     else {
       const newItem: Item = {
@@ -463,23 +397,16 @@ export class CompanyProfileComponent implements OnInit {
         reservation: null,
       };
   
-      console.log('new item eq:::', newItem.equipment);
-  
-      this.itemService.createItem(newItem).subscribe(
-        response => {
-          console.log("Item created successfully", response);
-          this.selectedItems.push(response);
-          console.log('SELEKTOVANI ITEMI: ', this.selectedItems)
-          alert('Quantity submitted successfully!');
-        },
-        error => {
-          console.error("Error creating item", error);
-        }
-      ); 
+    console.log('new item eq:::', newItem.equipment);
+
+    this.toastr.success('Quantity submitted successfully');
+
+     this.selectedItems.push(newItem);
     }
   }
 
-  // funkcije za mapu - Milica dodala
+  //MAPE
+
   private initMap(): void {
     const companyAddress = this.company?.address || 'Default Company Address';
     console.log('adresa u mapi:');
@@ -518,5 +445,23 @@ export class CompanyProfileComponent implements OnInit {
     }
   
     return null;
+  }
+  onAppointmentChange() {
+    // Ako je izabrana opcija, sakrij dugme
+    this.isExtraAppointmentButtonVisible = false;
+    this.isSetExtraAppointmentInsteadVisible = true;
+  }
+  setExtraAppointmentInstead(){
+    this.extraAppointment = true;
+    this.setExtraAppointment();
+  }
+  setExistingAppointmentInstead(){
+    this.extraAppointment =false;
+    this.isExtraAppointmentButtonVisible=false;
+    this.isSetExtraAppointmentClicked = false;
+    this.isSelectExistingDateVisible = false;
+    this.showDatePicker = false;
+    this.showTimeSlots = false;
+    this.isSetExtraAppointmentInsteadVisible = true;
   }
 }

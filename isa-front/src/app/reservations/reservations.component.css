@@ -2,22 +2,57 @@
 
 /* Style for the container div */
 .container {
-  max-width: 800px;
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Change to column layout */
+  position: relative;
+  /* Align items with space between */
+  height: 100%; /* Set container height to 100% */
   margin: auto;
   padding: 20px;
-  background-color: #f4f4f4; /* Light gray background */
+  background-color: transparent; /* Light gray background */
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+  align-items: center;
+    justify-content: center;
+}
+.users-reservation{
+  position:relative;
 }
 
-/* Style for each reservation item */
-.reservation-item {
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-  padding: 15px;
-  background-color: #fff; /* White background */
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+/* Adjust the reservation item width */
+/* Adjust the reservation item width */
+.reservation-item{
+  margin-right: 50px;
+  margin-top: 10px;
+  width: 300px;
+  height: 480px;
+  border-radius: 20px;
+  border: 4px solid #2c3e50;
+  background-color: #97caed;
+}
+
+.background{
+  background-image: url('../../assets/images/otkucaji3.png');
+  background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  height: 955px;
+}
+
+/* Apply the flex container class */
+.container-inside {
+  flex-direction: column;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+}
+.ul-container{
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 /* Style for the no reservations message */
@@ -28,8 +63,9 @@
 
 
 /* Style for the header */
-h2 {
-  color: #3498db; /* Blue header text */
+h1 {
+  color: #2c3e50; /* Blue header text */
+  font-weight: bold;
 }
 
 /* Style for the item list within each reservation */
@@ -46,14 +82,23 @@ h2 {
 
 /* Basic button styling */
 button {
-  padding: 10px 15px;
-  margin: 5px;
-  border: none;
-  border-radius: 5px;
+  position: relative; /* Push the button to the bottom */
   cursor: pointer;
   background-color: #3498db; /* Blue color, you can change it */
   color: #fff; /* White text color */
   font-size: 16px;
+}
+.proba{
+  position: absolute;
+  top: 400px;
+  width: 175px;
+  height: 40px;
+  left: 63px;
+  border-radius: 20px;
+  border: 3px solid #2c3e50;
+  font-size: 17px;
+  color: #2c3e50;
+  font-weight: bolder;
 }
 
 /* Hover effect */
@@ -78,4 +123,52 @@ button:disabled {
   color: #666; /* Tamnosiva boja teksta za onemogućeno dugme */
   cursor: not-allowed; /* Promenite kursor na not-allowed za onemogućeno dugme */
 }
+.res-info{
+  font-size: 20px;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.previous-button{
+  background-color: transparent;
+  color: #2c3e50;
+  border-color: transparent;
+}
+.previous-button:disabled{
+  background-color: transparent;
+  border-color: transparent;
+  opacity: 0.5;
+}
+.previous-button:hover {
+  background-color: transparent; /* Darker blue on hover, you can change it */
+}
+.next-button:hover {
+  background-color: transparent;
+  border-color: transparent; /* Darker blue on hover, you can change it */
+}
+.next-button{
+  background-color: transparent;
+  color: #2c3e50;
+  border-color: transparent;
+  margin-left: -35px;
+}
+.next-button:disabled{
+  background-color: transparent;
+  border-color: transparent;
+  opacity: 0.5;
+}
+
+.res-info mat-icon{
+  margin-right: 5px;
+}
+.item-info{
+  font-size: 20px;
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+
+
 

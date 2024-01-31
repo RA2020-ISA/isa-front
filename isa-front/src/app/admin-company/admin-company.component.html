@@ -59,6 +59,9 @@
     <button class="schedule-button" (click)="searchEquipments()">Search</button>
     <button class="schedule-button" (click)="showAll()">Show all</button>
 </div>
+<div class="error-message">
+    {{ errorMessageSearch }}
+</div>
 <div class="oprema1" *ngFor="let equipment of companyEquipments">
     <div class="equipment-card">
         <div class="heading">

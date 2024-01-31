@@ -40,6 +40,12 @@ h2 {
     margin-top: 100px;
   }
 
+  .error-message
+  {
+    color: red;
+    font-size: 13px;
+  }
+
   #maxQuantity
   {
     width: 50px;

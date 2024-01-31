@@ -4,6 +4,7 @@ import { UserService } from '../services/user.service';
 import { User } from '../model/user-model';
 import { UserStateService } from '../services/user-state.service';
 import { DatePipe } from "@angular/common";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,9 @@ import { DatePipe } from "@angular/common";
 export class LoginComponent {
 
 
-  constructor(private router: Router, private userService: UserService, private userStateService: UserStateService, private datePipe: DatePipe) {
+  constructor(private router: Router, private userService: UserService,
+     private userStateService: UserStateService, private datePipe: DatePipe,
+     private toastr : ToastrService) {
 
   }
 
@@ -87,7 +90,7 @@ export class LoginComponent {
       this.userService.updateUsersPassword(this.newPassword, this.user?.id || 0).subscribe(
         (response) => {
 
-          alert('Password changed successfuly! You can now log in!');
+          this.toastr.success('Password changed successfuly! You can now log in!');
           this.showChangePassword = false;
         },
         (error) => {

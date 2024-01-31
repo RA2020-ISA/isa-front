@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { UserStateService } from "../services/user-state.service";
 import { UserService } from "../services/user.service";
 import { CommonModule, DatePipe } from "@angular/common";
-
 @Component({
     selector: 'users-penalty-points',
     templateUrl: './users-penalty-points.component.html',
@@ -33,6 +32,16 @@ import { CommonModule, DatePipe } from "@angular/common";
         console.log(this.user);
 
         this.penaltyPoints = this.user?.penaltyPoints;
+        if (this.user?.id){
+            this.userService.getPenaltyPoints(this.user.id).subscribe(
+                (response: number)=> {
+                    this.penaltyPoints = response;
+                },
+                (error) => {
+                    error('Greska pri prikazivanju penalty points');
+                }
+            );
+        }
         this.currentDate = new Date();
         this.formattedCurrentDate = this.formatDate(this.currentDate);
 

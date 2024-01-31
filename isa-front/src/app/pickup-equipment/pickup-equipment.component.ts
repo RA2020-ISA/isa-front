@@ -6,6 +6,7 @@ import { User } from '../model/user-model';
 import { UserStateService } from '../services/user-state.service';
 import { Company } from '../model/company.model';
 import { CompanyService } from '../services/company.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-pickup-equipment',
@@ -22,9 +23,11 @@ export class PickupEquipmentComponent implements OnInit{
   pickUpReservations: Reservation[] = [];
   loggedUser?: User;
   company?: Company;
+  futureReservation: boolean = false;
 
   constructor(private reservationService: ReservationService, private qrCodeService: QRCodeService,
-    public userService: UserStateService, private companyService: CompanyService) { }
+    public userService: UserStateService, private companyService: CompanyService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loggedUser = this.userService.getLoggedInUser();
@@ -134,12 +137,15 @@ export class PickupEquipmentComponent implements OnInit{
 
   onPickupOrder(): void{     //button 
     if(this.reservation?.status?.toLocaleLowerCase().includes('taken')){
-      alert('Reservacija je vec preuzeta');
+      this.toastr.error('The reservation has already been taken.');
     }else if(this.reservation?.status?.toLocaleLowerCase().includes('expired')){
-      alert('Reservacija je vec istekla');
+      this.toastr.error('The reservation has already been expired.');
     }else{
       const isAbleToPickupOrder = this.checkAppointmentDateTime();
-      if(isAbleToPickupOrder){
+      if (this.futureReservation) {
+        return;
+      }
+      else if(isAbleToPickupOrder){
         if (this.reservation !== null){
           this.reservationService.takeOverReservation(this.reservation) //pick_up order
           .subscribe((response : Reservation) => {
@@ -179,16 +185,20 @@ export class PickupEquipmentComponent implements OnInit{
       console.log('end date time:', appointmentEndDateTime);
       if (currentDateTime >= appointmentStartDateTime && currentDateTime <= appointmentEndDateTime) {
         console.log('Termin je aktivan.');
-        alert('Termin je aktivan.');
+        this.toastr.error('The appointment is active.');
         this.isAbleToPickupOrder = true;
+        this.futureReservation = false;
         return true;
       } else if (currentDateTime < appointmentStartDateTime) {
         console.log('Termin je u budućnosti.');
-        alert('Termin je u budućnosti.');
-        return true;
-      } else {
+        this.toastr.error('Unfortunately, you cannot pickup your equipment. The term is in the future.');
+        this.isAbleToPickupOrder = false;
+        this.futureReservation = true;
+        return false;
+      }else {
         console.log('Termin je istekao.');
-        alert('Termin je istekao.');
+        this.toastr.error('Unfortunately, you cannot pickup your equipment. The term has expired.');
+        this.futureReservation = false;
         this.isAbleToPickupOrder = false;
         return false;
       }

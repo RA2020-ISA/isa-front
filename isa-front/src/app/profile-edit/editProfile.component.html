@@ -1,5 +1,6 @@
+<body>
 <div class="edit-profile-container">
-    <h1>Edit Profile</h1>
+  <div class="pocetak"><img src="assets/images/prof.png" width="70px" height="55px"><h1>Edit profile</h1></div>
     <form [formGroup]="userForm">
       <div class="table-container">
         <table class="table">
@@ -11,13 +12,13 @@
           </tr>
           <tr>
             <td>
-              <label for="firstName">First Name:</label>
+              <label for="firstName">First name:</label>
               <input id="firstName" formControlName="firstName" placeholder="First Name" />
             </td>
           </tr>
           <tr>
             <td>
-              <label for="lastName">Last Name:</label>
+              <label for="lastName">Last name:</label>
               <input id="lastName" formControlName="lastName" placeholder="Last Name" />
             </td>
           </tr>
@@ -35,7 +36,7 @@
           </tr>
           <tr>
             <td>
-              <label for="phoneNumber">Phone Number:</label>
+              <label for="phoneNumber">Phone number:</label>
               <input id="phoneNumber" formControlName="phoneNumber" placeholder="phoneNumber" />
             </td>
           </tr>
@@ -74,3 +75,4 @@
       </button>
     </form>
   </div>
+  </body>

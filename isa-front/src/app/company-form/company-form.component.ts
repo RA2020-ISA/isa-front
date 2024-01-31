@@ -6,6 +6,7 @@ import { Company } from '../model/company.model';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user-model';
 import { UserStateService } from '../services/user-state.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-company-form',
@@ -23,7 +24,8 @@ export class CompanyFormComponent implements OnInit{
     private service: CompanyService,
     private router: Router, 
     private userService: UserService,
-    public userStateService: UserStateService
+    public userStateService: UserStateService,
+    private toastr : ToastrService
   ) {
 
     this.companyForm = this.formBuilder.group({
@@ -75,7 +77,7 @@ export class CompanyFormComponent implements OnInit{
       (result: Company) => {
         this.createCompanyAdmins(result.id || 0); 
         this.clearForm();
-        alert("Susccesfuly created company!");
+        this.toastr.success("Susccesfuly created company!");
         this.router.navigate(['/companies']);
       },
       (error) => {

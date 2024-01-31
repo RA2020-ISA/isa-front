@@ -13,8 +13,6 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'users-takeover-history',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './users-takeover-history.component.html',
   styleUrls: ['./users-takeover-history.component.css']
 })
@@ -140,6 +138,8 @@ export class UsersTakeoverHistory implements OnInit{
     const formattedDate = parts.reverse().join('/');
     return formattedDate;
   }
+  
+
 
 }
   

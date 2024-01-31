@@ -1,26 +1,33 @@
+<div class="background">
 <div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' ; else sorryMessage">
 
 <div *ngIf="reservations.length > 0; else noReservations" class="container">
-  <div *ngIf="userStateService.getLoggedInUser(); else sorryMessage">
-    <h2>Reservations for {{ username }}</h2>
-    <ul>
-      <li *ngFor="let reservation of reservations" class="reservation-item">
-        <div *ngIf="userStateService.getLoggedInUser()?.email === reservation.user?.email">
-          <p><strong>Date:</strong> {{ reservation.appointment?.appointmentDate | date:'dd.MM.yyyy'}}</p>
-          <p><strong>Time:</strong> {{ reservation.appointment?.appointmentTime}}</p>
-          <p><strong>Duration:</strong> {{ reservation.appointment?.appointmentDuration}}</p>
-          <p><strong>Items:</strong></p>
+  <div *ngIf="userStateService.getLoggedInUser(); else sorryMessage" class="container-inside">
+    <h1>Reservations for {{ userStateService.getLoggedInUser()?.firstName }} {{userStateService.getLoggedInUser()?.lastName}}</h1>
+    <div class="ul-container">
+      <button class="previous-button" (click)="prevCompany()" [disabled]="disablePrevButton"><mat-icon>navigate_before</mat-icon></button>
+
+      <div *ngFor="let reservation of displayedReservations" class="reservation-item">
+        <div *ngIf="userStateService.getLoggedInUser()?.email === reservation.user?.email" class="users-reservation">
+          <p class="res-info"><mat-icon>date_range</mat-icon><strong>Date:</strong> {{ reservation.appointment?.appointmentDate | date:'dd.MM.yyyy'}}</p  >
+          <p class="res-info"><mat-icon>watch_later</mat-icon><strong>Time:</strong> {{ reservation.appointment?.appointmentTime}}</p>
+          <p class="res-info"><mat-icon>access_time</mat-icon><strong>Duration:</strong> {{ reservation.appointment?.appointmentDuration}} minutes</p>
+          <p class="res-info"><mat-icon>local_hospital</mat-icon><strong>Items:</strong></p>
           <ul class="item-list">
             <li *ngFor="let item of reservation.items" class="item">
-              <p>Name: {{ item.equipment.name }}, Quantity: {{ item.quantity }}</p>
+              <p class="item-info"><mat-icon>healing</mat-icon>Name: {{ item.equipment.name }}, Quantity: {{ item.quantity }}</p>
             </li>
           </ul>
-          <p><strong>Total price:</strong> {{ reservation.totalPrice}}</p>
-          <button (click)="cancelReservation(reservation)"  class="cancel-button" [disabled]="isPastDate(reservation.appointment?.appointmentDate)">Cancel Reservation</button>
+          <p class="res-info"><mat-icon> attach_money</mat-icon><strong>Total price:</strong> {{ reservation.totalPrice}}</p>
+          <button (click)="cancelReservation(reservation)"  class="proba" [disabled]="isPastDate(reservation.appointment?.appointmentDate)">Cancel Reservation</button>
+          
         </div>
-      </li>
-    </ul>
+      </div>
+      <button class="next-button" (click)="nextCompany()" [disabled]="disableNextButton"><mat-icon>navigate_next</mat-icon></button>
+
+    </div>
   </div>
+</div>
 </div>
 </div>
 <ng-template #sorryMessage>

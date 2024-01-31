@@ -29,6 +29,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CommonModule, DatePipe } from '@angular/common';
 import { AllContractsComponent } from './all-contracts/all-contracts.component';
 import { MatTableModule } from '@angular/material/table';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ReservationsComponent } from './reservations/reservations.component';
+import { UsersTakeoverHistory } from './users-takeover-history/users-takeover-history.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +59,8 @@ import { MatTableModule } from '@angular/material/table';
     PickupEquipmentComponent,
     NavbarComponent,
     AllContractsComponent,
+    ReservationsComponent,
+    UsersTakeoverHistory
   ],
   imports: [
     BrowserModule,
@@ -64,7 +71,13 @@ import { MatTableModule } from '@angular/material/table';
     MatIconModule, 
     CommonModule,
     FullCalendarModule,
-    MatTableModule
+    MatTableModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-center', // Change this to the desired position
+      // ... other options
+    }),
+    MatSlideToggleModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

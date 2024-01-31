@@ -9,6 +9,50 @@ h2 {
     color: #0066cc;
   }
 
+  .heading
+  {
+    margin-left: 400px;
+    margin-top: 30px;
+    color: #0066cc;
+    font-size: 32px;
+  }
+
+  .kolicina
+  {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .quantity-input
+  {
+    margin-left: 25px;
+  }
+
+  .input1 
+  {
+    margin-left: 50px;
+  }
+
+  .input2
+  {
+    margin-left: 12px;
+  }
+
+  .input3
+  {
+    margin-left: 57px;
+  }
+
+  .input4
+  {
+    margin-left: 48px;
+  }
+
+  .input5
+  {
+    margin-left: 60px;
+  }
+
   body
 {
     background-image: url('../../assets/images/otkucaji3.png');
@@ -37,13 +81,14 @@ h2 {
     border-style: solid;
     width: 300px;
     margin-left: 550px;
-    margin-top: 100px;
+    margin-top: 50px;
   }
 
-  .error-message
+  .poruka
   {
     color: red;
     font-size: 13px;
+    margin-left: 500px;
   }
 
   #maxQuantity

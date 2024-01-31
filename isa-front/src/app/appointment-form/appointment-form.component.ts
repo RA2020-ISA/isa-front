@@ -96,7 +96,7 @@ export class AppointmentFormComponent implements OnInit {
       // Ako je uneti datum manji ili jednak od danasnjeg datuma
       if (datum <= danas) {
         console.error('Datum nije validan. Uneseni datum mora biti posle danasnjeg datuma.');
-        this.message = 'Datum nije validan. Uneseni datum mora biti posle danasnjeg datuma.';
+        this.message = 'The date is not valid. The date entered must be after todays date.';
         return;  // Prekini funkciju i ne pravi termin
       }
     
@@ -125,14 +125,14 @@ export class AppointmentFormComponent implements OnInit {
         if (this.existsSameAppointment(newAppointment))
         {
           console.error('Vec postoji isti ovaj termin za preuzimanje.');
-          this.message = 'Vec ste definisali ovaj termin za preuzimanje opreme.';
+          this.message = 'You have already defined this appointment.';
           return;
         }
 
         if (this.doesNewAppointmentOverlap(newAppointment))
         {
           console.error('Novi termin za preuzimanje opreme se preklapa sa vec postojecim.');
-          this.message = 'Novi termin za preuzimanje opreme se preklapa sa vec postojecim.';
+          this.message = 'The new appointment for taking over the equipment overlaps with the existing one.';
           return;
         }
     
@@ -153,7 +153,7 @@ export class AppointmentFormComponent implements OnInit {
         );
       } else {
         console.error('Vreme nije u opsegu radnog vremena ili završetak termina nije u opsegu radnog vremena.');
-        this.message = 'Navedeno vreme nije u opsegu radnog vremena kompanije!';
+        this.message = 'The specified time is not within the companys working hours!';
       }
   
   }

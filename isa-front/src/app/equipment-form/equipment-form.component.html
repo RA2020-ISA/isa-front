@@ -1,0 +1,55 @@
+<body>
+  <div class="poz" *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
+  <div class="card">
+  <h1 class="heading">Create your own equipment for {{company?.name}} </h1>
+  <div class="veliki">
+  
+  <form class="forma" [formGroup]="equipmentForm">
+      <div class="polje">
+      <label for="name">Name:</label>
+      <input type="text" formControlName="name" required class="input1"><br>
+      </div>
+  
+      <div class="polje">
+      <label for="description">Description:</label>
+      <input type="text" formControlName="description"  required class="input2"><br>
+      </div>
+  
+      <div class="polje">
+      <label for="price">Price:</label>
+      <input type="number" formControlName="price" required class="input3"><br>
+      </div>
+
+      <div class="polje">
+        <label for="grade">Grade:</label>
+        <input type="number" formControlName="grade" required class="input4"><br>
+        </div>
+
+      <div class="kolicina">
+      <label for="maxQuantity">Quantity:</label>
+      <div class="quantity-input">
+        <button type="button" (click)="decreaseQuantity()">-</button>
+        <input type="number" id="maxQuantity" name="maxQuantity" formControlName="maxQuantity" required>
+        <button type="button" (click)="increaseQuantity()">+</button>
+      </div>
+      </div>
+
+      <div class="polje">
+        <label for="type">Type:</label>
+        <input type="text" formControlName="type" required class="input5"><br>
+        </div>
+  
+      <button type="submit" (click)="createEquipment()">Create</button>
+    </form>
+  
+    <p class="poruka">{{message}}</p>
+    </div>
+  </div>
+  </div>
+  <ng-template #sorryMessage>
+      <div class="sorry-message">
+        <p>unauthorized</p>
+      </div>
+    </ng-template>
+  </body>
+  

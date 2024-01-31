@@ -36,6 +36,7 @@ export class AdminCompanyComponent implements OnInit {
   companyEquipments: Equipment[] = [];
   otherAdministrators: User[] = [];
   map: L.Map | undefined; // mapa
+  errorMessageSearch: string = '';
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
     private router: Router, private userService: UserStateService, private equipmentService: EquipmentService,
@@ -266,6 +267,11 @@ export class AdminCompanyComponent implements OnInit {
   }
 
   searchEquipments(): void{
+    if(!this.isValidPriceRange() && this.errorMessageSearch != '')
+    {
+      return;
+    }
+
     this.filteredEquipments = [];
 
     this.filteredEquipments = this.companyEquipments.filter(equipment => 
@@ -283,8 +289,26 @@ export class AdminCompanyComponent implements OnInit {
     this.searchName = '';
     this.searchPriceFrom = '';
     this.searchPriceTo = '';
+    this.errorMessageSearch = '';
     this.getAdminCompany();
   }
+
+  isValidPriceRange(): boolean {
+    const priceFrom = parseFloat(this.searchPriceFrom);
+    const priceTo = parseFloat(this.searchPriceTo);
+
+    if (priceFrom < 0 || priceTo < 0) {
+        this.errorMessageSearch = 'Price must be number above 0!';
+        return false;
+    }
+    if (priceFrom > priceTo) {
+        this.errorMessageSearch = 'Price to must be above price from.';
+        return false;
+    }
+
+    return true;
+}
+
 
   seeCompanyCalendarClick(){
     this.router.navigate(['/see-company-calendar']);
@@ -292,5 +316,10 @@ export class AdminCompanyComponent implements OnInit {
 
   editCompany(): void{
     this.router.navigate(['/edit-company/' + this.company?.id || 0]);
+  }
+
+  addNewEquipment(): void
+  {
+    this.router.navigate(['/equipment-form/' + this.company?.id || 0]);
   }
 }

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { UserStateService } from '../services/user-state.service';
 import { User } from '../model/user-model';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-equipment-edit-form',
@@ -17,10 +18,19 @@ import { ToastrService } from 'ngx-toastr';
 export class EquipmentEditFormComponent implements OnInit {
   equipmentId?: number;
   equipment?: Equipment;
+  equipmentForm: FormGroup; // dodala 
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
     private router: Router, private userService: UserStateService,
-    private toastr: ToastrService) {}
+    private toastr: ToastrService, private fb: FormBuilder) 
+    {
+      this.equipmentForm = this.fb.group({
+        name: ['', Validators.required],
+        description: ['', [Validators.required]],
+        price: ['', Validators.required],
+        maxQuantity: ['', Validators.required]
+      });
+    }
   
   ngOnInit(): void {
     this.route.params.subscribe(params => {

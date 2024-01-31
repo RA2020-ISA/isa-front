@@ -131,3 +131,10 @@ button {
 button:hover {
     background-color: #2980b9;
 }  
+
+.poruka
+{
+  color: red;
+  font-size: 15px;
+  font-weight: bold;
+}

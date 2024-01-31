@@ -26,6 +26,7 @@ import { UsersQRCodesComponent } from './users-qr-codes/users-qr-codes.component
 import { UsersTakeoverHistory } from './users-takeover-history/users-takeover-history.component';
 import { UserReservationsAdminComponent } from './user-reservations-admin/user-reservations-admin.component';
 import { AllContractsComponent } from './all-contracts/all-contracts.component'
+import { EquipmentFormComponent } from './equipment-form/equipment-form.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -53,7 +54,9 @@ const routes: Routes = [
   { path: 'users-qr-codes', component: UsersQRCodesComponent},
   { path: 'users-takeover-history', component: UsersTakeoverHistory},
   { path: 'user-reservations-admin', component: UserReservationsAdminComponent},
-  { path: 'all-contracts', component: AllContractsComponent }
+  { path: 'all-contracts', component: AllContractsComponent },
+  { path: 'equipment-form/:id', component: EquipmentFormComponent}
+
 ];
 
 @NgModule({

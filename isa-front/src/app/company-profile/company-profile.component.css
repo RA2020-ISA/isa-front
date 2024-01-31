@@ -144,6 +144,7 @@ button.add-button[disabled] {
     color: #666; /* Tamnosiva boja teksta */
     border: 1px solid #999; /* Obrub sa tamnosivom bojom */
     cursor: not-allowed;
+    padding: 8px 12px;
   }
 
 /* Style for all disabled buttons */
@@ -155,6 +156,7 @@ button[disabled] {
     cursor: not-allowed;
     margin: 20px;
     margin-top: 40px;
+    padding: 8px 12px; 
 }
 
 /* Style for disabled buttons on hover */

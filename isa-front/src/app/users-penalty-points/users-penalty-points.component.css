@@ -1,5 +1,5 @@
 .background{
-    background-image: url('../../assets/images/otkucaji.png');
+    background-image: url('../../assets/images/otkucaji3.png');
     background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
     background-repeat: no-repeat;
     background-attachment: fixed; 
@@ -7,7 +7,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh; 
+    height: 700px; 
 }
 
 .header{
@@ -27,7 +27,12 @@
     margin-top: 20px;
     border-radius: 13px;
     border: 3px solid #2c3e50;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Dodajte senku */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Dodajte senku */
+    transition: transform 0.3s, box-shadow 0.3s; 
+}
+.card:hover {
+    transform: translateY(-20px); /* Pomeri karticu malo nagore */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 1); /* Pojačaj senku */
 }
 
 .card-image{
@@ -41,8 +46,29 @@
 }
 
 .card_text{
-    color: white;
+    color: #2c3e50;
     font-size: 25px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-style: italic;
+    font-weight: lighter;
+}
+
+.card-image-negative{
+    width: 60px;
+    height: 60px;
+    margin-right:30px;
+    margin-bottom: 40px;
+}
+
+.card-image-razno{
+    width: 600px;
+    height: 650px;
+}
+
+.elementi_jedni_pored_drugog{
+    display: flex; /* Koristimo fleksibilnu kutiju za raspoređivanje elemenata */
+    justify-content: space-between; /* Elementi će biti raspoređeni tako da budu jedan pored drugog, sa razmakom između */
+    align-items: center; /* Centriramo elemente po vertikali */  
+    flex-direction: row;
+    margin-left: 500px;;
 }

@@ -1,265 +1,250 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #c0e2f7;
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #c0e2f7;
+  margin: 0;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .search-fields {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px; 
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; 
 }
 
-.rounded-input{
-  border-radius: 20px;
+.rounded-input {
+  border-radius: 15px;
 }
 
 .card-container {
-    display: flex;
-    flex-wrap: wrap; /* Omogući da kartice prelaze u novi red ako nema dovoljno prostora */
-    justify-content: center;
-    margin-top: 2px;
-    flex-direction: row;
-
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 2px;
+  flex-direction: row;
 }
 
 .card-and-filter {
   display: flex;
   flex-direction: row; 
   flex-wrap: wrap;
-  margin-top: 60px;
+  margin-top: 30px;
 }
 
 .filter {
-  margin-right: 10px; 
+  margin-right: 8px;
   display: flex;
-  flex-direction: row;/* Prilagodite ovu vrednost prema potrebi, kako bi se postigao željeni razmak između filtera i kartice */
-}
-.filter1{
-  margin-right: 30px;
-}
-.filter2{
-  margin-left: 30px;
+  flex-direction: row;
 }
 
+.filter1 {
+  margin-right: 20px;
+}
+
+.filter2 {
+  margin-left: 20px;
+}
 
 .filter-options {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Postavi filter opcije sa leve strane */
-    margin-left: 100px; /* Dodaj margin sa leve strane filter opcijama */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 50px;
 }
 
-/* Ostatak stila ostaje nepromenjen */
 button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 1em;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: background-color 0.3s;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 5px;
+  font-size: 0.9em;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.3s;
 }
-
-
 
 .card {
-    border-radius: 10px; 
-    background-color: lightblue; 
-    padding: 20px; 
-    color: white; 
-    width: 500px;
-    height: 560px;
-    margin-bottom: 10px; /* Dodaj margin između kartica */
-    flex: 0 0 calc(30% - 20px); /* Adjust the width of each card as needed */
-    margin: 0 10px 10px 0;
-    margin-right: 50px;
-    border: 2px solid #2c3e50; 
+  border-radius: 8px; 
+  background-color: lightblue; 
+  padding: 16px; 
+  color: white; 
+  width: 300px;
+  height: 500px;
+  margin-bottom: 10px; 
+  flex: 0 0 calc(30% - 16px);
+  margin-right: 20px;
+  border: 2px solid #2c3e50; 
 }
 
 .heading {
-    font-size: 30px; 
-    font-weight: bold;
-    color: #3498db;
-    font-family: 'Comic Sans MS', cursive;
+  font-size: 26px; 
+  font-weight: bold;
+  color: #3498db;
+  font-family: 'Comic Sans MS', cursive;
 }
 
 input[type="text"] {
-    padding: 10px;
-    margin: 5px;
-    border: 2px solid #2c3e50;
-    border-radius: 20px;
-    font-size: 18px;
-    width: 300px;
+  padding: 8px;
+  margin: 5px;
+  border: 2px solid #2c3e50;
+  border-radius: 15px;
+  font-size: 16px;
+  width: 240px;
 }
 
 input[type="text"]:focus {
-    outline: none;
-    border-color: #2980b9;
+  outline: none;
+  border-color: #2980b9;
 }
 
 .small-button {
-    background-color: transparent;
-    border: none;
-    font-size: 12px;
-    cursor: pointer;
-    padding: 5px;
+  background-color: transparent;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px;
+  color: white;
+  margin: 5px;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
 
-    
-    color: white;
-    margin: 5px;
-    border-radius: 3px;
-    transition: background-color 0.3s;
-  }
-  
-  
+label {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+  font-size: 18px;
+}
 
-  label {
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-    font-size: 20px; /* Povećaj veličinu fonta prema želji */
-  }
-  
-  input[type="checkbox"] {
-    margin-right: 5px;
-    cursor: pointer;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    border: 2px solid #2c3e50;
-    border-radius: 3px;
-    transition: background-color 0.3s;
-  }
-  
-  input[type="checkbox"]:checked {
-    background-color: #2c3e50;
-    border-color: #2c3e50;
-  }
-  
-  input[type="checkbox"]::before {
-    content: '\2713';
-    font-size: 14px;
-    color: white;
-    display: block;
-    text-align: center;
-    line-height: 18px;
-  }
+input[type="checkbox"] {
+  margin-right: 4px;
+  cursor: pointer;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #2c3e50;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
 
-  .separator {
-    border-bottom: 1px solid #ccc; /* Boja i debljina granice */
-    margin-bottom: 10px; /* Opciono, dodavanje malog odstojanja ispod granice */
-  }
+input[type="checkbox"]:checked {
+  background-color: #2c3e50;
+  border-color: #2c3e50;
+}
 
-  .small-button.active {
-    background-color: grey; /* Možeš prilagoditi boju po želji */
-  }
+input[type="checkbox"]::before {
+  content: '\2713';
+  font-size: 12px;
+  color: white;
+  display: block;
+  text-align: center;
+  line-height: 14px;
+}
 
-  .bold{
-    font-weight: bold;
-    font-size: large;
-    color: #3498db;
-  }
-  .search-container {
-    display: flex;
-    align-items: center;
-  }
-  
-  /* Search input styling */
-  input.search-input {
-    padding: 10px;
-    border: 2px solid #2980b9; /* Dark blue border */
-    border-radius: 15px; /* Increase border-radius for a rounder appearance */
-    margin-right: 10px; /* Add some spacing between the input and buttons */
-  }
-  
-  .search-button{
-    background-color: transparent;
-  }
+.separator {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 8px;
+}
 
-  .black-icon {
-    color: #2c3e50;
-    font-weight: bold;
-  }
+.small-button.active {
+  background-color: grey;
+}
 
-  .toggle-class{
-    size: 30px;
-  }
+.bold {
+  font-weight: bold;
+  font-size: medium;
+  color: #3498db;
+}
 
-  .label-class{
-    margin-left: 22px;
-  }
+.search-container {
+  display: flex;
+  align-items: center;
+}
 
-  .address {
-    display: flex;
-    align-items: center;
-    font-size: 18px; 
-    font-family: Arial, Helvetica, sans-serif;/* Opciono, postavlja vertikalno centriranje elemenata */
-  }
-  
-  .address mat-icon {
-    margin-right: 5px; /* Opciono, dodaje malu razdaljinu između ikone i teksta */
-  }
+input.search-input {
+  padding: 8px;
+  border: 2px solid #2980b9;
+  border-radius: 12px;
+  margin-right: 8px;
+}
 
-  .image-class{
-    border-radius: 10px;
-    height: 200px;
-    width: 495px;
-    border: 2px solid #2c3e50;
-  }
+.search-button {
+  background-color: transparent;
+}
 
-  .button-class{
-    margin-top: 27px;
-    margin-left: 180px;
-    border-radius: 20px;
-    color:#2c3e50;
-    font-weight: bolder;
-    font-size: 18px;
-  }
-  .background{
-    background-image: url('../../assets/images/otkucaji3.png');
-    background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
-    background-repeat: no-repeat;
-    background-attachment: fixed; 
-    height: 955px;
-  }
-  .next-button{
-    background-color: transparent;
-    margin-left: -45px;
-  }
-  .previous-button{
-    background-color: transparent;
-  }
+.black-icon {
+  color: #2c3e50;
+  font-weight: bold;
+}
 
-  /* Dodajte ove stilove u vašu CSS datoteku */
+.toggle-class {
+  size: 26px;
+}
 
-/* Stil za onemogućeno dugme */
+.label-class {
+  margin-left: 18px;
+}
+
+.address {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.address mat-icon {
+  margin-right: 4px;
+}
+
+.image-class {
+  border-radius: 8px;
+  height: 180px;
+  width: 295px;
+  border: 2px solid #2c3e50;
+}
+
+.button-class {
+  border-radius: 15px;
+  color: #2c3e50;
+  font-weight: bold;
+  font-size: 16px;
+  height: auto;
+  margin-bottom: 20px; 
+  border: 3px solid #2c3e50; 
+  display: flex; /* Koristi fleksibilni prikaz */
+  flex-direction: column; /* Postavi orijentaciju na kolonu */
+  align-items: center; /* Centriraj sadržaj horizontalno */
+}
+
+.background {
+  background-image: url('../../assets/images/otkucaji3.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 1080px;
+}
+
+.next-button {
+  background-color: transparent;
+  margin-left: -35px;
+}
+
+.previous-button {
+  background-color: transparent;
+}
+
 button[disabled] {
-  opacity: 0.5; /* Smanjuje prozirnost onemogućenog dugmeta */
+  opacity: 0.5;
 }
 
-/* Stil za onemogućeno dugme sa ikonom */
 button[disabled] mat-icon {
-  color: #ccc; /* Boja ikone na onemogućenom dugmetu */
+  color: #ccc;
 }
 
-/* Dodatni stil za onemogućeno dugme sa ikonom, ako želite promeniti izgled ikone */
 button[disabled] mat-icon::before {
-  transform: scale(1.2); /* Povećava veličinu ikone na onemogućenom dugmetu */
+  transform: scale(1.1);
 }
-
-  
-
-  
-
-  
-  
-  

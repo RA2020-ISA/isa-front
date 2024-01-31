@@ -33,6 +33,16 @@ import { CommonModule, DatePipe } from "@angular/common";
         console.log(this.user);
 
         this.penaltyPoints = this.user?.penaltyPoints;
+        if (this.user?.id){
+            this.userService.getPenaltyPoints(this.user.id).subscribe(
+                (response: number)=> {
+                    this.penaltyPoints = response;
+                },
+                (error) => {
+                    error('Greska pri prikazivanju penalty points');
+                }
+            );
+        }
         this.currentDate = new Date();
         this.formattedCurrentDate = this.formatDate(this.currentDate);
 

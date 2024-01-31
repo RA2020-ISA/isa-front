@@ -22,6 +22,7 @@ export class PickupEquipmentComponent implements OnInit{
   pickUpReservations: Reservation[] = [];
   loggedUser?: User;
   company?: Company;
+  futureReservation: boolean = false;
 
   constructor(private reservationService: ReservationService, private qrCodeService: QRCodeService,
     public userService: UserStateService, private companyService: CompanyService) { }
@@ -139,7 +140,10 @@ export class PickupEquipmentComponent implements OnInit{
       alert('Reservacija je vec istekla');
     }else{
       const isAbleToPickupOrder = this.checkAppointmentDateTime();
-      if(isAbleToPickupOrder){
+      if (this.futureReservation) {
+        return;
+      }
+      else if(isAbleToPickupOrder){
         if (this.reservation !== null){
           this.reservationService.takeOverReservation(this.reservation) //pick_up order
           .subscribe((response : Reservation) => {
@@ -181,14 +185,18 @@ export class PickupEquipmentComponent implements OnInit{
         console.log('Termin je aktivan.');
         alert('Termin je aktivan.');
         this.isAbleToPickupOrder = true;
+        this.futureReservation = false;
         return true;
       } else if (currentDateTime < appointmentStartDateTime) {
         console.log('Termin je u budućnosti.');
-        alert('Termin je u budućnosti.');
-        return true;
-      } else {
+        alert('Ne mozete preuzeti vasu rezervaciju.');
+        this.isAbleToPickupOrder = false;
+        this.futureReservation = true;
+        return false;
+      }else {
         console.log('Termin je istekao.');
         alert('Termin je istekao.');
+        this.futureReservation = false;
         this.isAbleToPickupOrder = false;
         return false;
       }

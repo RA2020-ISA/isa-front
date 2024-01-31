@@ -10,6 +10,18 @@ body {
     height: 100vh;
 }
 
+.pocetak
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.naslov
+{
+    margin-left: 15px;
+    margin-bottom: 5px;
+}
+
 .profile-container {
     display: flex;
     flex-direction: column;
@@ -20,16 +32,24 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     margin-bottom: 20px; /* Dodaj margin ispod profila */
+    width: 400px;
+    border-color: #3498db;
+    border-style: solid;
+    border-radius: 8px;
+    padding: 20px;
+    margin-left: 0px;
+    margin-bottom: 150px;
 }
 
 .table-container {
     display: flex;
     justify-content: space-between; /* Poravnavanje sa leve i desne strane */
     margin-top: 20px;
+    color: #3498db;
 }
 
 .table {
-    width: 48%;
+    width: 100%;
     border-collapse: collapse;
 }
 
@@ -44,9 +64,42 @@ h1 {
     color: #3498db;
 }
 
+body
+{
+    background-image: url('../../assets/images/otkucaji3.png');
+    background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Fiksiraj pozadinu */
+}
+
 span {
     color: #0066cc;
     font-weight: bold;
+}
+
+.opis
+{
+    font-weight: bold;
+    font-size: 15px;
+    color: white;
+}
+
+.dugmad
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.adresaaa
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.proba
+{
+    display: flex;
+    flex-direction: row;
 }
 
 button {
@@ -81,24 +134,6 @@ button:hover {
     margin-left: 10px; /* Prilagodi razmak sa leve strane */
 }
 
-.table-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.table {
-    width: 48%;
-    border-collapse: collapse;
-}
-
-.table th,
-
-.table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
 
 .icon-cell {
     display: flex;

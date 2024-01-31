@@ -1,49 +1,35 @@
-<div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
+<div class="najveci">
+<div class="veliki" *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
 <div *ngIf="company">
     <div class="card">
         <div class="heading">
             <p>{{ company.name }}</p>
+            <img src="assets/images/oprema.png" width="70px" height="55px">
             <button mat-icon-button title="Use this button to edit company" (click)="editCompany()">
                 <mat-icon>edit</mat-icon>
               </button>
         </div>
-        <div class="averageRating"><p>{{ company.description }}</p></div>
-        <div class="address"><p>{{ company.address }}</p></div>
-        <div class="averageRating"><p>Average grade: {{ company.averageGrade }}</p>
+        <div class="opis"><p>{{ company.description }}</p></div>
+        <div class="proba"><div class="adresaaa"><p><img src="assets/images/marker-icon.png" height="18px" width="20px">   {{ company.address }}</p></div></div>
+        <div class="opis"><p>Average grade: {{ company.averageGrade | number:'1.2-2' }}</p>
+            <div *ngIf="otherAdministrators.length > 0">
             <div><p>Other administrations of company:</p></div>
             <div *ngFor="let admin of otherAdministrators">
                 <p>{{admin.firstName}}  {{admin.lastName}}</p>
             </div>
+        </div>
             <div><p>Working time: {{ company.workTimeBegin }} - {{ company.workTimeEnd}} h</p></div>
         </div>
         
-        <div class="search">
-            <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
-            <input type="number" placeholder="Price from: " [(ngModel)]="searchPriceFrom">
-            <input type="number" placeholder="Price to:" [(ngModel)]="searchPriceTo">
-            <button class="schedule-button" (click)="searchEquipments()">Search</button>
-            <button class="schedule-button" (click)="showAll()">Show all</button>
-        </div>
-        <div *ngFor="let equipment of companyEquipments">
-            <div class="equipment-card">
-                <div class="heading">
-                    <p>{{ equipment.name }}</p>
-                </div>
-                <div class="equipment-description"><p>{{ equipment.description }}</p></div>
-                <div class="equipment-price"><p>Price: {{ equipment.price }}</p></div>
-                <div class="equipment-grade"><p>Grade: {{ equipment.grade }}</p><button mat-icon-button title="Use this button to 
-                    remove equipment from company" (click)="removeEquipment(equipment)" class="delete-button"
-                    *ngIf="canDelete(equipment.id || 0)">
-                    <mat-icon>delete</mat-icon></button>
-                    <button mat-icon-button title="Use this button to 
-                    edit this equipment" (click)="editEquipment(equipment.id || 0..)" class="delete-button">
-                    <mat-icon>edit</mat-icon></button>
-                </div>
-            </div>
-        </div>
-        <button title="Use this button to add more equipment to your company" 
+        <div class="dugmad">
+            <button title="Use this button to add more equipment to your company" 
                     class="schedule-button"
                     (click)="addMoreEquipment()">Add more equipment</button>
+                    <button  *ngIf="showMore" title="Use this button to cancel" 
+                    class="schedule-button"
+                    (click)="cancel()">Cancel</button>
+        </div>
+        
     </div>
     <div class="card" *ngIf="showMore">
         <div *ngFor="let equipment of moreEquipments">
@@ -55,8 +41,8 @@
                     (click)="addEquipment(equipment)">Add to company</button>
                 </div>
                 <div class="equipment-description"><p>{{ equipment.description }}</p></div>
-                <div class="equipment-price"><p>Price: {{ equipment.price }}</p></div>
-                <div class="equipment-grade"><p>Grade: {{ equipment.grade }}</p></div>
+                <div class="equipment-price"><p>{{ equipment.price }} EUR</p></div>
+                <div class="equipment-grade"><p>Grade: {{ equipment.grade }}<img src=""></p></div>
             </div>
         </div>
     </div>
@@ -64,7 +50,32 @@
         <button (click)="seeCompanyCalendarClick()"  class="schedule-button">See company calendar</button>
     </div>
 </div>
-<div id="map" style="height: 350px !important; width: 50% !important;"></div>
+<div id="map" style="height: 418px !important; width: 50% !important;"></div>
+</div>
+<div class="search">
+    <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
+    <input type="number" placeholder="Price from: " [(ngModel)]="searchPriceFrom">
+    <input type="number" placeholder="Price to:" [(ngModel)]="searchPriceTo">
+    <button class="schedule-button" (click)="searchEquipments()">Search</button>
+    <button class="schedule-button" (click)="showAll()">Show all</button>
+</div>
+<div class="oprema1" *ngFor="let equipment of companyEquipments">
+    <div class="equipment-card">
+        <div class="heading">
+            <p>{{ equipment.name }}, {{ equipment.maxQuantity}} pieces</p>
+        </div>
+        <div class="equipment-description"><p>{{ equipment.description }}</p></div>
+        <div class="equipment-price"><p>{{ equipment.price }} EUR</p></div>
+        <div class="equipment-grade"><p>Grade: {{ equipment.grade }}</p><button mat-icon-button title="Use this button to 
+            remove equipment from company" (click)="removeEquipment(equipment)" class="delete-button"
+            *ngIf="canDelete(equipment.id || 0)">
+            <mat-icon>delete</mat-icon></button>
+            <button mat-icon-button title="Use this button to 
+            edit this equipment" (click)="editEquipment(equipment.id || 0..)" class="delete-button">
+            <mat-icon>edit</mat-icon></button>
+        </div>
+    </div>
+</div>
 </div>
 <ng-template #sorryMessage>
     <div class="sorry-message">

@@ -1,7 +1,9 @@
-<div *ngIf="userService.getLoggedInUser() && userService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
-<div *ngIf="users && users.length > 0" >
+<body>
+<div class="poz" *ngIf="userService.getLoggedInUser() && userService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
+  <h1 class="heading">All users who have scheduled equipment pick-up at your company</h1>
+<div *ngIf="users && users.length > 0" class = "veliki">
       <div *ngFor="let user of users" class="equipment-detail-card">
-        <div class="heading"><p>{{ user.firstName }} {{ user.lastName }} </p></div>
+        <div class="equipment-heading"><p>{{ user.firstName }} {{ user.lastName }}<img src="assets/images/pr.png" class="slika" width="70px" height="50px"> </p></div>
         <div class="equipment-description"><p>{{ user.email }}</p></div>
         <div class="equipment-price"><p>Phone number: {{ user.phoneNumber }}</p></div>
       </div>
@@ -12,3 +14,4 @@
         <p>unauthorized</p>
       </div>
     </ng-template>
+    </body>

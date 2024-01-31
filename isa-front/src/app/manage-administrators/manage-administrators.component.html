@@ -1,62 +1,66 @@
-<div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN' ; else sorryMessage">
+<div class="pozadina">
+  
+  <div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN' ; else sorryMessage">
 
-<div class="form-container">
-    <div class="success-message" *ngIf="successMessage">
-      {{ successMessage }}
+    <div class="form-container">
+      <h2 class="heading">Manage other system administrators!</h2>
+        <div class="success-message" *ngIf="successMessage">
+          {{ successMessage }}
+        </div>
+        <form>
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" [(ngModel)]="firstName" [ngModelOptions]="{standalone:true}" class="form-control" id="firstName" placeholder="Enter name">
+          </div>
+          <div class="form-group">
+            <label>Last name</label>
+            <input type="text" [(ngModel)]="lastName" [ngModelOptions]="{standalone:true}" id="lastName" class="form-control" placeholder="Enter lastname">
+          </div>
+          <div class="form-group">
+            <label>Email address</label>
+            <input type="email" [(ngModel)]="email" [ngModelOptions]="{standalone:true}" id="email" class="form-control" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone:true}" id="password" class="form-control" placeholder="Enter password">
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone:true}" id="confirmPassword" class="form-control" placeholder="Confirm password">
+          </div>
+          <!-- New Fields -->
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" [(ngModel)]="city" [ngModelOptions]="{standalone:true}" class="form-control" id="city" placeholder="Enter city">
+          </div>
+          <div class="form-group">
+            <label>Country</label>
+            <input type="text" [(ngModel)]="country" [ngModelOptions]="{standalone:true}" id="country" class="form-control" placeholder="Enter country">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone:true}" id="phoneNumber" class="form-control" placeholder="Enter phone number">
+          </div>
+          <div class="form-group">
+            <label>Occupation</label>
+            <input type="text" [(ngModel)]="occupation" [ngModelOptions]="{standalone:true}" id="occupation" class="form-control" placeholder="Enter occupation">
+          </div>
+          <!-- End of New Fields -->
+          <div *ngIf="errorMessage" class="error-message">
+            Error: {{ errorMessage }}
+          </div>
+      
+          <div *ngIf="password !== confirmPassword && confirmPassword !== ''" class="error-message">
+            Error: Passwords do not match.
+          </div>
+      
+          <button type="submit" class="btn btn-primary" (click)="makeSystemAdmin()">Register system admin</button>
+        </form>
+      </div>
     </div>
-    <form>
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" [(ngModel)]="firstName" [ngModelOptions]="{standalone:true}" class="form-control" id="firstName" placeholder="Enter name">
-      </div>
-      <div class="form-group">
-        <label>Last name</label>
-        <input type="text" [(ngModel)]="lastName" [ngModelOptions]="{standalone:true}" id="lastName" class="form-control" placeholder="Enter lastname">
-      </div>
-      <div class="form-group">
-        <label>Email address</label>
-        <input type="email" [(ngModel)]="email" [ngModelOptions]="{standalone:true}" id="email" class="form-control" placeholder="Enter email">
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone:true}" id="password" class="form-control" placeholder="Enter password">
-      </div>
-      <div class="form-group">
-        <label>Confirm Password</label>
-        <input type="password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone:true}" id="confirmPassword" class="form-control" placeholder="Confirm password">
-      </div>
-      <!-- New Fields -->
-      <div class="form-group">
-        <label>City</label>
-        <input type="text" [(ngModel)]="city" [ngModelOptions]="{standalone:true}" class="form-control" id="city" placeholder="Enter city">
-      </div>
-      <div class="form-group">
-        <label>Country</label>
-        <input type="text" [(ngModel)]="country" [ngModelOptions]="{standalone:true}" id="country" class="form-control" placeholder="Enter country">
-      </div>
-      <div class="form-group">
-        <label>Phone Number</label>
-        <input type="text" [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone:true}" id="phoneNumber" class="form-control" placeholder="Enter phone number">
-      </div>
-      <div class="form-group">
-        <label>Occupation</label>
-        <input type="text" [(ngModel)]="occupation" [ngModelOptions]="{standalone:true}" id="occupation" class="form-control" placeholder="Enter occupation">
-      </div>
-      <!-- End of New Fields -->
-      <div *ngIf="errorMessage" class="error-message">
-        Error: {{ errorMessage }}
-      </div>
-  
-      <div *ngIf="password !== confirmPassword && confirmPassword !== ''" class="error-message">
-        Error: Passwords do not match.
-      </div>
-  
-      <button type="submit" class="btn btn-primary" (click)="makeSystemAdmin()">Register system admin</button>
-    </form>
-  </div>
+    <ng-template #sorryMessage>
+        <div class="sorry-message">
+          <p>unauthorized</p>
+        </div>
+      </ng-template>
 </div>
-<ng-template #sorryMessage>
-    <div class="sorry-message">
-      <p>unauthorized</p>
-    </div>
-  </ng-template>

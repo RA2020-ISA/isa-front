@@ -8,11 +8,10 @@ import { ItemService } from '../services/item.service';
 import { Observable } from 'rxjs';
 import { UserStateService } from '../services/user-state.service';
 import { Reservation } from '../model/reservation.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reservations',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './reservations.component.html',
   styleUrls: ['./reservations.component.css']
 })
@@ -20,6 +19,10 @@ export class ReservationsComponent implements OnInit{
   username?: string;
   reservations: Reservation[] = []; 
   equipmentDetails: { [key: number]: string } = {};
+  currentIndex:number=0;
+  displayedReservations: Reservation[] = [];
+  disablePrevButton: boolean = true;
+  disableNextButton: boolean = false;
 
   constructor(private route: ActivatedRoute, private resService: ReservationService,
     private equipmentService: EquipmentService,
@@ -27,7 +30,8 @@ export class ReservationsComponent implements OnInit{
     public userStateService: UserStateService,
     private reservationService: ReservationService,
     private cdr: ChangeDetectorRef,
-    private router: Router) {}
+    private router: Router,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -44,13 +48,40 @@ export class ReservationsComponent implements OnInit{
         (reservations) => {
           console.log(this.username);
           this.reservations = reservations;
+          this.updateDisplayedCompanies();
           console.log('Reservations:', reservations);
+          
         },
         (error) => {
           console.log('Error fetching reservations:', error);
         }
       );
     }
+  }
+  nextCompany() {
+    if (this.currentIndex + 6 < this.reservations.length) {
+      this.currentIndex++;
+      this.updateDisplayedCompanies();
+    }
+  }
+  
+  prevCompany() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.updateDisplayedCompanies();
+    }
+  }
+  updateDisplayedCompanies() {
+    this.displayedReservations = this.reservations.slice(this.currentIndex, this.currentIndex + 6);
+    this.displayedReservations = this.sortReservations(this.displayedReservations);
+    this.updateButtonStates();
+  }
+
+  updateButtonStates() {
+    console.log(this.currentIndex);
+    console.log(this.displayedReservations.length);
+    this.disablePrevButton = this.currentIndex === 0;
+    this.disableNextButton = this.currentIndex + 5 >= this.displayedReservations.length;
   }
 
   formatTime(timeString: string): string {
@@ -85,6 +116,7 @@ export class ReservationsComponent implements OnInit{
     this.reservationService.cancelReservation(reservation).subscribe(response => {
       console.log(response); // Ispisivanje odgovora sa servera
       // Ažurirajte listu rezervacija na osnovu potreba
+      this.toastr.success('You have successfully cancelled your reservation!');
       this.cdr.detectChanges();
       this.displayUsersReservations();
       
@@ -105,5 +137,28 @@ isPastDate(appointmentDate: Date | undefined): boolean {
 
   return appointmentDateTime < currentDate;
 }
+sortReservations(reservations: Reservation[]): Reservation[] {
+  // Sort reservations by appointment date
+  return reservations.sort((a, b) => {
+    const dateA = a.appointment?.appointmentDate ? new Date(a.appointment.appointmentDate) : null;
+    const dateB = b.appointment?.appointmentDate ? new Date(b.appointment.appointmentDate) : null;
+
+    // Check if both dates are not null before comparison
+    if (dateA && dateB) {
+      return dateA.getTime() - dateB.getTime();
+    }
+
+    // Handle cases where one or both dates are null
+    if (dateA) {
+      return -1; // Move items with null date to the end
+    } else if (dateB) {
+      return 1; // Move items with null date to the end
+    }
+
+    return 0; // Both dates are null, no change in order
+  });
+}
+
+
 
 }

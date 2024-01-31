@@ -51,6 +51,14 @@ export class NavbarComponent implements OnInit {
       console.error("User email is undefined");
     }
   }
+  redirectToLogin() {
+    // Get the redirect URL from the service
+    //const redirectUrl = this.userService.getLoginRedirectUrl();
+
+    // Redirect to the external URL
+    //window.location.href = redirectUrl;
+    this.router.navigate(['/login']);
+  }
 
   redirectToAdminCompany(){
     this.router.navigate(['/admin-company']);

@@ -1,12 +1,13 @@
-<div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
-
+<body>
+<div class="najveci" *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
+<div class="veliki">
 <div *ngIf="company">
-    <form (ngSubmit)="onSubmit()" #companyForm="ngForm">
+    <form (ngSubmit)="onSubmit()" #companyForm="ngForm" class="forma">
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" [(ngModel)]="company.name" required>
   
       <label for="address">Address:</label>
-      <input type="text" id="address" name="address" [(ngModel)]="company.address" required #addressInput (ngModelChange)="onAddressChange($event)">
+      <input class="inputAdresa" type="text" id="address" name="address" [(ngModel)]="company.address" required #addressInput (ngModelChange)="onAddressChange($event)">
   
       <label for="description">Description:</label>
       <textarea id="description" name="description" [(ngModel)]="company.description"></textarea>
@@ -21,10 +22,12 @@
     </form>
   </div>
 
-  <div id="map" style="height: 500px !important; width: 50% !important;"></div>
+  <div id="map" style="height: 515px !important; width: 50% !important;"></div>
+</div>
 </div>
 <ng-template #sorryMessage>
     <div class="sorry-message">
       <p>unauthorized</p>
     </div>
   </ng-template>
+  </body>

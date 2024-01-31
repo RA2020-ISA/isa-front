@@ -20,3 +20,11 @@
     margin: 0 auto; /*Centar ekrana*/
     border-radius: 20px;
 }
+
+body
+{
+    background-image: url('../../assets/images/otkucaji3.png');
+    background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Fiksiraj pozadinu */
+}

@@ -1,99 +1,158 @@
-<div *ngIf="company">
-    <div class="card">
-        <div class="heading"><p>{{ company.name }}</p></div>
-        <div class="averageRating"><p>{{ company.description }}</p></div>
-        <div class="address"><p>{{ company.address }}</p></div>
-        <div class="averageRating"><p>Average grade: {{ company.averageGrade }}</p></div>
-        <div>
-            <div class="search-fields">  <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
-                <button (click)="search()"> 
-                  <mat-icon>search</mat-icon> 
-                </button>
-                <button (click)="showAll()">
-                  <mat-icon>clear</mat-icon>
-                </button>
-            </div>
-        </div>
-        <div *ngFor="let equipment of equipments">
-            <div class="equipment-card">
+<div class="background">
+    
+    <div *ngIf="company">
+        <h1 class="head2">Make your reservation now!</h1>
+        <div class="card">
+            <div class="name-comp">
                 <div class="heading">
-                    <p>{{ equipment.name }}</p>
-                    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
-                        [attr.disabled]="isButtonDisabled(equipment) ? true : null"
-                        (click)="acquireEquipment(equipment)" class="add-button">
-                        <mat-icon>add</mat-icon>
+                    <p>{{ company.name }}</p>
+                </div>
+                <img src="../../assets/images/oprema.png" alt="Naziv slike" class="name-comp-img">
+            </div>
+
+            <div class="equipment-description">
+                <mat-icon class="black-icon">location_on</mat-icon>
+                <p class="compny_info">Location: {{ company.address }}</p>
+            </div>
+            <div class="equipment-description">
+                <mat-icon class="black-icon">star</mat-icon>
+                <p class="compny_info">Average grade: {{ company.averageGrade }}</p>
+            </div>
+            <div class="equipment-description">
+                <mat-icon class="black-icon">info</mat-icon>
+                <p class="compny_info">About us: {{ company.description }}</p>
+            </div>
+            <div>
+                <div class="search-fields">  <input type="text" placeholder="Search by name" [(ngModel)]="searchName">
+                    <button (click)="search()"> 
+                      <mat-icon>search</mat-icon> 
+                    </button>
+                    <button (click)="showAll()">
+                      <mat-icon>clear</mat-icon>
                     </button>
                 </div>
-                <div class="equipment-description"><p>{{ equipment.description }}</p></div>
-                <div class="equipment-price"><p>Price: {{ equipment.price }}</p></div>
-                <div class="equipment-grade"><p>Grade: {{ equipment.grade }}</p></div>
-                <div class="equipment-type"><p>Type: {{ equipment.type }}</p></div>
-                <div class="equipment-maxQuantity"><p>In stock: {{ equipment.maxQuantity }}</p></div>
             </div>
-        </div>
-    </div>
-    
-
-    <div *ngFor="let selectedEquipment of selectedEquipments">
-        <div class="equipment-card">
-            <div class="heading">
-                <p>{{ selectedEquipment.name }}</p>
-            </div>
-            <div class="equipment-description"><p>{{ selectedEquipment.description }}</p></div>
-            <div class="equipment-price"><p>Price: {{ selectedEquipment.price }}</p></div>
-            <div class="equipment-grade"><p>Grade: {{ selectedEquipment.grade }}</p></div>
-            <div class="equipment-type"><p>Type: {{ selectedEquipment.type }}</p></div>
-
-            <form (ngSubmit)="selectedEquipment && submitQuantity(selectedEquipment, quantityForm.value.quantity)" #quantityForm="ngForm">
-                <div class="quantity-input">
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" name="quantity" ngModel required min="1" pattern="[1-9]*">
-                    <div *ngIf="quantityForm.controls['quantity']">
-                    <div *ngIf="quantityForm.controls['quantity'].hasError('pattern') && quantityForm.controls['quantity'].touched" class="error-message">
-                        Please enter a valid quantity.
+            <div *ngFor="let equipment of equipments">
+                <div class="equipment-card">
+                    <div class="heading">
+                        <p>{{ equipment.name }}</p>
+                        <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
+                            [attr.disabled]="isButtonDisabled(equipment) ? true : null"
+                            (click)="acquireEquipment(equipment)" class="add-button">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                  
+                    <div class="equipment-description">
+                        <mat-icon class="black-icon">description</mat-icon>
+                        <p> {{ equipment.description }}</p>
+                    </div>
+                    <div class="equipment-description">
+                        <mat-icon class="black-icon">attach_money</mat-icon>
+                        <p>{{ equipment.price }}</p>
+                    </div>
+                    <div class="equipment-description">
+                        <mat-icon class="black-icon"> local_hospital</mat-icon>
+                        <p>Max quantity: {{ equipment.maxQuantity }}</p>
+                    </div>
+                    <div class="equipment-description">
+                        <mat-icon class="black-icon">star</mat-icon>
+                        <p>Grade: {{ equipment.type }}</p>
+                    </div>
+                    <div class="equipment-description">
+                        <mat-icon class="black-icon">construction</mat-icon>
+                        <p>Type: {{ equipment.type }}</p>
                     </div>
                 </div>
-                </div>
-                <button type="submit" [disabled]="!quantityForm.form.valid">Submit Quantity</button>
-            </form>
+            </div>
         </div>
-    </div>
-      <div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'">
-        <label for="appointmentDate">Select Appointment Date:</label>
-        <select id="appointmentDate" name="appointmentDate" [(ngModel)]="selectedAppointment">
-            <option *ngFor="let appointment of companyAppointments" [ngValue]="appointment">
-                {{ appointment.appointmentDate | date }} {{ appointment.appointmentTime }} ({{ appointment.appointmentDuration }} minutes)
-            </option>
-        </select>
+
+        <h1 class="head2" *ngIf="selectedEquipments && selectedEquipments.length > 0">Your choises:</h1>
+
+        <div *ngFor="let selectedEquipment of selectedEquipments">
+            <div class="equipment-card">
+                <div class="heading">
+                    <p>{{ selectedEquipment.name }}</p>
+                </div>
+                <div class="equipment-description">
+                    <mat-icon class="black-icon">description</mat-icon>
+                    <p>{{ selectedEquipment.description }}</p>
+                </div>
+                <div class="equipment-description">
+                    <mat-icon class="black-icon">attach_money</mat-icon>
+                    <p>Price: {{ selectedEquipment.price }}</p>
+                </div>
+                <div class="equipment-description">
+                    <mat-icon class="black-icon">construction</mat-icon>
+                    <p>Type: {{ selectedEquipment.type }}</p>
+                </div>
+    
+                <form (ngSubmit)="selectedEquipment && submitQuantity(selectedEquipment, quantityForm.value.quantity)" #quantityForm="ngForm">
+                    <div class="quantity-input">
+                        <label for="quantity" class="quantity_label">Quantity:</label>
+                        <input type="number" id="quantity" name="quantity" ngModel required min="1" pattern="[0-9]*" class="quantity_input" placeholder="Enter quantity...">
+                        <div *ngIf="quantityForm.controls['quantity']">
+                        <div *ngIf="quantityForm.controls['quantity'].hasError('pattern') && quantityForm.controls['quantity'].touched" class="error-message">
+                            Please enter a valid quantity.
+                        </div>
+                    </div>
+                    </div>
+                    <button type="submit" [disabled]="!quantityForm.form.valid" class="submitQuantity">Submit Quantity</button>
+                </form>
+            </div>
+        </div>
+          <div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' && !isSetExtraAppointmentClicked">
+            <label for="appointmentDate" class="heading">Select Appointment Date:</label>
+            <select id="appointmentDate" name="appointmentDate" [(ngModel)]="selectedAppointment" (change)="onAppointmentChange()">
+                <option *ngFor="let appointment of companyAppointments" [ngValue]="appointment">
+                    {{ appointment.appointmentDate | date }} {{ appointment.appointmentTime }} ({{ appointment.appointmentDuration }} minutes)
+                </option>
+            </select>
+          </div>
+    
+    <div>  
+        <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' && isExtraAppointmentButtonVisible && !isSetExtraAppointmentClicked"
+        title="Use this button to make an appointment to pick up the equipment" (click)="setExtraAppointment()">
+           Set Extra Appointment
+        </button>
+    
+        <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' && isSetExtraAppointmentInsteadVisible"
+        title="Use this button to make an appointment to pick up the equipment" (click)="setExtraAppointmentInstead()">
+           Set Extra Appointment
+        </button>
+    
+        
+    
+        <div *ngIf="showDatePicker">
+            <label class="heading">Select a date:</label>
+            <input type="date" [(ngModel)]="selectedDateStr" (change)="loadAvailableTimeSlots()" [attr.min]="minDate()" class="date_select" />
+        </div>
+    
+        <div *ngIf="showTimeSlots">
+            <label class="heading">Select a time slot:</label>
+            <select [(ngModel)]="selectedTimeSlot">
+                <option *ngFor="let timeSlot of availableTimeSlots" [value]="timeSlot.value">{{ timeSlot.display }}</option>
+            </select>
+        </div>
+        <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" 
+            (click)="edit(company.id || 0)">
+            Edit
+        </button>
+    
+        <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' && isSelectExistingDateVisible"
+        title="Use this button to make an appointment to pick up the equipment" (click)="setExistingAppointmentInstead()">
+           Select Existing Date
+        </button>
+        
+        <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
+        (click)="createReservation()" [disabled]="selectedItems.length === 0" >
+            Create Reservation
+        </button>
       </div>
-
-<div>  
-    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
-    title="Use this button to make an appointment to pick up the equipment" (click)="setExtraAppointment()">
-       Set Extra Appointment
-    </button>
-
-    <div *ngIf="showDatePicker">
-        <label>Select a date:</label>
-        <input type="date" [(ngModel)]="selectedDateStr" (change)="loadAvailableTimeSlots()" [attr.min]="minDate()" />
+      
+    
     </div>
 
-    <div *ngIf="showTimeSlots">
-        <label>Select a time slot:</label>
-        <select [(ngModel)]="selectedTimeSlot">
-            <option *ngFor="let timeSlot of availableTimeSlots" [value]="timeSlot.value">{{ timeSlot.display }}</option>
-        </select>
-    </div>
-    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" 
-        (click)="edit(company.id || 0)">
-        Edit
-    </button>
-    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
-    (click)="createReservation()" >
-        Create Reservation
-    </button>
-  </div>
-  
-
+    <div id="map"></div>
 </div>
-<div id="map" style="height: 350px !important; width: 50% !important;"></div>
+

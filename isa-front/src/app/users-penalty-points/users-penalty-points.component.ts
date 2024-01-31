@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { UserStateService } from "../services/user-state.service";
 import { UserService } from "../services/user.service";
 import { CommonModule, DatePipe } from "@angular/common";
-
 @Component({
     selector: 'users-penalty-points',
     templateUrl: './users-penalty-points.component.html',

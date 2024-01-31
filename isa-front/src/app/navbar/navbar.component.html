@@ -1,14 +1,16 @@
 <body>
-    <div *ngIf="userStateService.getLoggedInUser(); " class="menu-container">
+    <div  class="menu-container">
       <div class="dropdown">
-        <button class="dropbtn">Menu</button>
+        <button *ngIf="userStateService.getLoggedInUser() === undefined" (click)="redirectToLogin()" class="button login">Login</button>
+        <button *ngIf="userStateService.getLoggedInUser() === undefined" routerLink="/register" class="button register">Register</button>
+        <button *ngIf="userStateService.getLoggedInUser()" class="dropbtn">Menu</button>
         <div class="dropdown-content">
-          <button (click)="redirectToProfile()">Profile</button>
+          <button *ngIf="userStateService.getLoggedInUser()" (click)="redirectToProfile()">Profile</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToAdminCompany()">My company</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToWorkCalendar()">Work calendar</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToManageAdmins()">Manage administrations</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToPickupEquipment()">Pickup order</button>
-          <button (click)="redirectToAllCompanies()">Companies</button>
+          <button *ngIf="userStateService.getLoggedInUser()" (click)="redirectToAllCompanies()">Companies</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToCompanyForm()">Create Company</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToAllEquipments()">All Equipments</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'" (click)="redirectToUsersReservations()">Reservations</button>

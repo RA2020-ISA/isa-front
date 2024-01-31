@@ -10,6 +10,15 @@ body {
     height: 100vh;
 }
 
+.veliki
+{
+  display: flex;
+  flex-direction: row;
+  margin-left: 300px;
+  margin-top: 50px;
+  flex-wrap: wrap;
+}
+
 .search-fields {
     display: flex;
     align-items: center;
@@ -65,9 +74,44 @@ button:hover {
     margin-bottom: 10px; /* Dodaj margin između kartica */
 }
 
+body
+{
+  background-image: url('../../assets/images/otkucaji3.png');
+  background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Fiksiraj pozadinu */
+}
+
+/*.poz
+{
+  background-image: url('../../assets/images/razno.png');
+  background-size: 500px 500px; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+    /*background-repeat: no-repeat;
+    background-attachment: fixed; /* Fiksiraj pozadinu */
+    /*background-position: 900px 200px;
+}*/
+
 .heading {
-    font-size: 24px; 
+    font-size: 30px; 
     font-weight: bold; 
+    color: #2980b9;
+    margin-top: 20px;
+    margin-left: 270px;
+}
+
+.poz
+{
+  margin-bottom: 370px;
+}
+
+.equipment-heading
+{
+  font-size: 25px;
+}
+
+.slika
+{
+  margin-left: 50px;
 }
 
 input[type="text"] {
@@ -159,4 +203,5 @@ input[type="text"]:focus {
   color: white; 
   width: 300px;
   margin-bottom: 10px;
+  margin-left:30px;
 }

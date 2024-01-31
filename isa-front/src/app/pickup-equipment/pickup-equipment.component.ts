@@ -126,14 +126,26 @@ export class PickupEquipmentComponent implements OnInit{
     });
   }
 
-  pickUpOrderAdmin(reservation: Reservation): void{
-    this.reservationService.takeOverReservation(reservation) //pick_up order
-          .subscribe((response : Reservation) => {
-            if(response != null){
+  pickUpOrderAdmin(reservation: Reservation): void {
+    const now = new Date();  // Trenutni datum i vreme
+  
+    if (reservation.appointment?.appointmentDate) {
+      const appointmentDate = new Date(reservation.appointment.appointmentDate);
+  
+      // Provera da li je danasšnji dan
+      if (now.toDateString() === appointmentDate.toDateString()) {
+        this.reservationService.takeOverReservation(reservation)
+          .subscribe((response: Reservation) => {
+            if (response != null) {
               this.pickUpReservations = this.pickUpReservations.filter(pickUpReservation => pickUpReservation.id !== reservation.id);
-           }
+            }
           });
+      } else {
+        console.log('Rezervacija ne može biti preuzeta jer datum sastanka nije danas.');
+      }
+    }
   }
+  
 
   onPickupOrder(): void{     //button 
     if(this.reservation?.status?.toLocaleLowerCase().includes('taken')){

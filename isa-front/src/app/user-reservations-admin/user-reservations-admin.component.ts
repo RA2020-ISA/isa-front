@@ -79,11 +79,15 @@ export class UserReservationsAdminComponent implements OnInit{
     const pendingReservations = this.allReservations.filter(reservation => reservation.status === 'PENDING');
   
     for (const reservation of pendingReservations) {
-      if (reservation.user) {
-        this.users.push(reservation.user);
+    
+      for (const reservation of pendingReservations) {
+        if (reservation.user && !this.users.some(existingUser => existingUser?.id === reservation.user?.id)) {
+          this.users.push(reservation.user);
+        }
       }
+      
     }
-  
+
     console.log('Korisnici sa statusom PENDING rezervacija:');
     console.log(this.users);
   }

@@ -99,6 +99,11 @@ export class AppointmentFormComponent implements OnInit {
         this.message = 'The date is not valid. The date entered must be after todays date.';
         return;  // Prekini funkciju i ne pravi termin
       }
+
+      if (parseFloat(trajanje) <= 0) {
+        this.message = 'Duration must be a number above 0.';
+        return;  
+      }
     
       const appointmentTime: Time = this.parseTimeStringToTime(vreme);
     

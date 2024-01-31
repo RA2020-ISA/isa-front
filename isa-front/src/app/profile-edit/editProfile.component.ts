@@ -18,6 +18,7 @@ export class EditProfileComponent implements OnInit{
     user?: User;
     showPasswordForm = false;
     usersPassword?: string;
+    newPassword?: string | undefined;
 
     @Output() userUpdated = new EventEmitter<null>();
 
@@ -50,6 +51,7 @@ export class EditProfileComponent implements OnInit{
                 this.userService.getUserByUsername(this.username).subscribe((result: User) => {
                     this.user = result;
                     this.usersPassword = this.user.password;
+                    this.newPassword = this.usersPassword;
                     this.patchFormValues(); 
                 });
             }
@@ -66,6 +68,9 @@ export class EditProfileComponent implements OnInit{
                 console.log('Password changed successfully!');
                 this.toastr.success('Password changed successfully!');
                 this.showPasswordForm = false;
+                if (this.newPassword && this.passwordForm.value.newPassword)
+                this.newPassword = this.passwordForm.value.newPassword;
+                this.SaveChanges();
             } else {
                 console.error('New Password and Confirm Password must match.');
                 this.toastr.error('New Password and Confirm Password must match.');                    
@@ -96,38 +101,40 @@ export class EditProfileComponent implements OnInit{
     }
 
     SaveChanges() {
-        const updatedUser: User = {
-            firstName: this.userForm.value.firstName || '',
-            lastName: this.userForm.value.lastName || '',
-            email: this.user?.email || '',
-            password: (this.passwordForm.value.newPassword as unknown as string) || '',
-            locked: false,
-            enabled: false,
-            userRole: UserRole.USER,
-            penaltyPoints: 0.0,
-            city: this.userForm.value.city || '',
-            country: this.userForm.value.country || '',
-            phoneNumber: this.userForm.value.phoneNumber || '',
-            occupation: this.userForm.value.occupation || '',
-        };
-        console.log(updatedUser);
-        if (this.user) {
-            updatedUser.id = this.user.id;
-        }
-    
-        this.userService.updateUser(this.username, updatedUser).subscribe(
-            (result) => {
-                console.log('Successfully updated user');
-                this.toastr.success('Successfully updated user!')
-                this.user = result;
-                this.userUpdated.emit();
-                this.router.navigate(['/profile', this.username]);
-            },
-            (error) => {
-                this.toastr.error('Error updating user');
-                console.error('Error updating user', error);
+        if (this.user?.userRole) {
+            const updatedUser: User = {
+                firstName: this.userForm.value.firstName || '',
+                lastName: this.userForm.value.lastName || '',
+                email: this.user?.email || '',
+                password: this.newPassword || '',
+                locked: false,
+                enabled: false,
+                userRole: this.user?.userRole,
+                penaltyPoints: 0.0,
+                city: this.userForm.value.city || '',
+                country: this.userForm.value.country || '',
+                phoneNumber: this.userForm.value.phoneNumber || '',
+                occupation: this.userForm.value.occupation || '',
+            };
+            console.log(updatedUser);
+            if (this.user) {
+                updatedUser.id = this.user.id;
             }
-        );
+        
+            this.userService.updateUser(this.username, updatedUser).subscribe(
+                (result) => {
+                    console.log('Successfully updated user');
+                    this.toastr.success('Successfully updated user!')
+                    this.user = result;
+                    this.userUpdated.emit();
+                    this.router.navigate(['/profile', this.username]);
+                },
+                (error) => {
+                    this.toastr.error('Error updating user');
+                    console.error('Error updating user', error);
+                }
+            );
+        }
     }
 
     private patchFormValues(): void {

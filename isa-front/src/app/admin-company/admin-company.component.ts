@@ -267,7 +267,7 @@ export class AdminCompanyComponent implements OnInit {
   }
 
   searchEquipments(): void{
-    if(!this.isValidPriceRange() && this.errorMessageSearch != '')
+    if(!this.isValidPriceRange())
     {
       return;
     }
@@ -298,11 +298,13 @@ export class AdminCompanyComponent implements OnInit {
     const priceTo = parseFloat(this.searchPriceTo);
 
     if (priceFrom < 0 || priceTo < 0) {
-        this.errorMessageSearch = 'Price must be number above 0!';
+        //this.errorMessageSearch = 'Price must be number above 0!';
+        this.toastr.warning('Price must be number above 0!');
         return false;
     }
     if (priceFrom > priceTo) {
-        this.errorMessageSearch = 'Price to must be above price from.';
+        //this.errorMessageSearch = 'Price to must be above price from.';
+        this.toastr.warning('Price to must be above price from.');
         return false;
     }
 

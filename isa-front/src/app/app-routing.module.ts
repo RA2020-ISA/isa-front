@@ -25,6 +25,7 @@ import { UsersPenaltyPoints } from './users-penalty-points/users-penalty-points.
 import { UsersQRCodesComponent } from './users-qr-codes/users-qr-codes.component';
 import { UsersTakeoverHistory } from './users-takeover-history/users-takeover-history.component';
 import { UserReservationsAdminComponent } from './user-reservations-admin/user-reservations-admin.component';
+import { EquipmentFormComponent } from './equipment-form/equipment-form.component';
 
 const routes: Routes = [
   {path:'register', component:RegisterComponent},
@@ -51,7 +52,8 @@ const routes: Routes = [
   { path: 'users-penalty-points', component: UsersPenaltyPoints},
   { path: 'users-qr-codes', component: UsersQRCodesComponent},
   { path: 'users-takeover-history', component: UsersTakeoverHistory},
-  { path: 'user-reservations-admin', component: UserReservationsAdminComponent}
+  { path: 'user-reservations-admin', component: UserReservationsAdminComponent},
+  { path: 'equipment-form/:id', component: EquipmentFormComponent}
 
 ];
 

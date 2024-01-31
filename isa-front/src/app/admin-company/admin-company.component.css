@@ -106,6 +106,12 @@ input{
     font-size: 13px;
 }
 
+.dugmici
+{
+    display: flex;
+    flex-direction: row;
+}
+
 #map
 {
     margin-left: 50px 

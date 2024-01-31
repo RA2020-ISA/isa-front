@@ -1,0 +1,124 @@
+h2 {
+    margin-bottom: 20px; /* Razmak između naslova i forme */
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px; /* Postavite širinu forme prema vašim potrebama */
+    color: #0066cc;
+  }
+
+  .heading
+  {
+    margin-left: 400px;
+    margin-top: 30px;
+    color: #0066cc;
+    font-size: 32px;
+  }
+
+  .kolicina
+  {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .quantity-input
+  {
+    margin-left: 25px;
+  }
+
+  .input1 
+  {
+    margin-left: 50px;
+  }
+
+  .input2
+  {
+    margin-left: 12px;
+  }
+
+  .input3
+  {
+    margin-left: 57px;
+  }
+
+  .input4
+  {
+    margin-left: 48px;
+  }
+
+  .input5
+  {
+    margin-left: 60px;
+  }
+
+  body
+{
+    background-image: url('../../assets/images/otkucaji3.png');
+    background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Fiksiraj pozadinu */
+}
+  
+  label {
+    margin-bottom: 8px; /* Razmak između labele i polja za unos */
+  }
+  
+  input,
+  textarea,
+  button {
+    margin-bottom: 16px; /* Razmak između polja za unos i dugmeta */
+    padding: 8px; /* Dodajte ovo kako biste poboljšali izgled elementa */
+    border-radius: 5px;
+  }
+
+  .forma
+  {
+    border-color: #0066cc;
+    padding: 10px; 
+    border-radius: 5px;
+    border-style: solid;
+    width: 300px;
+    margin-left: 550px;
+    margin-top: 50px;
+  }
+
+  .poruka
+  {
+    color: red;
+    font-size: 13px;
+    margin-left: 500px;
+  }
+
+  #maxQuantity
+  {
+    width: 50px;
+  }
+  
+  /* Dodajte dodatne stilove prema potrebi */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+  
+button:hover {
+    background-color: #2980b9;
+}  

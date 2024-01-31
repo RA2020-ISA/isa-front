@@ -46,6 +46,16 @@ export class CompanyService {
 
     return this.http.post<Company>('http://localhost:8080/api/companies/create', company,  {params});
   }
+
+  createEquipment(equipment : Equipment): Observable<Equipment> {
+    const loggedInUser = this.userStateService.getLoggedInUser();
+    const userParams: { [param: string]: string | number | boolean } = {
+      id: loggedInUser?.id || '',
+    };
+    const params = new HttpParams({ fromObject: userParams });
+
+    return this.http.post<Equipment>('http://localhost:8080/api/equipment/create', equipment,  {params});
+  }
   updateCompany(company : Company): Observable<Company> {
     const loggedInUser = this.userStateService.getLoggedInUser();
     const userParams: { [param: string]: string | number | boolean } = {

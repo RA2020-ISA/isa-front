@@ -297,13 +297,10 @@ export class AdminCompanyComponent implements OnInit {
     const priceFrom = parseFloat(this.searchPriceFrom);
     const priceTo = parseFloat(this.searchPriceTo);
 
-    // Provera da li su brojevi veći od nule
     if (priceFrom < 0 || priceTo < 0) {
         this.errorMessageSearch = 'Price must be number above 0!';
         return false;
     }
-
-    // Provera da li je priceTo veće od priceFrom
     if (priceFrom > priceTo) {
         this.errorMessageSearch = 'Price to must be above price from.';
         return false;
@@ -319,5 +316,10 @@ export class AdminCompanyComponent implements OnInit {
 
   editCompany(): void{
     this.router.navigate(['/edit-company/' + this.company?.id || 0]);
+  }
+
+  addNewEquipment(): void
+  {
+    this.router.navigate(['/equipment-form/' + this.company?.id || 0]);
   }
 }

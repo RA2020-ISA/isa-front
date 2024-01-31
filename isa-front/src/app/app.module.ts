@@ -32,6 +32,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { UsersTakeoverHistory } from './users-takeover-history/users-takeover-history.component';
+import { EquipmentFormComponent } from './equipment-form/equipment-form.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { UsersTakeoverHistory } from './users-takeover-history/users-takeover-hi
     PickupEquipmentComponent,
     NavbarComponent,
     ReservationsComponent,
-    UsersTakeoverHistory
+    UsersTakeoverHistory,
+    EquipmentFormComponent
   ],
   imports: [
     BrowserModule,

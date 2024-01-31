@@ -41,7 +41,7 @@ export class CompanyEditFormComponent implements OnInit {
         workTimeBegin: [''],
         workTimeEnd: [''],
       });
-    } // dodala
+    }
 
 
 

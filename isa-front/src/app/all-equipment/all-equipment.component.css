@@ -204,7 +204,7 @@ input[type="text"]:focus {
   background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
   background-repeat: no-repeat;
   background-attachment: fixed; 
-  height: 955px;
+  height: 800px;
 }
 .image-class{
   border-radius: 10px;

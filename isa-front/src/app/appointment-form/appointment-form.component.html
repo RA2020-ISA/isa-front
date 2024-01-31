@@ -13,7 +13,7 @@
 
     <div class="polje">
     <label for="string">Appointment time:</label>
-    <input type="text" formControlName="vreme"  required class="input2"><br>
+    <input type="time" formControlName="vreme"  required class="input2"><br>
     </div>
 
     <div class="polje">
@@ -22,9 +22,10 @@
     </div>
 
     <button type="submit" (click)="createAppointment()">Create</button>
+    <p class="poruka">{{message}}</p>
   </form>
 
-  <p class="poruka">{{message}}</p>
+  
   </div>
 </div>
 </div>

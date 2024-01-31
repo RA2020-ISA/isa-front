@@ -27,13 +27,15 @@
         </div>
       
         <label for="workTimeBegin">Work time begin:</label>
-        <input type="text" id="workTimeBegin" name="workTimeBegin" formControlName="workTimeBegin" [(ngModel)]="company.workTimeBegin" required>
+        <input formControlName="workTimeBegin" id="workTimeBegin"  name="workTimeBegin" type="time" [(ngModel)]="company.workTimeBegin" required>
+        <!-- <input type="text" id="workTimeBegin" name="workTimeBegin" formControlName="workTimeBegin" [(ngModel)]="company.workTimeBegin" required> -->
         <div *ngIf="companyForm?.get('workTimeBegin')?.hasError('required') && companyForm?.get('workTimeBegin')?.touched" class="error-message">
           Work time begin is required!
         </div>
       
         <label for="workTimeEnd">Work time end:</label>
-        <input type="text" id="workTimeEnd" name="workTimeEnd" formControlName="workTimeEnd" [(ngModel)]="company.workTimeEnd" required>
+        <input formControlName="workTimeEnd"  id="workTimeEnd" name="workTimeEnd" type="time"  [(ngModel)]="company.workTimeEnd" required>
+        <!-- <input type="text" id="workTimeEnd" name="workTimeEnd" formControlName="workTimeEnd" [(ngModel)]="company.workTimeEnd" required> -->
         <div *ngIf="companyForm?.get('workTimeEnd')?.hasError('required') && companyForm?.get('workTimeEnd')?.touched" class="error-message">
           Work time end is required!
         </div>

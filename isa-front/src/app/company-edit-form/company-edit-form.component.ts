@@ -38,11 +38,10 @@ export class CompanyEditFormComponent implements OnInit {
         name: ['', Validators.required],
         address: ['', [Validators.required, this.addressFormatValidator]],
         description: [''],
-        workTimeBegin: [''],
-        workTimeEnd: [''],
+        workTimeBegin: ['', Validators.required],
+        workTimeEnd: ['', Validators.required], // dodala
       });
-    } // dodala
-
+    } 
 
 
   ngOnInit(): void {
@@ -160,7 +159,16 @@ export class CompanyEditFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.company) {
+    console.log(this.company);
+    const workTimeBegin = this.parseTime(this.companyForm.value.workTimeBegin);
+    const workTimeEnd = this.parseTime(this.companyForm.value.workTimeEnd);
+    console.log('BEGIN',workTimeBegin);
+    console.log('END', workTimeEnd);
+    if(workTimeBegin && workTimeEnd && workTimeBegin > workTimeEnd){  //ako neko unese end posle begin time
+      this.toastr.warning('Work time begin has to be BEFORE end time!');
+      return; //ne moze
+    }
+    if (this.company){
       this.service.updateCompany(this.company).subscribe(
         (updatedCompany: Company) => {
           console.log('Company updated successfully:', updatedCompany);
@@ -174,4 +182,27 @@ export class CompanyEditFormComponent implements OnInit {
       );
     }
   }
+
+  // Funkcija za pretvaranje stringa vremena u objekat vremena
+  parseTime(timeString: string): Date | null {
+    if (!timeString) {
+      return null;
+    }
+  
+    const timeParts = timeString.split(':');
+    if (timeParts.length !== 2) {
+      return null;
+    }
+  
+    const hours = parseInt(timeParts[0], 10);
+    const minutes = parseInt(timeParts[1], 10);
+  
+    if (isNaN(hours) || isNaN(minutes)) {
+      return null;
+    }
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+  }
+  
 }

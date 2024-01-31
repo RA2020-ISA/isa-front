@@ -12,6 +12,8 @@
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToPickupEquipment()">Pickup order</button>
           <button *ngIf="userStateService.getLoggedInUser()" (click)="redirectToAllCompanies()">Companies</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'" (click)="redirectToCompanyForm()">Create Company</button>
+          <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'SYSTEM_ADMIN'"
+            (click)="redirectToAllContracts()">All Contracts</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN'" (click)="redirectToAllEquipments()">All Equipments</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'" (click)="redirectToUsersReservations()">Reservations</button>
           <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'" (click)="redirectToUsersQRCodes()">Reservations - QR Codes</button>

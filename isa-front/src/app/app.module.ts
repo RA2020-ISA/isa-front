@@ -27,6 +27,8 @@ import { ManageAdministratorsComponent } from './manage-administrators/manage-ad
 import { PickupEquipmentComponent } from './pickup-equipment/pickup-equipment.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CommonModule, DatePipe } from '@angular/common';
+import { AllContractsComponent } from './all-contracts/all-contracts.component';
+import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -56,6 +58,7 @@ import { UsersTakeoverHistory } from './users-takeover-history/users-takeover-hi
     ManageAdministratorsComponent,
     PickupEquipmentComponent,
     NavbarComponent,
+    AllContractsComponent,
     ReservationsComponent,
     UsersTakeoverHistory
   ],
@@ -68,6 +71,7 @@ import { UsersTakeoverHistory } from './users-takeover-history/users-takeover-hi
     MatIconModule, 
     CommonModule,
     FullCalendarModule,
+    MatTableModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-center', // Change this to the desired position

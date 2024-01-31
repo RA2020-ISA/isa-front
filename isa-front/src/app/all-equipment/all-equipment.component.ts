@@ -54,7 +54,8 @@ export class AllEquipmentComponent implements OnInit{
     this.service.searchEquipmentsByName(this.searchName).subscribe(
       (searchResult: Equipment[]) => {
         this.equipments = searchResult;
-  
+        this.updateDisplayedEquipment();
+
         this.showFilterOptions = true;
       },
       (error) => {
@@ -68,6 +69,8 @@ export class AllEquipmentComponent implements OnInit{
     if (this.sortByRating) {
       this.appliedSort = 'asc';
       this.equipments.sort((a, b) => a.grade - b.grade);
+      this.updateDisplayedEquipment();
+
     }
   }
   
@@ -76,6 +79,8 @@ export class AllEquipmentComponent implements OnInit{
     if (this.sortByRating) {
       this.appliedSort = 'des';
       this.equipments.sort((a, b) => b.grade - a.grade);
+      this.updateDisplayedEquipment();
+
     }
   }
 
@@ -90,6 +95,8 @@ export class AllEquipmentComponent implements OnInit{
     this.service.searchEquipmentsByName(this.searchName).subscribe(
       (searchResult: Equipment[]) => {
         this.equipments = searchResult;
+        this.updateDisplayedEquipment();
+
       },
       (error) => {
         console.log('neuspeh prilikom search-a: ', error);
@@ -117,12 +124,16 @@ export class AllEquipmentComponent implements OnInit{
     this.sortOrderDirectionName = 'asc';
     this.sortByName = true;
     this.sortEquipmentsByName();
+    this.updateDisplayedEquipment();
+
   }
   
   sortByNameDescending() {
     this.sortOrderDirectionName = 'desc';
     this.sortByName = true;
     this.sortEquipmentsByName();
+    this.updateDisplayedEquipment();
+
   }
   
   resetSortingByName() {
@@ -151,6 +162,8 @@ export class AllEquipmentComponent implements OnInit{
           return nameB.localeCompare(nameA);
         }
       });
+      this.updateDisplayedEquipment();
+
     }
   }
   getStarArray(averageGrade: number): number[] {

@@ -226,7 +226,7 @@ export class AppointmentFormComponent implements OnInit {
 
   seeCalendar(): void
   {
-    this.router.navigate(['/see-company-calendar']);
+    this.router.navigate(['/work-calendar']);
   }
   
   

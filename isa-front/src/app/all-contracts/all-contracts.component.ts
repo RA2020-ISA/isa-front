@@ -9,7 +9,7 @@ import { ContractService } from '../services/contract.service';
 })
 export class AllContractsComponent implements OnInit {
   contracts: Contract[] = [];
-  displayedColumns: string[] = ['id', 'type', 'quantity', 'date', 'cancel'];
+  displayedColumns: string[] = ['id', 'type', 'quantity', 'date', 'cancel', 'start'];
 
   constructor(private contractService: ContractService) {}
 
@@ -54,5 +54,16 @@ export class AllContractsComponent implements OnInit {
         console.error('Error fetching contracts:', error);
       }
     );
+  }
+
+  startDelivery() {
+    this.contractService.startDelivery().subscribe(
+      (data: any) => {
+        console.log("Uspesno poslato");
+      }, 
+      (error: any) => {
+        console.error("Error starting delivery: ", error);
+      }
+    )
   }
 }

@@ -73,6 +73,11 @@
             <div class="equipment-card">
                 <div class="heading">
                     <p>{{ selectedEquipment.name }}</p>
+
+                    <button *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER'"
+                    (click)="removeEquipmentFromCart(selectedEquipment)" class="remove-button">
+                    <mat-icon>remove</mat-icon>
+                    </button>
                 </div>
                 <div class="equipment-description">
                     <mat-icon class="black-icon">description</mat-icon>

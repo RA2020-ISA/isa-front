@@ -9,6 +9,7 @@ import { Appointment } from '../model/appointment.model';
 import { Location } from '@angular/common';
 import { UserService } from '../services/user.service';
 import { UserRole } from '../model/user-role-enum';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-manage-administrators',
@@ -31,12 +32,35 @@ export class ManageAdministratorsComponent{
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
-
   constructor(private route: ActivatedRoute, private service: CompanyService,
-    private router: Router, private userService: UserService, public userStateService: UserStateService) {}
+    private router: Router, private userService: UserService, public userStateService: UserStateService, private toastr: ToastrService) {}
 
   makeSystemAdmin(): void {
     if (this.password !== this.confirmPassword) {
+      this.toastr.warning('It is necessary that the entered password and the confirmed password match.');
+      this.password='';
+      this.confirmPassword='';
+      return;
+    }
+
+    if (!this.firstName || !this.lastName || !this.email || !this.password || !this.city || !this.country || !this.phoneNumber || !this.occupation) {
+      this.toastr.warning('All fields must be filled.');
+      return;
+    }
+
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailPattern.test(this.email)) {
+      this.toastr.warning('Invalid email format. Please enter a valid email address.');
+      this.email='';
+      return;
+    }
+
+    const phoneNumberPattern = /^[0-9]+$/;
+
+    if (!phoneNumberPattern.test(this.phoneNumber)) {
+      this.toastr.warning('Phone number should contain only numeric digits.');
+      this.phoneNumber='';
       return;
     }
 
@@ -55,8 +79,7 @@ export class ManageAdministratorsComponent{
       (resultData: User) => {
         console.log(resultData);
         this.clearForm();
-        this.successMessage =
-          'Susccessfuly registered new system admin.' + this. firstName + this.lastName;
+        this.toastr.info('Susccessfuly registered new system admin.');
       },
       (error: any) => {
         console.error(error);

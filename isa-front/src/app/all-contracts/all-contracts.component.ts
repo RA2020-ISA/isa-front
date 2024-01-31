@@ -9,12 +9,22 @@ import { ContractService } from '../services/contract.service';
 })
 export class AllContractsComponent implements OnInit {
   contracts: Contract[] = [];
-  displayedColumns: string[] = ['id', 'type', 'quantity', 'date', 'cancel', 'start'];
+  displayedColumns: string[] = ['type', 'quantity', 'date', 'cancel', 'start'];
 
   constructor(private contractService: ContractService) {}
 
   ngOnInit(): void {
-    this.loadContracts();
+    //this.loadContracts();   
+    
+    const myContract: Contract = {
+      id: 1,
+      type: 'Regular',
+      quantity: 10,
+      date: new Date('2022-12-31'), // Postavite datum prema potrebi
+      valid: true
+    };
+
+    this.contracts.push(myContract);
   }
 
   loadContracts(): void {

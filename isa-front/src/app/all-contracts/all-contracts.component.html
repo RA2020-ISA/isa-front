@@ -1,44 +1,40 @@
-<div class="mat-elevation-z8">
-    <table mat-table [dataSource]="contracts" class="mat-elevation-z8">
-        <!-- ID Column -->
-        <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef>ID</th>
-            <td mat-cell *matCellDef="let contract">{{ contract.id }}</td>
-        </ng-container>
-
-        <!-- Type Column -->
-        <ng-container matColumnDef="type">
-            <th mat-header-cell *matHeaderCellDef>Type</th>
-            <td mat-cell *matCellDef="let contract">{{ contract.type }}</td>
-        </ng-container>
-
-        <!-- Quantity Column -->
-        <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef>Quantity</th>
-            <td mat-cell *matCellDef="let contract">{{ contract.quantity }}</td>
-        </ng-container>
-
-        <!-- Date Column -->
-        <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef>Date</th>
-            <td mat-cell *matCellDef="let contract">{{ contract.date | date }}</td>
-        </ng-container>
-
-        <!-- Actions Column -->
-        <ng-container matColumnDef="cancel">
-            <th mat-header-cell *matHeaderCellDef>Cancel</th>
-            <td mat-cell *matCellDef="let contract">
-                <button mat-button (click)="cancelContract(contract.id)">Cancel</button>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="start">
-            <th mat-header-cell *matHeaderCellDef>Start</th>
-            <td mat-cell *matCellDef="let contract">
-                <button mat-button (click)="startDelivery()">Start</button>
-            </td>
-        </ng-container>
-        <!-- Header and Row Definitions -->
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+<div class="background">
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="contracts" class="mat-elevation-z8">
+            <!-- Type Column -->
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef><b>Type</b></th>
+                <td mat-cell *matCellDef="let contract">{{ contract.type }}</td>
+            </ng-container>
+    
+            <!-- Quantity Column -->
+            <ng-container matColumnDef="quantity">
+                <th mat-header-cell *matHeaderCellDef><b>Quantity</b></th>
+                <td mat-cell *matCellDef="let contract">{{ contract.quantity }}</td>
+            </ng-container>
+    
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef><b>Date</b></th>
+                <td mat-cell *matCellDef="let contract">{{ contract.date | date }}</td>
+            </ng-container>
+    
+            <!-- Actions Column -->
+            <ng-container matColumnDef="cancel">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let contract">
+                    <button mat-button (click)="cancelContract(contract.id)">Cancel</button>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="start">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let contract">
+                    <button mat-button (click)="startDelivery()">Start</button>
+                </td>
+            </ng-container>
+            <!-- Header and Row Definitions -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+    </div>
 </div>

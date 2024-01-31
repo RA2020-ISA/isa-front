@@ -136,7 +136,7 @@ export class CompanyProfileComponent implements OnInit {
           this.selectedAppointment = undefined;
           this.isExtraAppointmentButtonVisible = true;
           this.isSetExtraAppointmentInsteadVisible = false;
-
+          this.findAvailableAppointments();
         },
         error => {
           this.toastr.error('Error creating reservation. Please try again.');
@@ -381,6 +381,7 @@ export class CompanyProfileComponent implements OnInit {
       this.selectedEquipments.push(selectedEquipment)
       console.log(selectedEquipment)
       this.quantity = 1;
+      this.toastr.info('You have successfully added equipment to your cart. Scroll down.');
   }
 
   submitQuantity(equipment: Equipment, quantity: number) {
@@ -403,6 +404,14 @@ export class CompanyProfileComponent implements OnInit {
 
      this.selectedItems.push(newItem);
     }
+  }
+
+  removeEquipmentFromCart(selectedEquipment: Equipment) {
+    var indexToRemove = this.selectedEquipments.indexOf(selectedEquipment);
+    if (indexToRemove !== -1) {
+        this.selectedEquipments.splice(indexToRemove, 1);
+    }
+    this.toastr.info('You have successfully removed equipment from your cart.');
   }
 
   //MAPE

@@ -9,16 +9,16 @@
 
       <div *ngFor="let reservation of displayedReservations" class="reservation-item">
         <div *ngIf="userStateService.getLoggedInUser()?.email === reservation.user?.email" class="users-reservation">
-          <p class="res-info"><mat-icon>date_range</mat-icon><strong>Date:</strong> {{ reservation.appointment?.appointmentDate | date:'dd.MM.yyyy'}}</p  >
-          <p class="res-info"><mat-icon>watch_later</mat-icon><strong>Time:</strong> {{ reservation.appointment?.appointmentTime}}</p>
-          <p class="res-info"><mat-icon>access_time</mat-icon><strong>Duration:</strong> {{ reservation.appointment?.appointmentDuration}} minutes</p>
-          <p class="res-info"><mat-icon>local_hospital</mat-icon><strong>Items:</strong></p>
+          <p class="res-info"><mat-icon>date_range</mat-icon><strong>Date: </strong> {{ reservation.appointment?.appointmentDate | date:'dd.MM.yyyy'}}</p  >
+          <p class="res-info"><mat-icon>watch_later</mat-icon><strong>Time: </strong> {{ reservation.appointment?.appointmentTime}}</p>
+          <p class="res-info"><mat-icon>access_time</mat-icon><strong>Duration: </strong> {{ reservation.appointment?.appointmentDuration}} minutes</p>
+          <p class="res-info"><mat-icon>local_hospital</mat-icon><strong>Items: </strong></p>
           <ul class="item-list">
             <li *ngFor="let item of reservation.items" class="item">
-              <p class="item-info"><mat-icon>healing</mat-icon>Name: {{ item.equipment.name }}, Quantity: {{ item.quantity }}</p>
+              <p class="item-info"><mat-icon>healing</mat-icon>{{ item.equipment.name }}: {{ item.quantity }}</p>
             </li>
           </ul>
-          <p class="res-info"><mat-icon> attach_money</mat-icon><strong>Total price:</strong> {{ reservation.totalPrice}}</p>
+          <p class="res-info"><mat-icon> attach_money</mat-icon><strong>Total price: </strong> {{ reservation.totalPrice}}</p>
           <button (click)="cancelReservation(reservation)"  class="proba" [disabled]="isPastDate(reservation.appointment?.appointmentDate)">Cancel Reservation</button>
           
         </div>

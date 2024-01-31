@@ -59,7 +59,7 @@ export class ReservationsComponent implements OnInit{
     }
   }
   nextCompany() {
-    if (this.currentIndex + 6 < this.reservations.length) {
+    if (this.currentIndex + 4 < this.reservations.length) {
       this.currentIndex++;
       this.updateDisplayedCompanies();
     }
@@ -72,7 +72,7 @@ export class ReservationsComponent implements OnInit{
     }
   }
   updateDisplayedCompanies() {
-    this.displayedReservations = this.reservations.slice(this.currentIndex, this.currentIndex + 6);
+    this.displayedReservations = this.reservations.slice(this.currentIndex, this.currentIndex + 4);
     this.displayedReservations = this.sortReservations(this.displayedReservations);
     this.updateButtonStates();
   }
@@ -81,7 +81,7 @@ export class ReservationsComponent implements OnInit{
     console.log(this.currentIndex);
     console.log(this.displayedReservations.length);
     this.disablePrevButton = this.currentIndex === 0;
-    this.disableNextButton = this.currentIndex + 5 >= this.displayedReservations.length;
+    this.disableNextButton = this.currentIndex + 4 >= this.reservations.length;
   }
 
   formatTime(timeString: string): string {
@@ -158,7 +158,4 @@ sortReservations(reservations: Reservation[]): Reservation[] {
     return 0; // Both dates are null, no change in order
   });
 }
-
-
-
 }

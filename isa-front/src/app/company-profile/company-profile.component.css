@@ -134,6 +134,15 @@ input[type="text"]:focus {
     cursor: pointer;
 }
 
+.remove-button {
+    background-color: #3498db; /* Plava boja dugmeta */
+    color: white; /* Beli tekst na dugmetu */
+    padding: 8px 12px; /* Prilagodi padding prema potrebi */
+    border-radius: 13px;
+    border: 2px solid #2c3e50;
+    cursor: pointer;
+}
+
 .add-button:hover {
     background-color: #2980b9; /* Tamnija nijansa plave prilikom hover-a */
 }
@@ -142,9 +151,10 @@ button.add-button[disabled] {
     pointer-events: none;
     background-color: #ccc; /* Siva boja */
     color: #666; /* Tamnosiva boja teksta */
-    border: 1px solid #999; /* Obrub sa tamnosivom bojom */
+    border: 2px solid #999; /* Obrub sa tamnosivom bojom */
     cursor: not-allowed;
-    padding: 8px 12px;
+    padding: 8px 12px; /* Prilagodi padding prema potrebi */
+    border-radius: 13px;
   }
 
 /* Style for all disabled buttons */
@@ -152,11 +162,8 @@ button[disabled] {
     pointer-events: none;
     background-color: #ccc; /* Disabled background color */
     color: #666; /* Disabled text color */
-    border: 1px solid #999; /* Disabled border color */
+    border: 2px solid #999; /* Disabled border color */
     cursor: not-allowed;
-    margin: 20px;
-    margin-top: 40px;
-    padding: 8px 12px; 
 }
 
 /* Style for disabled buttons on hover */

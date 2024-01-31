@@ -1,16 +1,28 @@
-<div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' ; else sorryMessage">
+<div class="background">
+  <div *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'USER' ; else sorryMessage">
 
-<h1>Penalty Points</h1>
-<div>
-    <p>Your penalty points: <span id="penaltyPoints">{{ penaltyPoints }}</span></p>
-    <div *ngIf = "penaltyPoints !== 0">
-        <p>Current date: <span id="currentDateTime"> {{ formattedCurrentDate }}</span></p>
-        <p>Valid until: <span id="validUntilDate"> {{ formattedValidUntilDate }}</span></p>
+    <div class="card">
+      <div class="nesto_nzm">
+        <img src="../../assets/images/rukavica.png"  alt="Description of the image" class="card-image">
+        <h1 class="header">
+          Your penalty points!
+        </h1>
+        <img src="../../assets/images/pr.png"  alt="Description of the image" class="card-image">
+      </div>
+
+      <div>
+          <p class="card_text">Your penalty points: <span id="penaltyPoints">{{ penaltyPoints }}</span></p>
+          <div *ngIf = "penaltyPoints !== 0">
+              <p>Current date: <span id="currentDateTime"> {{ formattedCurrentDate }}</span></p>
+              <p>Valid until: <span id="validUntilDate"> {{ formattedValidUntilDate }}</span></p>
+          </div>
+      </div>
+      </div>
     </div>
-</div>
-</div>
-<ng-template #sorryMessage>
-    <div class="sorry-message">
-      <p>unauthorized</p>
-    </div>
+    <ng-template #sorryMessage>
+      <div class="sorry-message">
+        <p>unauthorized</p>
+      </div>
   </ng-template>
+</div>
+

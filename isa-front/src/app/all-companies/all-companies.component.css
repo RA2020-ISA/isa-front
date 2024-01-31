@@ -33,7 +33,7 @@ body {
   display: flex;
   flex-direction: row; 
   flex-wrap: wrap;
-  margin-top: 80px;
+  margin-top: 60px;
 }
 
 .filter {

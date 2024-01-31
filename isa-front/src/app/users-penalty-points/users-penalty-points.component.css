@@ -1,0 +1,48 @@
+.background{
+    background-image: url('../../assets/images/otkucaji.png');
+    background-size: cover; /* Prilagodi veličinu slike tako da pokrije celu pozadinu */
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+}
+
+.header{
+    color: #2c3e50;
+    font-style: italic;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card{
+    border-radius: 10px; 
+    background-color: lightblue; 
+    padding: 5px; 
+    color: white; 
+    width: 300px;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 13px;
+    border: 3px solid #2c3e50;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Dodajte senku */
+}
+
+.card-image{
+    width: 100px;
+    height: 100px;
+}
+
+.nesto_nzm{
+    display: flex; /* Postavite elemente u isti red */
+    align-items: center; /* Centralizujte stavke po vertikali */
+}
+
+.card_text{
+    color: white;
+    font-size: 25px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: italic;
+}

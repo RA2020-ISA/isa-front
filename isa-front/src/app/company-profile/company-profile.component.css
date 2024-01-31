@@ -153,6 +153,8 @@ button[disabled] {
     color: #666; /* Disabled text color */
     border: 1px solid #999; /* Disabled border color */
     cursor: not-allowed;
+    margin: 20px;
+    margin-top: 40px;
 }
 
 /* Style for disabled buttons on hover */

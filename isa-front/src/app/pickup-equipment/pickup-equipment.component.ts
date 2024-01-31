@@ -130,7 +130,7 @@ export class PickupEquipmentComponent implements OnInit{
           .subscribe((response : Reservation) => {
             if(response != null){
               this.pickUpReservations = this.pickUpReservations.filter(pickUpReservation => pickUpReservation.id !== reservation.id);
-            }
+           }
           });
   }
 

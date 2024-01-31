@@ -110,4 +110,8 @@ export class NavbarComponent implements OnInit {
   redirectToUserReservationsAdminView(): void{
     this.router.navigate(['user-reservations-admin']);
   }
+
+  redirectToAllContracts(): void{
+    this.router.navigate(['all-contracts']);
+  }
 }

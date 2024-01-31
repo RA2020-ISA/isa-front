@@ -1,33 +1,55 @@
 <body>
-<div class="najveci" *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
-<div class="veliki">
-<div *ngIf="company">
-    <form (ngSubmit)="onSubmit()" #companyForm="ngForm" class="forma">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" [(ngModel)]="company.name" required>
-  
-      <label for="address">Address:</label>
-      <input class="inputAdresa" type="text" id="address" name="address" [(ngModel)]="company.address" required #addressInput (ngModelChange)="onAddressChange($event)">
-  
-      <label for="description">Description:</label>
-      <textarea id="description" name="description" [(ngModel)]="company.description"></textarea>
+  <div class="najveci" *ngIf="userStateService.getLoggedInUser() && userStateService.getLoggedInUser()?.userRole === 'COMPANY_ADMIN' ; else sorryMessage">
+  <div class="veliki">
+  <div *ngIf="company">
 
-      <label for="workTimeBegin">Work time begin:</label>
-      <textarea id="workTimeBegin" name="workTimeBegin" [(ngModel)]="company.workTimeBegin"></textarea>
+      <form (ngSubmit)="onSubmit()" [formGroup]="companyForm" class="forma">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" formControlName="name" [(ngModel)]="company.name" required>
+        <div *ngIf="companyForm?.get('name')?.hasError('required') && companyForm?.get('name')?.touched" class="error-message">
+          Name is required!
+        </div>
+      
+        <label for="address">Address:</label>
+        <input class="inputAdresa" type="text" id="address" name="address" formControlName="address" [(ngModel)]="company.address" (ngModelChange)="onAddressChange($event)">
+        <div *ngIf="companyForm?.get('address')?.hasError('required') && companyForm?.get('address')?.touched" class="error-message">
+          Address is required!
+        </div>
+        <div *ngIf="companyForm?.get('address')?.hasError('invalidAddressFormat') && companyForm?.get('address')?.touched" class="error-message">
+          Invalid address format! Use either 'Address' or 'Address, City, Country' and do not use specific symbols.
+        </div>
 
-      <label for="workTimeEnd">Work time end:</label>
-      <textarea id="workTimeEnd" name="workTimeEnd" [(ngModel)]="company.workTimeEnd"></textarea>
-  
-      <button type="submit" title="Use this button to update your company.">Update company</button>
-    </form>
-  </div>
+      
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" formControlName="description" [(ngModel)]="company.description" required>
+        <div *ngIf="companyForm?.get('description')?.hasError('required') && companyForm?.get('description')?.touched" class="error-message">
+          Description is required!
+        </div>
+      
+        <label for="workTimeBegin">Work time begin:</label>
+        <input type="text" id="workTimeBegin" name="workTimeBegin" formControlName="workTimeBegin" [(ngModel)]="company.workTimeBegin" required>
+        <div *ngIf="companyForm?.get('workTimeBegin')?.hasError('required') && companyForm?.get('workTimeBegin')?.touched" class="error-message">
+          Work time begin is required!
+        </div>
+      
+        <label for="workTimeEnd">Work time end:</label>
+        <input type="text" id="workTimeEnd" name="workTimeEnd" formControlName="workTimeEnd" [(ngModel)]="company.workTimeEnd" required>
+        <div *ngIf="companyForm?.get('workTimeEnd')?.hasError('required') && companyForm?.get('workTimeEnd')?.touched" class="error-message">
+          Work time end is required!
+        </div>
+      
+        <button type="submit" title="Use this button to update your company." [disabled]="companyForm?.invalid">Update company</button>
+      </form>
+      
 
-  <div id="map" style="height: 515px !important; width: 50% !important;"></div>
-</div>
-</div>
-<ng-template #sorryMessage>
-    <div class="sorry-message">
-      <p>unauthorized</p>
     </div>
-  </ng-template>
-  </body>
+  
+    <div id="map" style="height: 515px !important; width: 50% !important;"></div>
+  </div>
+  </div>
+  <ng-template #sorryMessage>
+      <div class="sorry-message">
+        <p>unauthorized</p>
+      </div>
+    </ng-template>
+    </body>

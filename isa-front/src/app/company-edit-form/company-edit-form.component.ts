@@ -11,6 +11,8 @@ import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { ViewChild } from '@angular/core';
 import { UserStateService } from '../services/user-state.service';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-company-edit-form',
@@ -25,11 +27,23 @@ export class CompanyEditFormComponent implements OnInit {
   private tempLongitude: number | null = null;
   private addressInputControl: L.Control | undefined;
   @ViewChild('addressInput') addressInput: any; // Dodajte ovu liniju
+  companyForm: FormGroup; // dodala 
 
   constructor(private route: ActivatedRoute, private service: CompanyService,
     private router: Router,
     public userStateService: UserStateService,
-    private toastr: ToastrService) {}
+    private toastr: ToastrService, private fb: FormBuilder) 
+    {
+      this.companyForm = this.fb.group({
+        name: ['', Validators.required],
+        address: ['', [Validators.required, this.addressFormatValidator]],
+        description: [''],
+        workTimeBegin: [''],
+        workTimeEnd: [''],
+      });
+    } // dodala
+
+
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -44,6 +58,13 @@ export class CompanyEditFormComponent implements OnInit {
         }
       );
     });
+  }
+
+  addressFormatValidator(control: any): { [key: string]: boolean } | null {
+   // const addressPattern = /^(.*)(,\s*(.*),\s*(.*))?$/; // Adresa ili Adresa, Grad, Drzava
+    const addressPattern = /^([a-zA-Z0-9\s]+|([a-zA-Z0-9\s]+(,\s*)?){0,2}[a-zA-Z0-9\s]+)$/;  
+    const valid = addressPattern.test(control.value);
+    return valid ? null : { 'invalidAddressFormat': true };
   }
   
   private initMap(): void {
@@ -88,18 +109,18 @@ export class CompanyEditFormComponent implements OnInit {
         companyMarker.addTo(this.map);
         
         // Dodajte Leaflet kontrolu za unos adrese
-        const searchControl = new (GeoSearchControl as any)({
-          provider: new OpenStreetMapProvider(),
-          autoCompleteDelay: 300,
-          showMarker: true,
-          showPopup: false,
-          maxMarkers: 1,
-          retainZoomLevel: false,
-          animateZoom: true,
-          searchLabel: 'Enter address...',
-        });
+        // const searchControl = new (GeoSearchControl as any)({
+        //   provider: new OpenStreetMapProvider(),
+        //   autoCompleteDelay: 300,
+        //   showMarker: true,
+        //   showPopup: false,
+        //   maxMarkers: 1,
+        //   retainZoomLevel: false,
+        //   animateZoom: true,
+        //   searchLabel: 'Enter address...'
+        // });
   
-        this.map?.addControl(searchControl);
+        // this.map?.addControl(searchControl);
       }
     });
   }
@@ -121,6 +142,7 @@ export class CompanyEditFormComponent implements OnInit {
   onAddressChange(newValue: string) {
     console.log('Nova vrednost adrese:', newValue);
   }
+
 
   private async getGeocodeCoordinates(address: string): Promise<{ lat: number, lng: number } | null> {
     // Koristimo Nominatim servis za pretragu adrese i dobijanje koordinata

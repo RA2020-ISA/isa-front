@@ -27,7 +27,7 @@ import { ManageAdministratorsComponent } from './manage-administrators/manage-ad
 import { PickupEquipmentComponent } from './pickup-equipment/pickup-equipment.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ContractsComponent } from './all-contracts/all-contracts.component';
+import { AllContractsComponent } from './all-contracts/all-contracts.component';
 import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
@@ -53,7 +53,7 @@ import { MatTableModule } from '@angular/material/table';
     ManageAdministratorsComponent,
     PickupEquipmentComponent,
     NavbarComponent,
-    ContractsComponent
+    AllContractsComponent,
   ],
   imports: [
     BrowserModule,
